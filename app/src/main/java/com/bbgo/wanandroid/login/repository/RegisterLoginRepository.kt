@@ -1,0 +1,48 @@
+package com.bbgo.wanandroid.login.repository
+
+import com.bbgo.wanandroid.bean.BaseBean
+import com.bbgo.wanandroid.bean.LoginData
+import com.bbgo.wanandroid.bean.LoginRegisterResponse
+import kotlinx.coroutines.flow.Flow
+
+/**
+ *  author: wangyb
+ *  date: 3/29/21 9:32 PM
+ *  description: todo
+ */
+class RegisterLoginRepository private constructor(private val remoteRepository: RegisterLoginRemoteRepository, private val localRepository: RegisterLoginLocalRepository) {
+
+    companion object {
+        private var repository: RegisterLoginRepository? = null
+
+        fun getInstance(remoteRepository: RegisterLoginRemoteRepository, localRepository: RegisterLoginLocalRepository): RegisterLoginRepository {
+            if (repository == null) {
+                synchronized(RegisterLoginRepository::class.java) {
+                    if (repository == null) {
+                        repository = RegisterLoginRepository(remoteRepository, localRepository)
+                    }
+                }
+            }
+            return repository!!
+        }
+    }
+
+    suspend fun registerWanAndroid(username: String,
+                                   password: String,
+                                   repassword: String) : Flow<LoginRegisterResponse> {
+        return remoteRepository.registerWanAndroid(username, password, repassword)
+    }
+
+    suspend fun loginWanAndroid(username: String,
+                                password: String) : Flow<LoginRegisterResponse> {
+        return remoteRepository.loginWanAndroid(username, password)
+    }
+
+    suspend fun logout() : Flow<BaseBean> {
+        return remoteRepository.logout()
+    }
+
+    fun insertLoginData(userName: String) {
+        localRepository.insertLoginData(userName)
+    }
+}

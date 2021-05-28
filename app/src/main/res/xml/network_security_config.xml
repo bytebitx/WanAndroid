@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" overridePins="true" /> <!--信任系统证书-->
+<!--            <certificates src="user" overridePins="true" /> &lt;!&ndash;信任用户证书&ndash;&gt;-->
+        </trust-anchors>
+    </base-config>
+</network-security-config>
