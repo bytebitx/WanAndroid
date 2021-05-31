@@ -1,6 +1,5 @@
 package com.bbgo.wanandroid.home.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +26,6 @@ import com.bbgo.wanandroid.databinding.FragmentHomeBinding
 import com.bbgo.wanandroid.databinding.ItemHomeBannerBinding
 import com.bbgo.wanandroid.event.MessageEvent
 import com.bbgo.wanandroid.home.viewmodel.HomeViewModel
-import com.bbgo.wanandroid.login.ui.LoginActivity
 import com.bbgo.wanandroid.util.InjectorUtil
 import com.bbgo.wanandroid.widget.SpaceItemDecoration
 import org.greenrobot.eventbus.EventBus
@@ -231,7 +229,8 @@ class HomeFragment : BaseFragment() {
             }
             is Resource.DataError -> {
                 status.errorMsg?.let { showToast(it) }
-                startActivity(Intent(activity, LoginActivity::class.java))
+//                startActivity(Intent(activity, LoginActivity::class.java))
+                ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
             }
             else -> {
                 status.data?.let {

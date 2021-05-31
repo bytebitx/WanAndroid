@@ -4,6 +4,8 @@ ext {
      * isBuildModule=true
      * 修改之后需要Sync方可生效
      */
-    isContentModule = true
+    isContentModule = false
+
+    isLoginModule = false
 
 }

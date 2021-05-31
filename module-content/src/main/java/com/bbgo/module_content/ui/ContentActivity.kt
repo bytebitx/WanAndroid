@@ -164,7 +164,7 @@ class ContentActivity : BaseActivity(){
             R.id.action_like -> {
                 if (isLogin) {
                     if (shareId == -1) return true
-//                    collectService.collect(position, shareId)
+                    collectService.collect(position, shareId)
                 } else {
                     ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
                     showToast(resources.getString(R.string.login_tint))

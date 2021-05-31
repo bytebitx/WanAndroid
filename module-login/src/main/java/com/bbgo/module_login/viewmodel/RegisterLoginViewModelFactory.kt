@@ -1,8 +1,8 @@
-package com.bbgo.wanandroid.login.viewmodel
+package com.bbgo.module_login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bbgo.wanandroid.login.repository.RegisterLoginRepository
+import com.bbgo.module_login.repository.RegisterLoginRepository
 
 /**
  *  author: wangyb

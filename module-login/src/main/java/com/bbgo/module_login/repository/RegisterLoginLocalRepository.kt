@@ -1,16 +1,14 @@
-package com.bbgo.wanandroid.login.repository
+package com.bbgo.module_login.repository
 
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Mmkv
-import com.bbgo.wanandroid.artical.local.WXArticleDao
-import com.bbgo.wanandroid.bean.LoginData
 
 /**
  *  author: wangyb
  *  date: 3/30/21 2:36 PM
  *  description: todo
  */
-class RegisterLoginLocalRepository private constructor(private val wxArticleDao: WXArticleDao){
+class RegisterLoginLocalRepository private constructor(){
 
 
     fun insertLoginData(userName: String) {
@@ -20,11 +18,11 @@ class RegisterLoginLocalRepository private constructor(private val wxArticleDao:
     companion object {
         private var repository: RegisterLoginLocalRepository? = null
 
-        fun getInstance(wxArticleDao: WXArticleDao): RegisterLoginLocalRepository {
+        fun getInstance(): RegisterLoginLocalRepository {
             if (repository == null) {
                 synchronized(RegisterLoginRepository::class.java) {
                     if (repository == null) {
-                        repository = RegisterLoginLocalRepository(wxArticleDao)
+                        repository = RegisterLoginLocalRepository()
                     }
                 }
             }

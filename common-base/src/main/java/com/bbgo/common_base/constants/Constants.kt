@@ -76,10 +76,13 @@ class Constants {
         /**
          * 不同的module，一级目录必现不能相同
          */
-        const val NAVIGATION_TO_LOGIN = "/navigate/login"
+        const val NAVIGATION_TO_LOGIN = "/login/module/navigate"
+        const val NAVIGATION_TO_REGISTER = "/register/module/navigate"
+        const val NAVIGATION_TO_MAIN = "/main/module/navigate"
         const val NAVIGATION_TO_CONTENT = "/content/module/navigate"
 
-        const val SERVICE_COLLECT = "/service/collect"
+        const val SERVICE_COLLECT = "/collect/service"
+        const val SERVICE_LOGOUT = "/logout/service"
 
     }
 }

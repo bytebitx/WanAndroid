@@ -1,24 +1,22 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
+if (Boolean.valueOf(rootProject.ext.isLoginModule)) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
 }
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.bbgo.wanandroid"
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        multiDexEnabled true
-        // 实现毛玻璃那种透明的效果需要添加的库
-        renderscriptTargetApi 19
-        renderscriptSupportModeEnabled true
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -30,8 +28,6 @@ android {
                 ]
             }
         }
-
-
     }
 
     buildTypes {
@@ -50,6 +46,20 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    sourceSets {
+        main {
+            if (Boolean.valueOf(rootProject.ext.isLoginModule)) {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    //排除java/debug文件夹下的所有文件
+                    exclude '*module'
+                }
+            }
+        }
+    }
 }
 
 kapt {
@@ -57,34 +67,11 @@ kapt {
         arg("AROUTER_MODULE_NAME", project.getName())
     }
     generateStubs = true
-    useBuildCache = true
-    javacOptions {
-        option("-Xmaxerrs", 500)
-    }
 }
 
 dependencies {
 
-
-
-    // room
-    def room_version = "2.2.6"
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
-
-    implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
-
-    kapt 'com.alibaba:arouter-compiler:1.2.2'
-
     implementation project(":common-base")
     implementation project(":common-service")
-    if (!Boolean.valueOf(rootProject.ext.isContentModule)) {
-        implementation project(":module-content")
-    }
-    if (!Boolean.valueOf(rootProject.ext.isLoginModule)) {
-        implementation project(":module-login")
-    }
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
 }

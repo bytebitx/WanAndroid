@@ -1,4 +1,4 @@
-package com.bbgo.wanandroid.login.viewmodel
+package com.bbgo.module_login.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.USER_REGISTERED_ERROR
 import com.bbgo.common_base.ext.logD
-import com.bbgo.wanandroid.bean.LoginData
-import com.bbgo.wanandroid.login.repository.RegisterLoginRepository
+import com.bbgo.module_login.bean.LoginData
+import com.bbgo.module_login.repository.RegisterLoginRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest

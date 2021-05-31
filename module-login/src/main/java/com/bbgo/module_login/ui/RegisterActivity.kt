@@ -1,4 +1,4 @@
-package com.bbgo.wanandroid.login.ui
+package com.bbgo.module_login.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,44 +10,39 @@ import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.util.DialogUtil
-import com.bbgo.wanandroid.R
-import com.bbgo.wanandroid.bean.LoginData
-import com.bbgo.wanandroid.databinding.ActivityLoginBinding
-import com.bbgo.wanandroid.login.viewmodel.RegisterLoginViewModel
-import com.bbgo.wanandroid.main.MainActivity
-import com.bbgo.wanandroid.util.InjectorUtil
+import com.bbgo.module_login.R
+import com.bbgo.module_login.bean.LoginData
+import com.bbgo.module_login.databinding.ActivityRegisterBinding
+import com.bbgo.module_login.util.InjectorUtil
+import com.bbgo.module_login.viewmodel.RegisterLoginViewModel
 
 /**
  *  author: wangyb
- *  date: 2021/5/21 11:31 上午
+ *  date: 2021/5/27 2:47 下午
  *  description: todo
  */
-@Route(path = Constants.NAVIGATION_TO_LOGIN)
-class LoginActivity : BaseActivity(), View.OnClickListener {
+@Route(path = Constants.NAVIGATION_TO_REGISTER)
+class RegisterActivity : BaseActivity(), View.OnClickListener {
 
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: ActivityRegisterBinding
 
     private val registerLoginViewModel by viewModels<RegisterLoginViewModel> {
         InjectorUtil.getLoginViewModelFactory()
     }
 
-    private val mDialog by lazy {
-        DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.actionBar.apply {
-            tvTitle.text = getString(R.string.login)
+            tvTitle.text = getString(R.string.register)
             setSupportActionBar(binding.actionBar.toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
-        binding.btnLogin.setOnClickListener(this)
-        binding.tvSignUp.setOnClickListener(this)
+        binding.btnRegister.setOnClickListener(this)
+        binding.tvSignIn.setOnClickListener(this)
     }
 
     override fun observeViewModel() {
@@ -57,15 +52,13 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun handleRegister(resource: Resource<LoginData>) {
         when (resource) {
             is Resource.Loading -> {
-                mDialog.show()
+
             }
             is Resource.DataError -> {
-                mDialog.dismiss()
                 resource.errorMsg?.let { showToast(it) }
             }
             is Resource.Success -> {
-                mDialog.dismiss()
-                startActivity(Intent(this, MainActivity::class.java))
+//                startActivity(Intent(this, MainActivity::class.java))
             }
         }
     }
@@ -73,7 +66,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         v ?: return
         when (v.id) {
-            binding.btnLogin.id -> {
+            binding.btnRegister.id -> {
                 if (binding.etUsername.text.toString().isEmpty()) {
                     showToast(getString(R.string.username_not_empty))
                     return
@@ -82,13 +75,22 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     showToast(getString(R.string.password_not_empty))
                     return
                 }
-                registerLoginViewModel.login(
+                if (binding.etPassword2.text.toString().isEmpty()) {
+                    showToast(getString(R.string.confirm_password_not_empty))
+                    return
+                }
+                if (binding.etPassword.text.toString() != binding.etPassword2.text.toString()) {
+                    showToast(getString(R.string.password_cannot_match))
+                    return
+                }
+                registerLoginViewModel.register(
                     binding.etUsername.text.toString(),
-                    binding.etPassword.text.toString()
+                    binding.etPassword.text.toString(),
+                    binding.etPassword2.text.toString()
                 )
             }
-            binding.tvSignUp.id -> {
-                startActivity(Intent(this, RegisterActivity::class.java))
+            binding.tvSignIn.id -> {
+                startActivity(Intent(this, LoginActivity::class.java))
             }
             else -> {
 

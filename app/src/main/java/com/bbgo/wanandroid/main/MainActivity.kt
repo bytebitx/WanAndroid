@@ -3,29 +3,41 @@ package com.bbgo.wanandroid.main
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.FragmentTransaction
-import com.bbgo.wanandroid.R
+import androidx.lifecycle.lifecycleScope
+import com.alibaba.android.arouter.facade.annotation.Autowired
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.constants.Constants
-import com.bbgo.common_base.ext.*
+import com.bbgo.common_base.ext.Mmkv
+import com.bbgo.common_base.ext.Resource
+import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.util.DialogUtil
-import com.bbgo.wanandroid.bean.BaseBean
+import com.bbgo.common_service.login.LoginOutService
+import com.bbgo.common_service.test.TestService
+import com.bbgo.common_service.test.bean.TestContentBean
+import com.bbgo.wanandroid.R
 import com.bbgo.wanandroid.databinding.ActivityMainBinding
 import com.bbgo.wanandroid.databinding.NavHeaderMainBinding
 import com.bbgo.wanandroid.home.ui.HomeFragment
-import com.bbgo.wanandroid.login.viewmodel.RegisterLoginViewModel
+import com.bbgo.wanandroid.service.TestBeanService
 import com.bbgo.wanandroid.square.ui.SquareFragment
-import com.bbgo.wanandroid.util.InjectorUtil
 import com.bbgo.wanandroid.wechat.ui.WeChatFragment
 import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_LABELED
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.launch
 
+@Route(path = Constants.NAVIGATION_TO_MAIN)
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHeaderBinding: NavHeaderMainBinding
+    @Autowired(name = Constants.SERVICE_LOGOUT)
+    lateinit var loginOutService: LoginOutService
+    @Autowired(name = "/app/TestService")
+    lateinit var testBeanService: TestService
 
     //默认为0
     private var mIndex = 0
@@ -36,7 +48,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var squareFragment: SquareFragment? = null
     private var weChatFragment: WeChatFragment? = null
 
-    private val registerLoginViewModel by viewModels<RegisterLoginViewModel> { InjectorUtil.getLoginViewModelFactory() }
     private val mDialog by lazy {
         DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
     }
@@ -55,10 +66,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding.bottomNavigation.labelVisibilityMode = LABEL_VISIBILITY_LABELED
         switchFragment(mIndex)
         initView()
+        ARouter.getInstance().inject(this)
     }
 
     override fun observeViewModel() {
-        observe(registerLoginViewModel.logOutLiveData, ::handleLogOut)
+//        observe(registerLoginViewModel.logOutLiveData, ::handleLogOut)
     }
 
     private fun handleLogOut(status: Resource<String>) {
@@ -190,7 +202,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             R.id.nav_logout -> {
-                registerLoginViewModel.logOut()
+                testBeanService.insertTest(TestContentBean(1, "211"))
+                loginOutService.logOut()
+
+//                registerLoginViewModel.logOut()
             }
         }
         binding.drawerLayout.closeDrawers()

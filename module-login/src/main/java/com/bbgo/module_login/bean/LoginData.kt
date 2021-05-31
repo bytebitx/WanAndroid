@@ -1,4 +1,4 @@
-package com.bbgo.wanandroid.bean
+package com.bbgo.module_login.bean
 
 /**
  *  author: wangyb

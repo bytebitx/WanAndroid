@@ -1,8 +1,7 @@
-package com.bbgo.wanandroid.login.repository
+package com.bbgo.module_login.repository
 
-import com.bbgo.wanandroid.bean.BaseBean
-import com.bbgo.wanandroid.bean.LoginData
-import com.bbgo.wanandroid.bean.LoginRegisterResponse
+import com.bbgo.common_base.bean.BaseBean
+import com.bbgo.module_login.bean.LoginRegisterResponse
 import kotlinx.coroutines.flow.Flow
 
 /**

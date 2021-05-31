@@ -18,3 +18,12 @@ kapt {
 五、接收参数的时候，使用@Autowired注解的时候，变量不能被赋值
 
 六、接收参数的时候，可以不使用@Autowired注解，使用intent.extras 详见ContentActivity
+
+七、不同module的布局文件存在同名的情况下，需要按照module的名称命名。
+比如登录模块的toolbar模块，命名为：reg_login_toolbar，content模块的toolbar命名为：content_toolbar
+
+八、对提供的服务使用@Autowired注解获取实例的时候，不能是private，否则编译不通过
+
+九、接上一条，在使用服务的实例的之前，需要调用ARouter.getInstance().inject(this)
+
+

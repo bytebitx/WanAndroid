@@ -1,4 +1,4 @@
-package com.bbgo.wanandroid.bean
+package com.bbgo.common_base.bean
 
 /**
  *  author: wangyb

@@ -1,5 +1,6 @@
 package com.bbgo.wanandroid.network.api
 
+import com.bbgo.common_base.bean.BaseBean
 import com.bbgo.wanandroid.bean.*
 import retrofit2.http.*
 
