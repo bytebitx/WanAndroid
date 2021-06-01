@@ -16,6 +16,8 @@
             <option value="$PROJECT_DIR$/common-base" />
             <option value="$PROJECT_DIR$/common-service" />
             <option value="$PROJECT_DIR$/module-content" />
+            <option value="$PROJECT_DIR$/module-home" />
+            <option value="$PROJECT_DIR$/module-login" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
