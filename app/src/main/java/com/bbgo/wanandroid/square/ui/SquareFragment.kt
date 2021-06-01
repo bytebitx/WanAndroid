@@ -8,7 +8,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
+import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.wanandroid.bean.ArticleDetail
@@ -22,6 +24,7 @@ import com.bbgo.wanandroid.widget.SpaceItemDecoration
  *  date: 2021/5/20 3:00 下午
  *  description: todo
  */
+@Route(path = Constants.NAVIGATION_TO_SQUARE_FRG)
 class SquareFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null

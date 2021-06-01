@@ -8,4 +8,6 @@ ext {
 
     isLoginModule = false
 
+    isHomeModule = false
+
 }

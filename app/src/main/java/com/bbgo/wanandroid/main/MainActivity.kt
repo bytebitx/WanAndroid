@@ -5,11 +5,11 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
+import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Mmkv
 import com.bbgo.common_base.ext.Resource
@@ -21,13 +21,10 @@ import com.bbgo.common_service.test.bean.TestContentBean
 import com.bbgo.wanandroid.R
 import com.bbgo.wanandroid.databinding.ActivityMainBinding
 import com.bbgo.wanandroid.databinding.NavHeaderMainBinding
-import com.bbgo.wanandroid.home.ui.HomeFragment
-import com.bbgo.wanandroid.service.TestBeanService
 import com.bbgo.wanandroid.square.ui.SquareFragment
 import com.bbgo.wanandroid.wechat.ui.WeChatFragment
 import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_LABELED
 import com.google.android.material.navigation.NavigationView
-import kotlinx.coroutines.launch
 
 @Route(path = Constants.NAVIGATION_TO_MAIN)
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -44,7 +41,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     //退出时间
     private var mExitTime: Long = 0
 
-    private var homeFragment: HomeFragment? = null
+    private var homeFragment: BaseFragment? = null
     private var squareFragment: SquareFragment? = null
     private var weChatFragment: WeChatFragment? = null
 
@@ -136,34 +133,67 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         hideFragment(transaction)
         when(position) {
             0 ->
-                homeFragment?.let {
+                /*homeFragment?.let {
                     transaction.show(it)
                 } ?: HomeFragment.getInstance().let {
                     binding.actionBar.tvTitle.text = getString(R.string.app_name)
                     homeFragment = it
                     transaction.add(R.id.container, it, null)
+                }*/
+                homeFragment?.let {
+                    transaction.show(it)
+                } ?: kotlin.run {
+                    homeFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_HOME_FRG).navigation() as BaseFragment
+                    homeFragment?.let {
+                        binding.actionBar.tvTitle.text = getString(R.string.app_name)
+                        transaction.add(R.id.container, it, null)
+                    }
                 }
             1 ->
-                squareFragment?.let { transaction.show(it) } ?: SquareFragment().let {
+                /*squareFragment?.let { transaction.show(it) } ?: SquareFragment().let {
                     binding.actionBar.tvTitle.text = getString(R.string.square)
                     squareFragment = it
                     transaction.add(R.id.container, it, null)
+                }*/
+                squareFragment?.let { transaction.show(it) } ?: kotlin.run {
+                    squareFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_SQUARE_FRG).navigation() as SquareFragment
+                    squareFragment?.let {
+                        binding.actionBar.tvTitle.text = getString(R.string.square)
+                        squareFragment = it
+                        transaction.add(R.id.container, it, null)
+                    }
                 }
             2 ->
-                weChatFragment?.let { transaction.show(it) } ?: WeChatFragment().let {
+                /*weChatFragment?.let { transaction.show(it) } ?: WeChatFragment().let {
                     binding.actionBar.tvTitle.text = getString(R.string.wechat)
                     weChatFragment = it
                     transaction.add(R.id.container, it, null)
+                }*/
+                weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
+                    weChatFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation() as WeChatFragment
+                    weChatFragment?.let {
+                        binding.actionBar.tvTitle.text = getString(R.string.wechat)
+                        weChatFragment = it
+                        transaction.add(R.id.container, it, null)
+                    }
                 }
             3 ->
-                weChatFragment?.let { transaction.show(it) } ?: WeChatFragment().let {
-                    weChatFragment = it
-                    transaction.add(R.id.container, it, null)
+                weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
+                    weChatFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation() as WeChatFragment
+                    weChatFragment?.let {
+                        binding.actionBar.tvTitle.text = getString(R.string.wechat)
+                        weChatFragment = it
+                        transaction.add(R.id.container, it, null)
+                    }
                 }
             4 ->
-                weChatFragment?.let { transaction.show(it) } ?: WeChatFragment().let {
-                    weChatFragment = it
-                    transaction.add(R.id.container, it, null)
+                weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
+                    weChatFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation() as WeChatFragment
+                    weChatFragment?.let {
+                        binding.actionBar.tvTitle.text = getString(R.string.wechat)
+                        weChatFragment = it
+                        transaction.add(R.id.container, it, null)
+                    }
                 }
         }
         mIndex = position
@@ -196,10 +226,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //                startActivity(intent)
             }
             R.id.nav_setting -> {
-                homeFragment?.let { transaction.show(it) } ?: HomeFragment.getInstance().let {
-                    homeFragment = it
-                    transaction.add(R.id.container, it, null)
-                }
+//                homeFragment?.let { transaction.show(it) } ?: HomeFragment.getInstance().let {
+//                    homeFragment = it
+//                    transaction.add(R.id.container, it, null)
+//                }
             }
             R.id.nav_logout -> {
                 testBeanService.insertTest(TestContentBean(1, "211"))

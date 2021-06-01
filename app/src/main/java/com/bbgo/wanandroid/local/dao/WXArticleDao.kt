@@ -1,4 +1,4 @@
-package com.bbgo.wanandroid.artical.local
+package com.bbgo.wanandroid.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

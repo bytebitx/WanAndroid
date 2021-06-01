@@ -1,16 +1,18 @@
 package com.bbgo.wanandroid.collect.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bbgo.common_base.ext.Resource
+import com.bbgo.common_base.constants.Constants.CollectType.COLLECT
+import com.bbgo.common_base.constants.Constants.CollectType.UNCOLLECT
+import com.bbgo.common_base.constants.Constants.CollectType.UNKNOWN
+import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.ext.USER_NOT_LOGIN
 import com.bbgo.common_base.ext.logE
-import com.bbgo.wanandroid.bean.CollectBean
 import com.bbgo.wanandroid.collect.repository.CollectRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
 
 /**
  *  author: wangyb
@@ -18,9 +20,6 @@ import kotlinx.coroutines.launch
  *  description: todo
  */
 class CollectViewModel(private val repository: CollectRepository) : ViewModel() {
-
-
-    val collectLiveData = MutableLiveData<Resource<CollectBean>>()
 
     fun collectArticle(position: Int, id: Int) {
         viewModelScope.launch {
@@ -30,11 +29,11 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                 }
                 .collectLatest {
                     if (it.errorCode == USER_NOT_LOGIN) {
-                        collectLiveData.value = Resource.DataError(it.errorCode, it.errorMsg)
+                        EventBus.getDefault().post(MessageEvent(UNKNOWN, position, id))
                     } else {
                         it.positon = position
                         it.type = COLLECT
-                        collectLiveData.value = Resource.Success(it)
+                        EventBus.getDefault().post(MessageEvent(COLLECT, position, id))
                     }
                 }
         }
@@ -47,16 +46,18 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                     logE(TAG, it.message, it)
                 }
                 .collectLatest {
-                    it.positon = position
-                    it.type = UNCOLLECT
-                    collectLiveData.value = Resource.Success(it)
+                    if (it.errorCode == USER_NOT_LOGIN) {
+                        EventBus.getDefault().post(MessageEvent(UNKNOWN, position, id))
+                    } else {
+                        it.positon = position
+                        it.type = UNCOLLECT
+                        EventBus.getDefault().post(MessageEvent(UNCOLLECT, position, id))
+                    }
                 }
         }
     }
 
     companion object {
         private const val TAG = "CollectViewModel"
-        const val COLLECT = "COLLECT"
-        const val UNCOLLECT = "UNCOLLECT"
     }
 }

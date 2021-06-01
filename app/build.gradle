@@ -87,4 +87,7 @@ dependencies {
     if (!Boolean.valueOf(rootProject.ext.isLoginModule)) {
         implementation project(":module-login")
     }
+    if (!Boolean.valueOf(rootProject.ext.isHomeModule)) {
+        implementation project(":module-home")
+    }
 }

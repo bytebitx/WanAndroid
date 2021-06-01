@@ -1,6 +1,6 @@
 package com.bbgo.wanandroid.square.repository
 
-import com.bbgo.wanandroid.artical.local.WXArticleDao
+import com.bbgo.wanandroid.local.dao.WXArticleDao
 import com.bbgo.wanandroid.bean.Banner
 import com.bbgo.wanandroid.local.DBUtil
 

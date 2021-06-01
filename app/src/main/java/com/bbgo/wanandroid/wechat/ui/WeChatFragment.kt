@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
+import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
@@ -20,6 +22,7 @@ import com.google.android.material.tabs.TabLayoutMediator
  *  date: 2021/5/20 3:04 下午
  *  description: todo
  */
+@Route(path = Constants.NAVIGATION_TO_WECHAT_FRG)
 class WeChatFragment : BaseFragment() {
 
     private var _binding: FragmentWechatBinding? = null

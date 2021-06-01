@@ -3,7 +3,7 @@ package com.bbgo.wanandroid.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.bbgo.common_service.test.bean.TestContentBean
-import com.bbgo.wanandroid.artical.local.WXArticleDao
+import com.bbgo.wanandroid.local.dao.WXArticleDao
 import com.bbgo.wanandroid.bean.Banner
 import com.bbgo.wanandroid.bean.WXArticle
 import com.bbgo.wanandroid.local.dao.TestDao
