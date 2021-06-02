@@ -1,7 +1,7 @@
 package com.bbgo.module_home.repository
 
+import com.bbgo.common_service.banner.bean.BannerResponse
 import com.bbgo.module_home.bean.Articles
-import com.bbgo.module_home.bean.BannerResponse
 import com.bbgo.module_home.bean.TopArticles
 import com.bbgo.module_home.net.HttpHomeService
 import kotlinx.coroutines.Dispatchers

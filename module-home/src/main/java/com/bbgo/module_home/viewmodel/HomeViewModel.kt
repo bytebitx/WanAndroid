@@ -6,11 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.logE
+import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.module_home.bean.ArticleDetail
-import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.repository.HomeRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
 /**
@@ -52,16 +55,12 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     fun getBanner() {
         viewModelScope.launch {
             repository.getBanners()
-                .map {
-                    repository.insertBanners(it.data)
-                    it.data
-                }
                 .catch {
                     logD("HomeViewModel", "${it.message}")
                 }
                 .flowOn(Dispatchers.IO)
                 .collectLatest {
-                    bannerLiveData.value = Resource.Success(it)
+                    bannerLiveData.value = Resource.Success(it.data)
                 }
         }
     }

@@ -3,7 +3,6 @@ package com.bbgo.wanandroid.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.logD
-import com.bbgo.wanandroid.wechat.repository.WxRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
  *  date: 3/29/21 9:31 PM
  *  description: todo
  */
-class MainViewModel(private val repository: WxRepository) : ViewModel() {
+class MainViewModel() : ViewModel() {
 
     fun getTest() {
         viewModelScope.launch {

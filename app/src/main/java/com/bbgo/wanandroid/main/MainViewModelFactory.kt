@@ -2,7 +2,6 @@ package com.bbgo.wanandroid.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bbgo.wanandroid.wechat.repository.WxRepository
 
 /**
  *  author: wangyb
@@ -10,10 +9,10 @@ import com.bbgo.wanandroid.wechat.repository.WxRepository
  *  description: todo
  */
 
-class MainViewModelFactory(private val repository: WxRepository) : ViewModelProvider.NewInstanceFactory() {
+class MainViewModelFactory() : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MainViewModel(repository) as T
+        return MainViewModel() as T
     }
 }

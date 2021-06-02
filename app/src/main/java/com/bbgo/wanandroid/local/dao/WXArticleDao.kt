@@ -3,7 +3,6 @@ package com.bbgo.wanandroid.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.bbgo.wanandroid.bean.Banner
 import com.bbgo.wanandroid.bean.WXArticle
 
 /**
@@ -16,7 +15,4 @@ interface WXArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg data: WXArticle)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBanners(vararg data: Banner)
 }

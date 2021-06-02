@@ -85,6 +85,7 @@ object Constants {
 
     const val SERVICE_COLLECT = "/collect/service"
     const val SERVICE_LOGOUT = "/logout/service"
+    const val SERVICE_BANNER = "/banner/service"
 
     object CollectType {
         const val COLLECT = "COLLECT"

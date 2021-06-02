@@ -52,7 +52,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(rootProject.ext.isLoginModule)) {
+            if (Boolean.valueOf(rootProject.ext.isHomeModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'

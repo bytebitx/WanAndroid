@@ -1,8 +1,7 @@
 package com.bbgo.module_home.repository
 
+import com.bbgo.common_service.banner.bean.BannerResponse
 import com.bbgo.module_home.bean.Articles
-import com.bbgo.module_home.bean.Banner
-import com.bbgo.module_home.bean.BannerResponse
 import com.bbgo.module_home.bean.TopArticles
 import kotlinx.coroutines.flow.Flow
 
@@ -38,9 +37,5 @@ class HomeRepository private constructor(private val remoteRepository: HomeRemot
 
     suspend fun getBanners(): Flow<BannerResponse> {
         return remoteRepository.getBanners()
-    }
-
-    fun insertBanners(banners: List<Banner>) {
-        localRepository.insertBanners(banners)
     }
 }

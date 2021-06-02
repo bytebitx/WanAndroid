@@ -65,7 +65,7 @@ kapt {
 
 dependencies {
 
-
+    debugImplementation 'com.glance.guolindev:glance:1.0.0'
 
     // room
     def room_version = "2.2.6"
@@ -89,5 +89,11 @@ dependencies {
     }
     if (!Boolean.valueOf(rootProject.ext.isHomeModule)) {
         implementation project(":module-home")
+    }
+    if (!Boolean.valueOf(rootProject.ext.isSquareModule)) {
+        implementation project(":module-square")
+    }
+    if (!Boolean.valueOf(rootProject.ext.isWeChatModule)) {
+        implementation project(":module-wechat")
     }
 }

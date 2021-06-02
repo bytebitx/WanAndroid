@@ -1,7 +1,7 @@
 package com.bbgo.module_home.net.api
 
+import com.bbgo.common_service.banner.bean.BannerResponse
 import com.bbgo.module_home.bean.Articles
-import com.bbgo.module_home.bean.BannerResponse
 import com.bbgo.module_home.bean.TopArticles
 import retrofit2.http.GET
 import retrofit2.http.Path

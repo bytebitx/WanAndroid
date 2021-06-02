@@ -1,7 +1,5 @@
 package com.bbgo.module_home.repository
 
-import com.bbgo.module_home.bean.Banner
-
 
 /**
  *  author: wangyb
@@ -9,11 +7,6 @@ import com.bbgo.module_home.bean.Banner
  *  description: todo
  */
 class HomeLocalRepository private constructor(){
-
-    fun insertBanners(banners: List<Banner>) {
-    }
-
-
 
     companion object {
         private var repository: HomeLocalRepository? = null

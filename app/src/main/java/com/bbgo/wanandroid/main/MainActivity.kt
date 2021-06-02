@@ -21,8 +21,6 @@ import com.bbgo.common_service.test.bean.TestContentBean
 import com.bbgo.wanandroid.R
 import com.bbgo.wanandroid.databinding.ActivityMainBinding
 import com.bbgo.wanandroid.databinding.NavHeaderMainBinding
-import com.bbgo.wanandroid.square.ui.SquareFragment
-import com.bbgo.wanandroid.wechat.ui.WeChatFragment
 import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_LABELED
 import com.google.android.material.navigation.NavigationView
 
@@ -42,8 +40,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var mExitTime: Long = 0
 
     private var homeFragment: BaseFragment? = null
-    private var squareFragment: SquareFragment? = null
-    private var weChatFragment: WeChatFragment? = null
+    private var squareFragment: BaseFragment? = null
+    private var weChatFragment: BaseFragment? = null
 
     private val mDialog by lazy {
         DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
@@ -133,67 +131,65 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         hideFragment(transaction)
         when(position) {
             0 ->
-                /*homeFragment?.let {
-                    transaction.show(it)
-                } ?: HomeFragment.getInstance().let {
-                    binding.actionBar.tvTitle.text = getString(R.string.app_name)
-                    homeFragment = it
-                    transaction.add(R.id.container, it, null)
-                }*/
                 homeFragment?.let {
                     transaction.show(it)
                 } ?: kotlin.run {
-                    homeFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_HOME_FRG).navigation() as BaseFragment
-                    homeFragment?.let {
-                        binding.actionBar.tvTitle.text = getString(R.string.app_name)
-                        transaction.add(R.id.container, it, null)
-                    }
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_HOME_FRG).navigation()
+                        ?.let {
+                            homeFragment = it as BaseFragment
+                            homeFragment?.let {
+                                binding.actionBar.tvTitle.text = getString(R.string.app_name)
+                                transaction.add(R.id.container, it, null)
+                            }
+                        }
                 }
             1 ->
-                /*squareFragment?.let { transaction.show(it) } ?: SquareFragment().let {
-                    binding.actionBar.tvTitle.text = getString(R.string.square)
-                    squareFragment = it
-                    transaction.add(R.id.container, it, null)
-                }*/
                 squareFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    squareFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_SQUARE_FRG).navigation() as SquareFragment
-                    squareFragment?.let {
-                        binding.actionBar.tvTitle.text = getString(R.string.square)
-                        squareFragment = it
-                        transaction.add(R.id.container, it, null)
-                    }
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_SQUARE_FRG).navigation()
+                        ?.let {
+                            squareFragment = it as BaseFragment
+                            squareFragment?.let {
+                                binding.actionBar.tvTitle.text = getString(R.string.square)
+                                squareFragment = it
+                                transaction.add(R.id.container, it, null)
+                            }
+                        }
                 }
             2 ->
-                /*weChatFragment?.let { transaction.show(it) } ?: WeChatFragment().let {
-                    binding.actionBar.tvTitle.text = getString(R.string.wechat)
-                    weChatFragment = it
-                    transaction.add(R.id.container, it, null)
-                }*/
                 weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    weChatFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation() as WeChatFragment
-                    weChatFragment?.let {
-                        binding.actionBar.tvTitle.text = getString(R.string.wechat)
-                        weChatFragment = it
-                        transaction.add(R.id.container, it, null)
-                    }
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
+                        ?.let {
+                            weChatFragment = it as BaseFragment
+                            weChatFragment?.let {
+                                binding.actionBar.tvTitle.text = getString(R.string.wechat)
+                                weChatFragment = it
+                                transaction.add(R.id.container, it, null)
+                            }
+                        }
                 }
             3 ->
                 weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    weChatFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation() as WeChatFragment
-                    weChatFragment?.let {
-                        binding.actionBar.tvTitle.text = getString(R.string.wechat)
-                        weChatFragment = it
-                        transaction.add(R.id.container, it, null)
-                    }
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
+                        ?.let {
+                            weChatFragment = it as BaseFragment
+                            weChatFragment?.let {
+                                binding.actionBar.tvTitle.text = getString(R.string.wechat)
+                                weChatFragment = it
+                                transaction.add(R.id.container, it, null)
+                            }
+                        }
                 }
             4 ->
                 weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    weChatFragment = ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation() as WeChatFragment
-                    weChatFragment?.let {
-                        binding.actionBar.tvTitle.text = getString(R.string.wechat)
-                        weChatFragment = it
-                        transaction.add(R.id.container, it, null)
-                    }
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
+                        ?.let {
+                            weChatFragment = it as BaseFragment
+                            weChatFragment?.let {
+                                binding.actionBar.tvTitle.text = getString(R.string.wechat)
+                                weChatFragment = it
+                                transaction.add(R.id.container, it, null)
+                            }
+                        }
                 }
         }
         mIndex = position

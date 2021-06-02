@@ -10,4 +10,8 @@ ext {
 
     isHomeModule = false
 
+    isSquareModule = false
+
+    isWeChatModule = false
+
 }
