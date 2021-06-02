@@ -1,7 +1,4 @@
-<img src="./screenshot/page_1.png" width = "280" height = "480" alt="page_1" style="zoom:33%;" />          <img src="./screenshot/page_2.png" width = "280" height = "480" alt="page_2" style="zoom:33%;" />   
-<img src="./screenshot/page_3.png" width = "280" height = "480" alt="page_3" style="zoom:33%;" />
-
-| <img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_1.png?raw=true" width="280" alt="首页"/> | <img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_2.png?raw=true" width="280" alt="广场"/>  |  <img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_3.png?raw=true" width="280" alt="公众号"/>  |          
+<img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_1.png?raw=true" width="280" alt="首页"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_2.png?raw=true" width="280" alt="广场"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_3.png?raw=true" width="280" alt="公众号"/>  |          
 
 一、使用room之后，组件化操作的时候，如果子module有数据存储需求，由于AppDatabase在主module中，则处理方式有两种：
 1.在service模块，提供方法的时候，将对应的bean转为string，然后在子module中调用service提供的方法的时候，将获取到的数据转为string即可
