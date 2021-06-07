@@ -1,5 +1,5 @@
 # WanAndroid
-🔥 🔥 🔥 一个充满设计感的APP，采用Kotlin 语言，组件化开发，MVVM+JetPack架构设计，Arouter、LiveData、ViewModel、Room、Retrofit2、
+🔥 🔥 🔥 一个充满设计感的WanAndroid APP，采用Kotlin 语言，组件化开发，MVVM+JetPack架构设计，Arouter、LiveData、ViewModel、Room、Retrofit2、
 协程Coroutines、Flow等流行技术。
 
 # 项目截图

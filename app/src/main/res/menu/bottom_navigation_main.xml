@@ -24,12 +24,12 @@
         android:enabled="true"
         android:icon="@drawable/ic_apps_black_24dp"
         android:title="@string/knowledge_system"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/action_project"
         android:enabled="true"
         android:icon="@drawable/ic_project_black_24dp"
         android:title="@string/project"
-        app:showAsAction="ifRoom" />-->
+        app:showAsAction="ifRoom" />
 
 </menu>

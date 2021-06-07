@@ -96,4 +96,7 @@ dependencies {
     if (!Boolean.valueOf(rootProject.ext.isWeChatModule)) {
         implementation project(":module-wechat")
     }
+    if (!Boolean.valueOf(rootProject.ext.isProjectModule)) {
+        implementation project(":module-project")
+    }
 }

@@ -42,6 +42,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var homeFragment: BaseFragment? = null
     private var squareFragment: BaseFragment? = null
     private var weChatFragment: BaseFragment? = null
+    private var projectFragment: BaseFragment? = null
 
     private val mDialog by lazy {
         DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
@@ -101,8 +102,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     switchFragment(2)
 //                R.id.action_system ->
 //                    switchFragment(3)
-//                R.id.action_project ->
-//                    switchFragment(4)
+                R.id.action_project ->
+                    switchFragment(3)
             }
             true
         }
@@ -168,13 +169,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         }
                 }
             3 ->
-                weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
+                projectFragment?.let { transaction.show(it) } ?: kotlin.run {
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_PROJECT_FRG).navigation()
                         ?.let {
-                            weChatFragment = it as BaseFragment
-                            weChatFragment?.let {
-                                binding.actionBar.tvTitle.text = getString(R.string.wechat)
-                                weChatFragment = it
+                            projectFragment = it as BaseFragment
+                            projectFragment?.let {
+                                binding.actionBar.tvTitle.text = getString(R.string.project)
+                                projectFragment = it
                                 transaction.add(R.id.container, it, null)
                             }
                         }
@@ -200,6 +201,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         homeFragment?.let { transaction.hide(it) }
         squareFragment?.let { transaction.hide(it) }
         weChatFragment?.let { transaction.hide(it) }
+        projectFragment?.let { transaction.hide(it) }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
