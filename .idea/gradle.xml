@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/module-content" />
             <option value="$PROJECT_DIR$/module-home" />
             <option value="$PROJECT_DIR$/module-login" />
+            <option value="$PROJECT_DIR$/module-project" />
             <option value="$PROJECT_DIR$/module-square" />
             <option value="$PROJECT_DIR$/module-wechat" />
           </set>

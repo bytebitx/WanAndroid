@@ -5,7 +5,7 @@
 # 项目截图
 
 
-<img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_1.png?raw=true" width="280" alt="首页"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_2.png?raw=true" width="280" alt="广场"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_3.png?raw=true" width="280" alt="公众号"/>
+<img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_1.png?raw=true" width="280" alt="首页"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_2.png?raw=true" width="280" alt="广场"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_3.png?raw=true" width="280" alt="公众号"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_4.png?raw=true" width="280" alt="公众号"/>
 
 
 # Arouter使用
