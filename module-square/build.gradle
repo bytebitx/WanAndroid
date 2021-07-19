@@ -1,4 +1,6 @@
-if (Boolean.valueOf(rootProject.ext.isSquareModule)) {
+def path = rootProject.ext.module.isSquareModule
+
+if (Boolean.valueOf(path)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -9,14 +11,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
     }
 
     buildTypes {
@@ -38,7 +40,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(rootProject.ext.isSquareModule)) {
+            if (Boolean.valueOf(path)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -62,7 +64,6 @@ dependencies {
 
     implementation project(":common-base")
     implementation project(":common-service")
-    kapt 'com.alibaba:arouter-compiler:1.2.2'
-
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    kapt rootProject.ext.compiler["arouterCompiler"]
+    implementation rootProject.ext.other["rvHelper"]
 }

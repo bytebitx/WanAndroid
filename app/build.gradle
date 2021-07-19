@@ -6,15 +6,15 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         applicationId "com.bbgo.wanandroid"
-        minSdkVersion 16
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
         multiDexEnabled true
         // 实现毛玻璃那种透明的效果需要添加的库
         renderscriptTargetApi 19
@@ -67,36 +67,36 @@ dependencies {
 
     debugImplementation 'com.glance.guolindev:glance:1.0.0'
 
-    // room
-    def room_version = "2.2.6"
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
 
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    api rootProject.ext.roomLibs
+    kapt rootProject.ext.compiler["roomCompiler"]
 
-    implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
 
-    kapt 'com.alibaba:arouter-compiler:1.2.2'
+
+    implementation rootProject.ext.other["rvHelper"]
+
+    implementation rootProject.ext.other["banner"]
+
+    kapt rootProject.ext.compiler["arouterCompiler"]
 
     implementation project(":common-base")
     implementation project(":common-service")
-    if (!Boolean.valueOf(rootProject.ext.isContentModule)) {
+    if (!Boolean.valueOf(rootProject.ext.module.isContentModule)) {
         implementation project(":module-content")
     }
-    if (!Boolean.valueOf(rootProject.ext.isLoginModule)) {
+    if (!Boolean.valueOf(rootProject.ext.module.isLoginModule)) {
         implementation project(":module-login")
     }
-    if (!Boolean.valueOf(rootProject.ext.isHomeModule)) {
+    if (!Boolean.valueOf(rootProject.ext.module.isHomeModule)) {
         implementation project(":module-home")
     }
-    if (!Boolean.valueOf(rootProject.ext.isSquareModule)) {
+    if (!Boolean.valueOf(rootProject.ext.module.isSquareModule)) {
         implementation project(":module-square")
     }
-    if (!Boolean.valueOf(rootProject.ext.isWeChatModule)) {
+    if (!Boolean.valueOf(rootProject.ext.module.isWeChatModule)) {
         implementation project(":module-wechat")
     }
-    if (!Boolean.valueOf(rootProject.ext.isProjectModule)) {
+    if (!Boolean.valueOf(rootProject.ext.module.isProjectModule)) {
         implementation project(":module-project")
     }
 }

@@ -1,4 +1,6 @@
-if (Boolean.valueOf(rootProject.ext.isHomeModule)) {
+def path = rootProject.ext.module.isHomeModule
+
+if (Boolean.valueOf(path)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -52,7 +54,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(rootProject.ext.isHomeModule)) {
+            if (Boolean.valueOf(path)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -77,14 +79,11 @@ dependencies {
 
     implementation project(":common-base")
     implementation project(":common-service")
-    kapt 'com.alibaba:arouter-compiler:1.2.2'
-
-    implementation 'cn.bingoogolapple:bga-banner:2.2.4@aar'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6'
+    kapt rootProject.ext.compiler["arouterCompiler"]
+    implementation rootProject.ext.other["rvHelper"]
+    implementation rootProject.ext.other["banner"]
 
     // room
-    def room_version = "2.2.6"
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation rootProject.ext.roomLibs
+    kapt rootProject.ext.compiler["roomCompiler"]
 }
