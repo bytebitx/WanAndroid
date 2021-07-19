@@ -1,6 +1,7 @@
 package com.bbgo.common_service.login
 
 import com.alibaba.android.arouter.facade.template.IProvider
+import kotlinx.coroutines.flow.Flow
 
 /**
  *  author: wangyb
@@ -9,6 +10,6 @@ import com.alibaba.android.arouter.facade.template.IProvider
  */
 interface LoginOutService : IProvider {
 
-    fun logOut()
+    suspend fun logOut(): Flow<String>
 
 }

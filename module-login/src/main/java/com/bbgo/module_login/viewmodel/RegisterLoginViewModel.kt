@@ -9,10 +9,7 @@ import com.bbgo.common_base.ext.logD
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.repository.RegisterLoginRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 /**
@@ -109,6 +106,23 @@ class RegisterLoginViewModel(private val repository: RegisterLoginRepository) : 
                     logOutLiveData.value = Resource.Success("")
                 }
         }
+    }
+
+    suspend fun logOutToMain(): Flow<String> {
+        /**
+         * 1.必须要有异常处理
+         * 2.必须要有collect，否则map里面的代码不执行
+         */
+        return repository.logout()
+            .map {
+                val str = if (it.errorCode == 0) {
+                    repository.insertLoginData("")
+                    ""
+                } else {
+                    it.errorMsg
+                }
+                str
+            }
     }
 
     companion object {

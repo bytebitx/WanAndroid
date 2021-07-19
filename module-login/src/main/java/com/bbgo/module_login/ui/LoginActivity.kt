@@ -66,7 +66,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             is Resource.Success -> {
                 mDialog.dismiss()
                 ARouter.getInstance().build(Constants.NAVIGATION_TO_MAIN).navigation()
-//                startActivity(Intent(this, MainActivity::class.java))
             }
         }
     }

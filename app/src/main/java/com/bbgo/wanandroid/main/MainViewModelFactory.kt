@@ -2,6 +2,8 @@ package com.bbgo.wanandroid.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.bbgo.module_login.repository.RegisterLoginRepository
+import com.bbgo.wanandroid.repository.UserInfoRepository
 
 /**
  *  author: wangyb
@@ -9,10 +11,10 @@ import androidx.lifecycle.ViewModelProvider
  *  description: todo
  */
 
-class MainViewModelFactory() : ViewModelProvider.NewInstanceFactory() {
+class MainViewModelFactory(private val repository: UserInfoRepository) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MainViewModel() as T
+        return MainViewModel(repository) as T
     }
 }

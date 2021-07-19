@@ -8,6 +8,7 @@ import com.bbgo.module_login.repository.RegisterLoginLocalRepository
 import com.bbgo.module_login.repository.RegisterLoginRemoteRepository
 import com.bbgo.module_login.repository.RegisterLoginRepository
 import com.bbgo.module_login.viewmodel.RegisterLoginViewModel
+import kotlinx.coroutines.flow.Flow
 
 /**
  *  author: wangyb
@@ -17,10 +18,10 @@ import com.bbgo.module_login.viewmodel.RegisterLoginViewModel
 @Route(path = Constants.SERVICE_LOGOUT)
 class LoginOutServiceImpl : LoginOutService{
 
-    override fun logOut() {
+    override suspend fun logOut(): Flow<String> {
         val viewModel = RegisterLoginViewModel(RegisterLoginRepository.getInstance(RegisterLoginRemoteRepository.instance,
             RegisterLoginLocalRepository.getInstance()))
-        viewModel.logOut()
+        return viewModel.logOutToMain()
     }
 
     override fun init(context: Context?) {
