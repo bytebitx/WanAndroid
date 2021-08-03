@@ -8,6 +8,6 @@
 
     <include
         android:id="@+id/action_bar"
-        layout="@layout/toolbar" />
+        layout="@layout/content_toolbar" />
 
 </com.bbgo.module_content.ui.WebContainer>

@@ -63,3 +63,9 @@ fun logE(tag: String, msg: String?, tr: Throwable) {
     }
 }
 
+fun logE(tag: String, msg: String?) {
+    if (level <= ERROR) {
+        Logger.e(tag, msg.toString())
+    }
+}
+
