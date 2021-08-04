@@ -1,16 +1,44 @@
 package com.bbgo.module_home.ui
 
+import android.content.ClipData
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.*
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import cn.bingoogolapple.bgabanner.BGABanner
+import coil.compose.rememberImagePainter
+import coil.transform.CircleCropTransformation
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -25,8 +53,10 @@ import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.banner.BannerService
 import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.common_service.collect.CollectService
+import com.bbgo.module_home.MessageCoard
 import com.bbgo.module_home.R
 import com.bbgo.module_home.bean.ArticleDetail
+import com.bbgo.module_home.compose.dimens.*
 import com.bbgo.module_home.databinding.FragmentHomeBinding
 import com.bbgo.module_home.databinding.ItemHomeBannerBinding
 import com.bbgo.module_home.util.InjectorUtil
@@ -117,10 +147,15 @@ class HomeFragment : BaseFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        bannerBinding = ItemHomeBannerBinding.inflate(inflater)
-        return _binding?.root
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setContent {
+                Text(text = "Hello World")
+            }
+        }
+//        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+//        bannerBinding = ItemHomeBannerBinding.inflate(inflater)
+//        return _binding?.root
     }
 
     override fun initView() {
@@ -250,6 +285,143 @@ class HomeFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
         EventBus.getDefault().unregister(this)
+    }
+
+    @Composable
+    fun ArticleList(articleList: MutableList<ArticleDetail>) {
+        /*Column {
+            articleList.forEach {
+                ItemCard(articleDetail = it)
+            }
+        }*/
+        LazyColumn {
+            items(articleList) { articleDetail ->
+                ItemCard(articleDetail = articleDetail)
+            }
+        }
+    }
+
+    @Composable
+    fun ItemCard(articleDetail: ArticleDetail) {
+        Text(text = "Hello World")
+    }
+
+    @Composable
+    fun TestItemCard() {
+        val dp2 = dimensionResource(id = R.dimen.dp_2)
+        val dp5 = dimensionResource(id = R.dimen.dp_5)
+        Surface(shape = MaterialTheme.shapes.medium,
+            elevation = dimensionResource(id = R.dimen.dp_1),
+        ) {
+            Column() {
+                Spacer(modifier = Modifier.padding(vertical = dp2))
+                Row {
+                    Row(horizontalArrangement = Arrangement.Start) {
+                        Spacer(modifier = Modifier.padding(horizontal = dp5))
+                        Text(
+                            text = "置顶",
+                            color = Color.Red,
+                            fontSize = sp10,
+                            modifier = Modifier
+                                .border(dp05, Color.Red, shape = RectangleShape)
+                                .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
+                        )
+                        Spacer(modifier = Modifier.padding(horizontal = dp5))
+                        Text(
+                            text = "新",
+                            color = Color.Red,
+                            fontSize = sp10,
+                            modifier = Modifier
+                                .border(dp05, Color.Red, shape = RectangleShape)
+                                .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
+                        )
+                        Spacer(modifier = Modifier.padding(horizontal = dp5))
+                        Text(
+                            text = "玩安卓",
+                            color = Color.Red,
+                            fontSize = sp10,
+                            modifier = Modifier
+                                .border(dp05, Color.Red, shape = RectangleShape)
+                                .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
+                        )
+                        Spacer(modifier = Modifier.padding(horizontal = dp5))
+                        Text(
+                            text = "玩安卓",
+                            color = colorResource(id = R.color.Grey600),
+                            fontSize = sp10,
+                            modifier = Modifier
+                                .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
+                        )
+                    }
+
+                    Row(horizontalArrangement = Arrangement.End) {
+                        Spacer(modifier = Modifier.padding(horizontal = dp20))
+                        Text(
+                            text = "玩安卓",
+                            color = colorResource(id = R.color.Grey600),
+                            fontSize = sp10,
+                            modifier = Modifier
+                                .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
+                        )
+                    }
+
+                }
+
+                Spacer(modifier = Modifier.padding(vertical = dp2))
+
+                Row(horizontalArrangement = Arrangement.Start) {
+                    Spacer(modifier = Modifier.padding(horizontal = dp5))
+                    Text(
+                        text = "Compose 有效地处理嵌套布局，使其成为设计复杂UI的好方法。这是对 Android Views 的改进，在 Android Views 中，出于性能原因，您需要避免嵌套布局。你好呀陌生人，这是一个标题，不是很长，因为我想不出其他什么比较好的标题了",
+                        color = colorResource(id = R.color.item_title),
+                        fontSize = sp10,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(end = dp5),
+                        textAlign = TextAlign.Start
+                    )
+                }
+
+                Spacer(modifier = Modifier.padding(vertical = dp2))
+
+                ConstraintLayout {
+                    val (text, image) = createRefs()
+                    Text(
+                        text = "问答 / 官方",
+                        color = colorResource(id = R.color.item_title),
+                        fontSize = sp8,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.constrainAs(text) {
+                            start.linkTo(parent.start, margin = dp8)
+                        }
+                    )
+
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_like_not),
+                        contentDescription = null,
+                        Modifier
+                            .constrainAs(image) {
+                                end.linkTo(parent.end, margin = dp8)
+                            }
+                            .size(8.dp)
+                            .clickable {
+
+                            }
+                    )
+
+
+                }
+                
+            }
+        }
+    }
+
+
+    @Preview
+    @Composable
+    fun DefaultPreview() {
+//        ArticleList(articleList = mutableListOf())
+        TestItemCard()
     }
 
 }

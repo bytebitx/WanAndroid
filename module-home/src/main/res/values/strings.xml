@@ -179,5 +179,6 @@
 
     <string name="nav_line_4" translatable="false">----</string>
     <string name="nav_line_2" translatable="false">--</string>
+    <string name="title_activity_compose">ComposeActivity</string>
 
 </resources>
