@@ -2,4 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bbgo.module_compose">
 
+    <application>
+        <activity android:name=".ComposeActivity"/>
+    </application>
+
+
 </manifest>

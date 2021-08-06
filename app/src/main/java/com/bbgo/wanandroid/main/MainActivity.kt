@@ -260,6 +260,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //                startActivity(intent)
             }
             R.id.nav_collect -> {
+                ARouter.getInstance().build(Constants.NAVIGATION_TO_COLLECT)
+                    .navigation()
 //                val intent = Intent(this, QsbkActivity::class.java)
 //                startActivity(intent)
             }

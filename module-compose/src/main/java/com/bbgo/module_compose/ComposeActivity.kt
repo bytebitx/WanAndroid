@@ -1,18 +1,23 @@
-package com.bbgo.module_compose.ui
+package com.bbgo.module_compose
 
+import android.app.Activity
 import android.os.Bundle
 import android.text.Html
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,63 +25,110 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.bbgo.common_base.base.BaseActivity
+import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.ext.logD
 import com.bbgo.module_compose.theme.*
+import com.bbgo.module_compose.util.InjectorUtil
 import com.bbgo.module_compose.viewmodel.ComposeViewModel
-import com.bbgo.module_home.bean.ArticleDetail
+import com.bbgo.module_compose.bean.ArticleDetail
 
-class ComposeActivity : ComponentActivity() {
+@Route(path = Constants.NAVIGATION_TO_COLLECT)
+class ComposeActivity : BaseActivity() {
 
+    @ExperimentalFoundationApi
+    val composeViewModel: ComposeViewModel by viewModels { InjectorUtil.getComposeViewModelFactory() }
+
+    @ExperimentalFoundationApi
+    lateinit var context: Activity
+
+    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        context = this
+        composeViewModel.getArticles(0)
         setContent {
             WanAndroidTheme {
-                Request()
+                RenderTopAppBar(composeViewModel)
             }
         }
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
-fun Request() {
-    val composeViewModel: ComposeViewModel = viewModel()
-    composeViewModel.getArticles(0)
-    val liveData = composeViewModel.articleLiveData.observeAsState()
-    liveData.value?.data?.let {
+fun RenderTopAppBar(composeViewModel: ComposeViewModel) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.nav_my_collect),
+                        color = Color.White,
+                        fontSize = 18.sp
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                    }) {
+                        Icon(Icons.Filled.ArrowBack, null, tint = Color.White)
+                    }
+                },
+                backgroundColor = colorResource(id = R.color.colorPrimary)
+            )
+        },
+    ){
+        Request(composeViewModel)
+    }
+}
+
+@ExperimentalFoundationApi
+@Composable
+fun Request(composeViewModel: ComposeViewModel) {
+    val liveData by composeViewModel.articleLiveData.observeAsState()
+    logD("======================")
+    logD(liveData?.data)
+    liveData?.data?.let {
         RenderArticleList(it)
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun RenderArticleList(articles: List<ArticleDetail>) {
     LazyColumn {
-        /*items(articles.size) {
+        items(articles.size) {
             articles.forEach {
                 ItemCard(articleDetail = it)
             }
-        }*/
+        }
     }
+
     /*LazyColumn {
-        items(articleList) { articleDetail ->
+        items(articles) { articleDetail ->
             ItemCard(articleDetail = articleDetail)
         }
     }*/
 }
 
+@ExperimentalFoundationApi
 @Composable
 fun ItemCard(articleDetail: ArticleDetail) {
-    val dp2 = dp2
-    val dp5 = dp5
-    Surface(shape = MaterialTheme.shapes.medium,
-        elevation = dimensionResource(id = 1.dp),
+    val dp2 = dimensionResource(id = R.dimen.dp_2)
+    val dp5 = dimensionResource(id = R.dimen.dp_5)
+    val dp10 = dimensionResource(id = R.dimen.dp_10)
+    Surface(elevation = dimensionResource(id = R.dimen.dp_1),
     ) {
         Column() {
-            Spacer(modifier = Modifier.padding(vertical = dp2))
+            Spacer(modifier = Modifier.padding(vertical = dp5))
             Row {
                 Row(modifier = Modifier.weight(1f)) {
                     if (articleDetail.top == "1") {
@@ -86,7 +138,7 @@ fun ItemCard(articleDetail: ArticleDetail) {
                             color = Color.Red,
                             fontSize = sp10,
                             modifier = Modifier
-                                .border(dp05, Color.Red, shape = RectangleShape)
+                                .border(dp05, Color.Red, shape = RoundedCornerShape(dp2))
                                 .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
                         )
                     }
@@ -97,7 +149,7 @@ fun ItemCard(articleDetail: ArticleDetail) {
                             color = Color.Red,
                             fontSize = sp10,
                             modifier = Modifier
-                                .border(dp05, Color.Red, shape = RectangleShape)
+                                .border(dp05, Color.Red, shape = RoundedCornerShape(dp2))
                                 .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
                         )
                     }
@@ -107,9 +159,9 @@ fun ItemCard(articleDetail: ArticleDetail) {
                         Text(
                             text = articleDetail.tags[0].name,
                             color = Color.Red,
-                            fontSize = sp10,
+                            fontSize = sp12,
                             modifier = Modifier
-                                .border(dp05, Color.Red, shape = RectangleShape)
+                                .border(dp05, Color.Red, shape = RoundedCornerShape(dp2))
                                 .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
                         )
                     }
@@ -118,18 +170,17 @@ fun ItemCard(articleDetail: ArticleDetail) {
                     Text(
                         text = articleDetail.author,
                         color = colorResource(id = R.color.Grey600),
-                        fontSize = sp10,
+                        fontSize = sp12,
                         modifier = Modifier
                             .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
                     )
                 }
 
-                Row {
-                    Spacer(modifier = Modifier.padding(horizontal = dp20))
+                Row(modifier = Modifier.padding(end = dp5)) {
                     Text(
                         text = articleDetail.niceDate,
                         color = colorResource(id = R.color.Grey600),
-                        fontSize = sp10,
+                        fontSize = sp12,
                         modifier = Modifier
                             .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
                     )
@@ -144,7 +195,7 @@ fun ItemCard(articleDetail: ArticleDetail) {
                 Text(
                     text = Html.fromHtml(articleDetail.title).toString(),
                     color = colorResource(id = R.color.item_title),
-                    fontSize = sp10,
+                    fontSize = sp16,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(end = dp5),
@@ -152,30 +203,7 @@ fun ItemCard(articleDetail: ArticleDetail) {
                 )
             }
 
-            Spacer(modifier = Modifier.padding(vertical = dp2))
-
-            /*Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = {
-                            Text(
-                                text = "问答 / 官方",
-                                color = colorResource(id = R.color.item_title),
-                                fontSize = sp8,
-                                textAlign = TextAlign.Center,
-                            )
-                        },
-                        actions = {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_like_not),
-                                contentDescription = null,
-                                modifier = Modifier.padding(end = 10.dp)
-                            )
-                        },
-                        backgroundColor = Color.White
-                    )
-                },
-            ) {}*/
+            Spacer(modifier = Modifier.padding(vertical = dp5))
 
             val chapterName = when {
                 articleDetail.superChapterName.isNotEmpty() and articleDetail.chapterName.isNotEmpty() ->
@@ -185,11 +213,11 @@ fun ItemCard(articleDetail: ArticleDetail) {
                 else -> ""
             }
 
-            Row {
+            Row(verticalAlignment = Alignment.Bottom) {
                 Text(
                     text = chapterName,
                     color = colorResource(id = R.color.item_title),
-                    fontSize = sp8,
+                    fontSize = sp12,
                     textAlign = TextAlign.Start,
                     modifier = Modifier
                         .weight(1f)
@@ -209,13 +237,17 @@ fun ItemCard(articleDetail: ArticleDetail) {
                     alignment = Alignment.CenterEnd,
                     modifier = Modifier
                         .weight(0.1f)
-                        .size(12.dp)
+                        .size(26.dp)
                         .padding(end = dp5)
                         .clickable {
 
                         }
                 )
             }
+
+            Spacer(modifier = Modifier.padding(vertical = dp5))
+
+            Divider(thickness = 0.2.dp)
 
         }
     }
@@ -252,7 +284,7 @@ fun TestItemCard() {
                     )
                     Spacer(modifier = Modifier.padding(horizontal = dp5))
                     Text(
-                        text = "玩安卓",
+                        text = "玩安卓TAG",
                         color = Color.Red,
                         fontSize = sp10,
                         modifier = Modifier
@@ -263,7 +295,7 @@ fun TestItemCard() {
                     Text(
                         text = "玩安卓",
                         color = colorResource(id = R.color.Grey600),
-                        fontSize = sp10,
+                        fontSize = sp12,
                         modifier = Modifier
                             .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
                     )
@@ -274,7 +306,7 @@ fun TestItemCard() {
                     Text(
                         text = "玩安卓",
                         color = colorResource(id = R.color.Grey600),
-                        fontSize = sp10,
+                        fontSize = sp12,
                         modifier = Modifier
                             .padding(start = dp4, end = dp4, top = dp2, bottom = dp2)
                     )
@@ -289,7 +321,7 @@ fun TestItemCard() {
                 Text(
                     text = "Compose 有效地处理嵌套布局，使其成为设计复杂UI的好方法。这是对 Android Views 的改进，在 Android Views 中，出于性能原因，您需要避免嵌套布局。你好呀陌生人，这是一个标题，不是很长，因为我想不出其他什么比较好的标题了",
                     color = colorResource(id = R.color.item_title),
-                    fontSize = sp10,
+                    fontSize = sp16,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(end = dp5),
@@ -326,7 +358,7 @@ fun TestItemCard() {
                 Text(
                     text = "问答 / 官方",
                     color = colorResource(id = R.color.item_title),
-                    fontSize = sp8,
+                    fontSize = sp12,
                     textAlign = TextAlign.Start,
                     modifier = Modifier
                         .weight(1f)
@@ -340,7 +372,7 @@ fun TestItemCard() {
                     alignment = Alignment.CenterEnd,
                     modifier = Modifier
                         .weight(0.1f)
-                        .size(12.dp)
+                        .size(20.dp)
                         .padding(end = dp5)
                         .clickable {
 

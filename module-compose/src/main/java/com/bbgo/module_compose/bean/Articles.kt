@@ -1,9 +1,9 @@
-package com.bbgo.module_home.bean
+package com.bbgo.module_compose.bean
 
 data class Articles(
-    val `data`: ArticleData,
-    val errorCode: Int,
-    val errorMsg: String
+        val `data`: ArticleData,
+        val errorCode: Int,
+        val errorMsg: String
 )
 
 data class ArticleData(

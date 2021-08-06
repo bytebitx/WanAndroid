@@ -16,7 +16,9 @@ ext {
 
             isWeChatModule: false,
 
-            isProjectModule: false
+            isProjectModule: false,
+
+            isComposeModule: false,
     ]
 
     android = [

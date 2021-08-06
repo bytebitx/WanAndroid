@@ -99,4 +99,7 @@ dependencies {
     if (!Boolean.valueOf(rootProject.ext.module.isProjectModule)) {
         implementation project(":module-project")
     }
+    if (!Boolean.valueOf(rootProject.ext.module.isComposeModule)) {
+        implementation project(":module-compose")
+    }
 }

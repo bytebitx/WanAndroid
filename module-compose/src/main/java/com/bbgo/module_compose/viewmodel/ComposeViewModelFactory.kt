@@ -1,8 +1,8 @@
-package com.bbgo.module_home.viewmodel
+package com.bbgo.module_compose.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bbgo.module_home.repository.HomeRepository
+import com.bbgo.module_compose.repository.HomeRepository
 
 /**
  *  author: wangyb

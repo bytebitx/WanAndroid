@@ -1,14 +1,11 @@
 package com.bbgo.module_home.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.*
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +27,6 @@ import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.banner.BannerService
 import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.common_service.collect.CollectService
-import com.bbgo.module_home.ComposeActivity
 import com.bbgo.module_home.R
 import com.bbgo.module_home.bean.ArticleDetail
 import com.bbgo.module_home.databinding.FragmentHomeBinding
