@@ -7,6 +7,8 @@
         <activity android:name=".MainActivity">
         </activity>
 
+        <activity android:name=".ComposeActivity"/>
+
     </application>
 
 </manifest>

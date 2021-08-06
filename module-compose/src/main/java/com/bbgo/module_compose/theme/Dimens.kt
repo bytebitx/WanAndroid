@@ -1,10 +1,11 @@
-package com.bbgo.module_home.ui.theme
+package com.bbgo.module_compose.theme
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 val dp05 = 0.5.dp
 val dp2 = 2.dp
+val dp5 = 5.dp
 val dp4 = 4.dp
 val dp8 = 8.dp
 val dp10 = 10.dp
