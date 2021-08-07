@@ -44,6 +44,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         binding.actionBar.apply {
             tvTitle.text = getString(R.string.login)
             setSupportActionBar(binding.actionBar.toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
 
         binding.btnLogin.setOnClickListener(this)

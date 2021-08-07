@@ -22,12 +22,12 @@ class CollectServiceImpl : CollectService{
     private val viewModel by lazy { CollectViewModel(CollectRepository.getInstance()) }
 
     override fun collect(position: Int,pageId: Int) {
-        this.context?.showToast("collect")
+//        this.context?.showToast("collect")
         viewModel.collectArticle(position, pageId)
     }
 
     override fun unCollect(position: Int,pageId: Int) {
-        this.context?.showToast("unCollect")
+//        this.context?.showToast("unCollect")
         viewModel.unCollectArticle(position, pageId)
 //        viewModelScope.launch {
 //            CollectRepository.getInstance().unCollectArticle(pageId)
