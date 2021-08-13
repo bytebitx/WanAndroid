@@ -36,6 +36,11 @@ class ArticleListFragment : BaseFragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    /**
+     * 在这里不使用委托方式by 来创建viewmodel，是因为该方式只会创建一个viewmodel实例
+     * 多个fragment需要多个viewmodel实例
+     */
     private lateinit var weChatViewModel: WeChatViewModel
 
     /**

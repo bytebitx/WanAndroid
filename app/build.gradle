@@ -90,11 +90,14 @@ dependencies {
     if (!Boolean.valueOf(rootProject.ext.module.isHomeModule)) {
         implementation project(":module-home")
     }
-    if (!Boolean.valueOf(rootProject.ext.module.isSquareModule)) {
-        implementation project(":module-square")
-    }
     if (!Boolean.valueOf(rootProject.ext.module.isWeChatModule)) {
         implementation project(":module-wechat")
+    }
+    if (!Boolean.valueOf(rootProject.ext.module.isSysModule)) {
+        implementation project(":module-sys")
+    }
+    if (!Boolean.valueOf(rootProject.ext.module.isSquareModule)) {
+        implementation project(":module-square")
     }
     if (!Boolean.valueOf(rootProject.ext.module.isProjectModule)) {
         implementation project(":module-project")

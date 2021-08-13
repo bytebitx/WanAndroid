@@ -80,8 +80,9 @@ object Constants {
     const val NAVIGATION_TO_MAIN = "/main/module/navigate"
     const val NAVIGATION_TO_CONTENT = "/content/module/navigate"
     const val NAVIGATION_TO_HOME_FRG = "/home/fragment/navigate"
-    const val NAVIGATION_TO_SQUARE_FRG = "/square/fragment/navigate"
     const val NAVIGATION_TO_WECHAT_FRG = "/wechat/fragment/navigate"
+    const val NAVIGATION_TO_SYS_FRG = "/sys/fragment/navigate"
+    const val NAVIGATION_TO_SQUARE_FRG = "/square/fragment/navigate"
     const val NAVIGATION_TO_PROJECT_FRG = "/project/fragment/navigate"
     const val NAVIGATION_TO_COLLECT = "/compose/module/navigate"
 

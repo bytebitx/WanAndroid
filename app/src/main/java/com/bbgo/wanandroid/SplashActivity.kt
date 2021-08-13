@@ -1,37 +1,42 @@
 package com.bbgo.wanandroid
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
-import androidx.lifecycle.lifecycleScope
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import androidx.annotation.ColorInt
+import com.bbgo.common_base.RootApplication
 import com.bbgo.common_base.base.BaseActivity
-import com.bbgo.common_base.ext.logD
-import com.bbgo.common_base.ext.logD
+import com.bbgo.common_base.notchlib.NotchScreenManager
+import com.bbgo.common_base.util.AppUtil
+import com.bbgo.common_base.util.ColorUtil
+import com.bbgo.common_base.util.StatusBarUtil
 import com.bbgo.wanandroid.databinding.ActivitySplashBinding
 import com.bbgo.wanandroid.main.MainActivity
-import com.orhanobut.logger.Logger
-import kotlinx.coroutines.*
-import java.lang.NullPointerException
-import java.lang.NumberFormatException
-import kotlin.coroutines.EmptyCoroutineContext
 
 class SplashActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySplashBinding
 
+    private var textTypeface: Typeface?=null
+
+    private var descTypeFace: Typeface?=null
+
+    private var alphaAnimation: AlphaAnimation?=null
+
+    init {
+        textTypeface = Typeface.createFromAsset(RootApplication.getContext().assets, "fonts/Lobster-1.4.otf")
+        descTypeFace = Typeface.createFromAsset(RootApplication.getContext().assets, "fonts/FZLanTingHeiS-L-GB-Regular.TTF")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        NotchScreenManager.getInstance().setDisplayInNotch(this)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        CoroutineScope(Dispatchers.Main).launch {
-            startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-            delay(5000)
-            logD("SplashActivity", "this is ${Thread.currentThread().name}")
-            finish()
-        }
+        initView()
 
         /*lifecycleScope.launch {
             val time = System.currentTimeMillis()
@@ -67,6 +72,35 @@ class SplashActivity : BaseActivity() {
         }*/
 
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun initView() {
+        binding.tvAppName.typeface = textTypeface
+        binding.tvSplashDesc.typeface = descTypeFace
+        binding.tvVersionName.text = "v${AppUtil.appVersionName}"
+
+        //渐变展示启动屏
+        alphaAnimation= AlphaAnimation(0.3f, 1.0f)
+        alphaAnimation?.duration = 2000
+        alphaAnimation?.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationEnd(arg0: Animation) {
+                redirectTo()
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {
+            }
+
+            override fun onAnimationStart(animation: Animation) {
+            }
+        })
+        binding.ivLogo.startAnimation(alphaAnimation)
+    }
+
+    private fun redirectTo() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }

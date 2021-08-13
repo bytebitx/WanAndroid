@@ -6,19 +6,45 @@ ext {
              * isBuildModule=true
              * 修改之后需要Sync方可生效
              */
+            /**
+             * 内容模块
+             */
             isContentModule: false,
 
+            /**
+             * 登录模块
+             */
             isLoginModule: false,
 
+            /**
+             * 首页模块
+             */
             isHomeModule: false,
 
+            /**
+             * 广场模块
+             */
             isSquareModule: false,
 
+            /**
+             * 微信公众号模块
+             */
             isWeChatModule: false,
 
+            /**
+             * 项目模块
+             */
             isProjectModule: false,
 
+            /**
+             * ComposeUI 构建的UI模块
+             */
             isComposeModule: false,
+
+            /**
+             * 体系模块
+             */
+            isSysModule: false,
     ]
 
     android = [

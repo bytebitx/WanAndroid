@@ -21,8 +21,6 @@ import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.util.DialogUtil
 import com.bbgo.common_service.login.LoginOutService
-import com.bbgo.common_service.test.TestService
-import com.bbgo.common_service.test.bean.TestContentBean
 import com.bbgo.wanandroid.R
 import com.bbgo.wanandroid.bean.UserInfo
 import com.bbgo.wanandroid.databinding.ActivityMainBinding
@@ -41,8 +39,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private lateinit var navHeaderBinding: NavHeaderMainBinding
     @Autowired(name = Constants.SERVICE_LOGOUT)
     lateinit var loginOutService: LoginOutService
-    @Autowired(name = "/app/TestService")
-    lateinit var testBeanService: TestService
 
     //默认为0
     private var mIndex = 0
@@ -50,8 +46,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private var mExitTime: Long = 0
 
     private var homeFragment: BaseFragment? = null
-    private var squareFragment: BaseFragment? = null
     private var weChatFragment: BaseFragment? = null
+    private var sysFragment: BaseFragment? = null
+    private var squareFragment: BaseFragment? = null
     private var projectFragment: BaseFragment? = null
 
     private val mDialog by lazy {
@@ -137,14 +134,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             when (it.itemId) {
                 R.id.action_home ->
                     switchFragment(0)
-                R.id.action_square ->
-                    switchFragment(1)
                 R.id.action_wechat ->
+                    switchFragment(1)
+                R.id.action_system ->
                     switchFragment(2)
-//                R.id.action_system ->
-//                    switchFragment(3)
-                R.id.action_project ->
+                R.id.action_square ->
                     switchFragment(3)
+                R.id.action_project ->
+                    switchFragment(4)
             }
             true
         }
@@ -193,6 +190,31 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         }
                 }
             1 ->
+                weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
+                        ?.let {
+                            weChatFragment = it as BaseFragment
+                            weChatFragment?.let {
+                                binding.actionBar.tvTitle.text = getString(R.string.wechat)
+                                weChatFragment = it
+                                transaction.add(R.id.container, it, null)
+                            }
+                        }
+                }
+
+            2 ->
+                sysFragment?.let { transaction.show(it) } ?: kotlin.run {
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_SYS_FRG).navigation()
+                        ?.let {
+                            sysFragment = it as BaseFragment
+                            sysFragment?.let {
+                                binding.actionBar.tvTitle.text = getString(R.string.knowledge_system)
+                                sysFragment = it
+                                transaction.add(R.id.container, it, null)
+                            }
+                        }
+                }
+            3 ->
                 squareFragment?.let { transaction.show(it) } ?: kotlin.run {
                     ARouter.getInstance().build(Constants.NAVIGATION_TO_SQUARE_FRG).navigation()
                         ?.let {
@@ -204,19 +226,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             }
                         }
                 }
-            2 ->
-                weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
-                        ?.let {
-                            weChatFragment = it as BaseFragment
-                            weChatFragment?.let {
-                                binding.actionBar.tvTitle.text = getString(R.string.wechat)
-                                weChatFragment = it
-                                transaction.add(R.id.container, it, null)
-                            }
-                        }
-                }
-            3 ->
+            4 ->
                 projectFragment?.let { transaction.show(it) } ?: kotlin.run {
                     ARouter.getInstance().build(Constants.NAVIGATION_TO_PROJECT_FRG).navigation()
                         ?.let {
@@ -228,18 +238,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             }
                         }
                 }
-            4 ->
-                weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
-                        ?.let {
-                            weChatFragment = it as BaseFragment
-                            weChatFragment?.let {
-                                binding.actionBar.tvTitle.text = getString(R.string.wechat)
-                                weChatFragment = it
-                                transaction.add(R.id.container, it, null)
-                            }
-                        }
-                }
         }
         mIndex = position
         transaction.commitAllowingStateLoss()
@@ -247,8 +245,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun hideFragment(transaction: FragmentTransaction) {
         homeFragment?.let { transaction.hide(it) }
-        squareFragment?.let { transaction.hide(it) }
         weChatFragment?.let { transaction.hide(it) }
+        sysFragment?.let { transaction.hide(it) }
+        squareFragment?.let { transaction.hide(it) }
         projectFragment?.let { transaction.hide(it) }
     }
 
@@ -262,8 +261,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_collect -> {
                 ARouter.getInstance().build(Constants.NAVIGATION_TO_COLLECT)
                     .navigation()
-//                val intent = Intent(this, QsbkActivity::class.java)
-//                startActivity(intent)
             }
             R.id.nav_share -> {
 //                val intent = Intent(this, WanAndroidActivity::class.java)
@@ -280,8 +277,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 //                }
             }
             R.id.nav_logout -> {
-                testBeanService.insertTest(TestContentBean(1, "211"))
-
                 lifecycleScope.launch {
                     loginOutService.logOut()
                         .catch {

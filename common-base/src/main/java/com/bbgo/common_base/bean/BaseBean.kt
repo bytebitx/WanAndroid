@@ -1,9 +1,9 @@
 package com.bbgo.common_base.bean
 
 /**
- *  author: wangyb
- *  date: 2021/5/27 7:09 下午
- *  description: todo
+ * @Description:
+ * @Author: wangyuebin
+ * @Date: 2021/8/13 11:40 上午
  */
 open class BaseBean {
     var errorCode: Int = 0

@@ -17,17 +17,13 @@ import com.bbgo.wanandroid.collect.viewmodel.CollectViewModel
 @Route(path = Constants.SERVICE_COLLECT)
 class CollectServiceImpl : CollectService{
 
-    @SuppressLint("StaticFieldLeak")
-    private var context: Context? = null
     private val viewModel by lazy { CollectViewModel(CollectRepository.getInstance()) }
 
     override fun collect(position: Int,pageId: Int) {
-//        this.context?.showToast("collect")
         viewModel.collectArticle(position, pageId)
     }
 
     override fun unCollect(position: Int,pageId: Int) {
-//        this.context?.showToast("unCollect")
         viewModel.unCollectArticle(position, pageId)
 //        viewModelScope.launch {
 //            CollectRepository.getInstance().unCollectArticle(pageId)
@@ -46,6 +42,5 @@ class CollectServiceImpl : CollectService{
     }
 
     override fun init(context: Context?) {
-        this.context = context
     }
 }
