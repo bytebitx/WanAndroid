@@ -2,7 +2,14 @@
 🔥 🔥 🔥 一个充满设计感的WanAndroid APP，采用Kotlin 语言，组件化开发，MVVM+JetPack架构设计，Arouter、LiveData、ViewModel、Room、Retrofit2、
 协程Coroutines、Flow等流行技术。
 
-# 项目截图
+## API
+[**玩 Android 开放 API**](http://www.wanandroid.com/blog/show/2)
+
+## 项目截图
+
+| ![](screenshot/page_1.jpg) | ![](screenshot/page_2.jpg) | ![](screenshot/page_3.jpg) |
+| --- | --- | --- |
+| ![](screenshot/page_4.jpg) | ![](screenshot/page_5.jpg) | ![](screenshot/page_6.jpg) |
 
 
 <img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_1.png?raw=true" width="280" alt="首页"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_2.png?raw=true" width="280" alt="广场"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_3.png?raw=true" width="280" alt="公众号"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_4.png?raw=true" width="280" alt="公众号"/>
