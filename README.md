@@ -12,16 +12,14 @@
 | ![](screenshot/page_4.jpg) | ![](screenshot/page_5.jpg) | ![](screenshot/page_6.jpg) |
 
 
-<img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_1.png?raw=true" width="280" alt="首页"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_2.png?raw=true" width="280" alt="广场"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_3.png?raw=true" width="280" alt="公众号"/><img src="https://github.com/bbggo/WanAndroid/blob/main/screenshot/page_4.png?raw=true" width="280" alt="公众号"/>
-
-# 项目说明
+## 项目说明
 在整个项目中，将每个tab做成一个module，方便快速学习组件化知识。这里问题就来了，把每个fragment当成一个module，那怎么获取fragment实例呢？
 这里就需要定义一个BaseFragment，然后ARouter.getInstance().build(Constants.NAVIGATION_TO_HOME_FRG).navigation() 就能获取
 到fragment实例，具体代码可以查看MainActivity里面的写法。
 
 module-compose模块使用的是compose开发的界面，主要用来学习compose
 
-# Arouter使用
+## Arouter使用
 
 一、使用room之后，组件化操作的时候，如果子module有数据存储需求，由于AppDatabase在主module中，则处理方式有两种：
 1.在service模块，提供方法的时候，将对应的bean转为string，然后在子module中调用service提供的方法的时候，将获取到的数据转为string即可
