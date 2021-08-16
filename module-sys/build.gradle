@@ -63,7 +63,4 @@ dependencies {
     implementation project(":common-service")
     kapt rootProject.ext.compiler["arouterCompiler"]
     implementation rootProject.ext.other["rvHelper"]
-
-    //Google开源的一个布局控件
-    implementation 'com.google.android:flexbox:2.0.1'
 }

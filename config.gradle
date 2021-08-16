@@ -110,7 +110,7 @@ ext {
             // key-value
             mmkv        : "com.tencent:mmkv-static:1.2.7",
             // permission
-            permission  : "pub.devrel:easypermissions:3.0.0",
+            permission  : "com.github.getActivity:XXPermissions:11.6",
             // logger
             logger      : "com.orhanobut:logger:2.2.0",
             // arouter
@@ -122,7 +122,9 @@ ext {
             //
             rvHelper    : "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6",
             // agentWeb
-            agentWeb    : "com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx"
+            agentWeb    : "com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx",
+            //Google开源的一个布局控件
+            flexbox     : "com.google.android:flexbox:2.0.1"
     ]
 
     compiler = [

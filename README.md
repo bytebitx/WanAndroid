@@ -13,9 +13,9 @@
 
 
 ## 项目说明
-在整个项目中，将每个tab做成一个module，方便快速学习组件化知识。这里问题就来了，把每个fragment当成一个module，那怎么获取fragment实例呢？
-这里就需要定义一个BaseFragment，然后ARouter.getInstance().build(Constants.NAVIGATION_TO_HOME_FRG).navigation() 就能获取
-到fragment实例，具体代码可以查看MainActivity里面的写法。
+在整个项目中，将每个tab做成一个module，让你快速上手组件化知识。
+那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。
+实际项目中需要根据业务去拆分module，该项目主要是学习如何将项目拆分module。
 
 module-compose模块使用的是compose开发的界面，主要用来学习compose
 
@@ -53,6 +53,21 @@ kapt {
 
 十一、由于所有的数据库操作在app主目录中，那么定义的相关的bean应该放在那里？如果放在base中，那么则可解决app主目录和module都使用的情况；
 否则app主目录放一份，module也要放一份。
+
+## 主要开源框架
+
+
+ - [Retrofit](https://github.com/square/retrofit)
+ - [okhttp](https://github.com/square/okhttp)
+ - [Glide](https://github.com/bumptech/glide)
+ - [BRVH](https://github.com/CymChad/BaseRecyclerViewAdapterHelper)
+ - [Logger](https://github.com/orhanobut/logger)
+ - [AgentWeb](https://github.com/Justson/AgentWeb)
+ - [BGABanner-Android](https://github.com/bingoogolapple/BGABanner-Android)
+ - [XXPermissions](https://github.com/getActivity/XXPermissions)
+
+
+
 
 ## LICENSE
 
