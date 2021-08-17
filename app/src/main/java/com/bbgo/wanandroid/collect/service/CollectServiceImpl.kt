@@ -38,7 +38,6 @@ class CollectServiceImpl : CollectService{
 //                    context?.getString(R.string.cancel_collect_success)?.let { context?.showToast(it) }
 //                }
 //        }
-//        EventBus.getDefault().post(MessageEvent(CollectViewModel.UNCOLLECT, position, pageId))
     }
 
     override fun init(context: Context?) {

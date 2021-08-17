@@ -2,6 +2,8 @@ package com.bbgo.wanandroid.collect.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bbgo.common_base.bus.BusKey
+import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants.CollectType.COLLECT
 import com.bbgo.common_base.constants.Constants.CollectType.UNCOLLECT
 import com.bbgo.common_base.constants.Constants.CollectType.UNKNOWN
@@ -12,7 +14,6 @@ import com.bbgo.wanandroid.collect.repository.CollectRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 
 /**
  *  author: wangyb
@@ -28,13 +29,14 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                     logE(TAG, it.message, it)
                 }
                 .collectLatest {
-                    if (it.errorCode == USER_NOT_LOGIN) {
-                        EventBus.getDefault().post(MessageEvent(UNKNOWN, position, id))
+                    val event = if (it.errorCode == USER_NOT_LOGIN) {
+                        MessageEvent(UNKNOWN, position, id)
                     } else {
                         it.positon = position
                         it.type = COLLECT
-                        EventBus.getDefault().post(MessageEvent(COLLECT, position, id))
+                        MessageEvent(COLLECT, position, id)
                     }
+                    LiveDataBus.get().with(BusKey.COLLECT).value = event
                 }
         }
     }
@@ -46,13 +48,14 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                     logE(TAG, it.message, it)
                 }
                 .collectLatest {
-                    if (it.errorCode == USER_NOT_LOGIN) {
-                        EventBus.getDefault().post(MessageEvent(UNKNOWN, position, id))
+                    val event = if (it.errorCode == USER_NOT_LOGIN) {
+                        MessageEvent(UNKNOWN, position, id)
                     } else {
                         it.positon = position
                         it.type = UNCOLLECT
-                        EventBus.getDefault().post(MessageEvent(UNCOLLECT, position, id))
+                        MessageEvent(UNCOLLECT, position, id)
                     }
+                    LiveDataBus.get().with(BusKey.COLLECT).value = event
                 }
         }
     }

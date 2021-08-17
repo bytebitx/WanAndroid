@@ -65,13 +65,8 @@ kapt {
 
 dependencies {
 
-    debugImplementation 'com.glance.guolindev:glance:1.0.0'
-
-
     api rootProject.ext.roomLibs
     kapt rootProject.ext.compiler["roomCompiler"]
-
-
 
     implementation rootProject.ext.other["rvHelper"]
 

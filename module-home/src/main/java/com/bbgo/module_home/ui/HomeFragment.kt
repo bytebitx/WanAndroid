@@ -17,6 +17,8 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseFragment
+import com.bbgo.common_base.bus.BusKey
+import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.ext.Resource
@@ -34,9 +36,6 @@ import com.bbgo.module_home.databinding.ItemHomeBannerBinding
 import com.bbgo.module_home.util.InjectorUtil
 import com.bbgo.module_home.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 
 /**
@@ -127,7 +126,7 @@ class HomeFragment : BaseFragment() {
 
     override fun initView() {
         ARouter.getInstance().inject(this)
-        EventBus.getDefault().register(this)
+        initBus()
         binding.swipeRefreshLayout.run {
             setOnRefreshListener(onRefreshListener)
         }
@@ -163,6 +162,15 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    /**
+     * 初始化事件总线，和eventbus效果相同
+     */
+    private fun initBus() {
+        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
+            handleCollect(it)
+        }
+    }
+
     override fun lazyLoad() {
         homeViewModel.getArticles(0)
         homeViewModel.getBanner()
@@ -171,11 +179,6 @@ class HomeFragment : BaseFragment() {
     override fun observeViewModel() {
         observe(homeViewModel.articleLiveData, ::handleInfo)
         observe(homeViewModel.bannerLiveData, ::handleBanner)
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: MessageEvent) {
-        handleCollect(event)
     }
 
     private fun handleBanner(status: Resource<List<Banner>>) {
@@ -251,7 +254,6 @@ class HomeFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        EventBus.getDefault().unregister(this)
     }
 
 

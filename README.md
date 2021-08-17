@@ -65,6 +65,7 @@ kapt {
  - [AgentWeb](https://github.com/Justson/AgentWeb)
  - [BGABanner-Android](https://github.com/bingoogolapple/BGABanner-Android)
  - [XXPermissions](https://github.com/getActivity/XXPermissions)
+ - [Arouter](https://github.com/alibaba/ARouter)
 
 
 

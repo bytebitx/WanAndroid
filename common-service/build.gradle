@@ -42,11 +42,9 @@ kapt {
 
 dependencies {
 
-    compileOnly('com.alibaba:arouter-api:1.5.0')
-    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    compileOnly rootProject.ext.arouterLibs
+    kapt rootProject.ext.compiler["arouterCompiler"]
 
-    // room
-    def room_version = "2.2.6"
-    compileOnly "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    compileOnly rootProject.ext.room["roomktx"]
+    kapt rootProject.ext.compiler["roomCompiler"]
 }
