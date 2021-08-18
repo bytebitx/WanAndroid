@@ -24,7 +24,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.TextUtils
-import com.bbgo.common_base.RootApplication
+import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.Mmkv
 import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.logW
@@ -46,21 +46,21 @@ object AppUtil {
      * @return 当前应用程序的包名。
      */
     val appPackage: String
-        get() = RootApplication.getContext().packageName
+        get() = BaseApplication.getContext().packageName
 
     /**
      * 获取当前应用程序的名称。
      * @return 当前应用程序的名称。
      */
     val appName: String
-        get() = RootApplication.getContext().resources.getString(RootApplication.getContext().applicationInfo.labelRes)
+        get() = BaseApplication.getContext().resources.getString(BaseApplication.getContext().applicationInfo.labelRes)
 
     /**
      * 获取当前应用程序的版本名。
      * @return 当前应用程序的版本名。
      */
     val appVersionName: String
-        get() = RootApplication.getContext().packageManager.getPackageInfo(appPackage, 0).versionName
+        get() = BaseApplication.getContext().packageManager.getPackageInfo(appPackage, 0).versionName
 
     /**
      * 获取当前应用程序的版本号。
@@ -68,9 +68,9 @@ object AppUtil {
      */
     val appVersionCode: Long
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            RootApplication.getContext().packageManager.getPackageInfo(appPackage, 0).longVersionCode
+            BaseApplication.getContext().packageManager.getPackageInfo(appPackage, 0).longVersionCode
         } else {
-            RootApplication.getContext().packageManager.getPackageInfo(appPackage, 0).versionCode.toLong()
+            BaseApplication.getContext().packageManager.getPackageInfo(appPackage, 0).versionCode.toLong()
         }
 
     /**
@@ -127,7 +127,7 @@ object AppUtil {
             val appChannel = getApplicationMetaData("APP_CHANNEL")
             /*if ("google" != appChannel || "samsung" != appChannel) {
                 try {
-                    deviceId = Settings.Secure.getString(RootApplication.getContext().contentResolver, Settings.Secure.ANDROID_ID)
+                    deviceId = Settings.Secure.getString(BaseApplication.getContext().contentResolver, Settings.Secure.ANDROID_ID)
                 } catch (e: Exception) {
                     logW(TAG, "get android_id with error", e)
                 }
@@ -160,7 +160,7 @@ object AppUtil {
      * @return 字符串资源id对应的字符串内容。
      */
     fun getString(resId: Int): String {
-        return RootApplication.getContext().resources.getString(resId)
+        return BaseApplication.getContext().resources.getString(resId)
     }
 
     /**
@@ -171,7 +171,7 @@ object AppUtil {
      * @return 字符串资源id对应的字符串内容。
      */
     fun getDimension(resId: Int): Int {
-        return RootApplication.getContext().resources.getDimensionPixelOffset(resId)
+        return BaseApplication.getContext().resources.getDimensionPixelOffset(resId)
     }
 
     /**
@@ -184,7 +184,7 @@ object AppUtil {
      * @return 指定资源名的资源id。
      */
     fun getResourceId(name: String, type: String): Int {
-        return RootApplication.getContext().resources.getIdentifier(name, type, appPackage)
+        return BaseApplication.getContext().resources.getIdentifier(name, type, appPackage)
     }
 
     /**
@@ -196,7 +196,7 @@ object AppUtil {
     fun getApplicationMetaData(key: String): String? {
         var applicationInfo: ApplicationInfo? = null
         try {
-            applicationInfo = RootApplication.getContext().packageManager.getApplicationInfo(
+            applicationInfo = BaseApplication.getContext().packageManager.getApplicationInfo(
                 appPackage, PackageManager.GET_META_DATA)
         } catch (e: PackageManager.NameNotFoundException) {
             logW(TAG, e.message, e)
@@ -213,7 +213,7 @@ object AppUtil {
      */
     fun isInstalled(packageName: String): Boolean {
         val packageInfo: PackageInfo? = try {
-            RootApplication.getContext().packageManager.getPackageInfo(packageName, 0)
+            BaseApplication.getContext().packageManager.getPackageInfo(packageName, 0)
         } catch (e: PackageManager.NameNotFoundException) {
             null
         }
@@ -224,7 +224,7 @@ object AppUtil {
      * 获取当前应用程序的图标。
      */
     fun getAppIcon(): Drawable {
-        val packageManager = RootApplication.getContext().packageManager
+        val packageManager = BaseApplication.getContext().packageManager
         val applicationInfo = packageManager.getApplicationInfo(appPackage, 0)
         return packageManager.getApplicationIcon(applicationInfo)
     }

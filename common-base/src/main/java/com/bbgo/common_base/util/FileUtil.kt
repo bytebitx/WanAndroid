@@ -2,7 +2,7 @@ package com.bbgo.common_base.util
 
 import android.os.Environment
 import android.os.Environment.MEDIA_MOUNTED
-import com.bbgo.common_base.RootApplication
+import com.bbgo.common_base.BaseApplication
 import com.orhanobut.logger.Logger
 import java.io.File
 
@@ -24,7 +24,7 @@ class FileUtil {
          * 内置存储卡的路径
          */
         fun getInternalStorePath(): String? {
-            return RootApplication.getContext().filesDir.absolutePath
+            return BaseApplication.getContext().filesDir.absolutePath
         }
 
         /**
@@ -43,7 +43,7 @@ class FileUtil {
          */
         fun getExternalStoreCachePath(): String? {
             return if (isExistExternalStore()) {
-                return RootApplication.getContext().externalCacheDir?.absolutePath
+                return BaseApplication.getContext().externalCacheDir?.absolutePath
             } else null
         }
 
@@ -51,7 +51,7 @@ class FileUtil {
          * 内置存储卡的路径
          */
         fun getInternalStoreCachePath(): String {
-            return RootApplication.getContext().cacheDir.absolutePath
+            return BaseApplication.getContext().cacheDir.absolutePath
         }
 
         /**
@@ -59,7 +59,7 @@ class FileUtil {
          */
         fun getStoreCachePath(): String? {
             return if (isExistExternalStore()) {
-                RootApplication.getContext().externalCacheDir?.absolutePath
+                BaseApplication.getContext().externalCacheDir?.absolutePath
             } else {
                 getInternalStoreCachePath()
             }
@@ -70,9 +70,9 @@ class FileUtil {
          */
         fun getFilePath(dir: String): String? {
             val filePath = if (isExistExternalStore()) {
-                RootApplication.getContext().getExternalFilesDir(dir)?.absolutePath
+                BaseApplication.getContext().getExternalFilesDir(dir)?.absolutePath
             } else {
-                RootApplication.getContext().filesDir.absolutePath + File.separator + dir
+                BaseApplication.getContext().filesDir.absolutePath + File.separator + dir
             }
             Logger.d("filePath=${filePath}")
             Logger.d("filePath2=${Environment.getExternalStorageDirectory().absolutePath}")

@@ -1,8 +1,8 @@
 package com.bbgo.common_base.util
 
 import android.graphics.Color
+import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.R
-import com.bbgo.common_base.RootApplication
 import com.bbgo.common_base.ext.Mmkv
 
 /**
@@ -30,7 +30,7 @@ object SettingUtil {
      * 获取主题颜色
      */
     fun getColor(): Int {
-        val defaultColor = RootApplication.getContext().resources.getColor(R.color.colorPrimary)
+        val defaultColor = BaseApplication.getContext().resources.getColor(R.color.colorPrimary)
         val color = Mmkv.getInt("color", defaultColor)
         return if (color != 0 && Color.alpha(color) != 255) {
             defaultColor

@@ -17,14 +17,14 @@
 
 package com.bbgo.common_base.ext
 
-import com.bbgo.common_base.RootApplication
+import com.bbgo.common_base.BaseApplication
 
 
 /**
  * 根据手机的分辨率将dp转成为px。
  */
 fun dp2px(dp: Float): Int {
-    val scale = RootApplication.getContext().resources.displayMetrics.density
+    val scale = BaseApplication.getContext().resources.displayMetrics.density
     return (dp * scale + 0.5f).toInt()
 }
 
@@ -32,7 +32,7 @@ fun dp2px(dp: Float): Int {
  * 根据手机的分辨率将px转成dp。
  */
 fun px2dp(px: Float): Int {
-    val scale = RootApplication.getContext().resources.displayMetrics.density
+    val scale = BaseApplication.getContext().resources.displayMetrics.density
     return (px / scale + 0.5f).toInt()
 }
 
@@ -40,19 +40,19 @@ fun px2dp(px: Float): Int {
  * 获取屏幕宽值。
  */
 val screenWidth
-    get() = RootApplication.getContext().resources.displayMetrics.widthPixels
+    get() = BaseApplication.getContext().resources.displayMetrics.widthPixels
 
 /**
  * 获取屏幕高值。
  */
 val screenHeight
-    get() = RootApplication.getContext().resources.displayMetrics.heightPixels
+    get() = BaseApplication.getContext().resources.displayMetrics.heightPixels
 
 /**
  * 获取屏幕像素：对获取的宽高进行拼接。例：1080X2340。
  */
 fun screenPixel(): String {
-    RootApplication.getContext().resources.displayMetrics.run {
+    BaseApplication.getContext().resources.displayMetrics.run {
         return "${widthPixels}X${heightPixels}"
     }
 }

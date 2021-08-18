@@ -6,13 +6,10 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import androidx.annotation.ColorInt
-import com.bbgo.common_base.RootApplication
+import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.notchlib.NotchScreenManager
 import com.bbgo.common_base.util.AppUtil
-import com.bbgo.common_base.util.ColorUtil
-import com.bbgo.common_base.util.StatusBarUtil
 import com.bbgo.wanandroid.databinding.ActivitySplashBinding
 import com.bbgo.wanandroid.main.MainActivity
 
@@ -27,8 +24,8 @@ class SplashActivity : BaseActivity() {
     private var alphaAnimation: AlphaAnimation?=null
 
     init {
-        textTypeface = Typeface.createFromAsset(RootApplication.getContext().assets, "fonts/Lobster-1.4.otf")
-        descTypeFace = Typeface.createFromAsset(RootApplication.getContext().assets, "fonts/FZLanTingHeiS-L-GB-Regular.TTF")
+        textTypeface = Typeface.createFromAsset(BaseApplication.getContext().assets, "fonts/Lobster-1.4.otf")
+        descTypeFace = Typeface.createFromAsset(BaseApplication.getContext().assets, "fonts/FZLanTingHeiS-L-GB-Regular.TTF")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

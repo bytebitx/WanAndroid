@@ -1,7 +1,7 @@
 package com.bbgo.module_sys.ui
 
 import androidx.recyclerview.widget.RecyclerView
-import com.bbgo.common_base.RootApplication
+import com.bbgo.common_base.BaseApplication
 import com.bbgo.module_sys.R
 import com.bbgo.module_sys.bean.NaviData
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -18,7 +18,7 @@ class RightNaviAdapter(listData: ArrayList<NaviData>) :
         holder.setText(R.id.navi_content_name, item.name)
 
         if (!item.articles.isNullOrEmpty()) {
-            val flexBoxLayoutManager = FlexboxLayoutManager(RootApplication.getContext())
+            val flexBoxLayoutManager = FlexboxLayoutManager(BaseApplication.getContext())
             flexBoxLayoutManager.flexWrap = FlexWrap.WRAP      //按正常方向换行
             flexBoxLayoutManager.flexDirection = FlexDirection.ROW   //主轴为水平方向，起点在左端
             flexBoxLayoutManager.alignItems = AlignItems.CENTER    //定义项目在副轴轴上如何对齐

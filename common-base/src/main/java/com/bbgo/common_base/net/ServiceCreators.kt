@@ -1,6 +1,6 @@
 package com.bbgo.common_base.net
 
-import com.bbgo.common_base.RootApplication
+import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.constants.HttpConstant
 import com.bbgo.common_base.net.interceptor.*
 import com.google.gson.GsonBuilder
@@ -20,7 +20,7 @@ object ServiceCreators {
     private const val BASE_URL = "https://wanandroid.com/"
 
     //设置 请求的缓存的大小跟位置
-    private val cacheFile = File(RootApplication.getContext().cacheDir, "cache")
+    private val cacheFile = File(BaseApplication.getContext().cacheDir, "cache")
     private val cache = Cache(cacheFile, HttpConstant.MAX_CACHE_SIZE)
 
     val httpClient = OkHttpClient.Builder()

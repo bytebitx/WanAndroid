@@ -11,7 +11,7 @@ import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.tencent.mmkv.MMKV
 
-class RootApplication : Application() {
+open class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -43,7 +43,7 @@ class RootApplication : Application() {
     }
 
     companion object {
-        private var context: RootApplication? = null
+        private var context: BaseApplication? = null
         fun getContext(): Context {
             return context!!
         }

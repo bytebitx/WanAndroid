@@ -1,7 +1,7 @@
 package com.bbgo.wanandroid.local
 
 import androidx.room.Room
-import com.bbgo.common_base.RootApplication
+import com.bbgo.common_base.BaseApplication
 
 /**
  *  author: wangyb
@@ -18,7 +18,7 @@ class DBUtil {
         fun getInstance(): AppDatabase {
             return db ?: synchronized(AppDatabase::class.java) {
                 val roomDB = Room.databaseBuilder(
-                    RootApplication.getContext().applicationContext,
+                    BaseApplication.getContext().applicationContext,
                     AppDatabase::class.java, "WanAndroid.db").build()
                 db = roomDB
                 roomDB
