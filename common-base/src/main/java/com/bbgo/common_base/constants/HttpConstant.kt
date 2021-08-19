@@ -1,6 +1,6 @@
 package com.bbgo.common_base.constants
 
-import com.bbgo.common_base.ext.Mmkv
+import com.bbgo.common_base.ext.Prefs
 
 
 /**
@@ -47,9 +47,9 @@ object HttpConstant {
 
     fun saveCookie(url: String?, domain: String?, cookies: String) {
         url ?: return
-        Mmkv.encode(url, cookies)
+        Prefs.putStringAsync(url, cookies)
         domain ?: return
-        Mmkv.encode(domain, cookies)
+        Prefs.putStringAsync(domain, cookies)
     }
 
 }

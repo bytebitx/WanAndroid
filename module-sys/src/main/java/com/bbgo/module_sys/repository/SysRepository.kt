@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.flowOn
 class SysRepository private constructor(private val remoteRepository: SysRemoteRepository, private val localRepository: SysLocalRepository) {
 
     companion object {
+        @Volatile
         private var repository: SysRepository? = null
 
         fun getInstance(remoteRepository: SysRemoteRepository, localRepository: SysLocalRepository): SysRepository {

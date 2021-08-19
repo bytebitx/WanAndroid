@@ -1,7 +1,7 @@
 package com.bbgo.module_login.repository
 
 import com.bbgo.common_base.constants.Constants
-import com.bbgo.common_base.ext.Mmkv
+import com.bbgo.common_base.ext.Prefs
 
 /**
  *  author: wangyb
@@ -12,10 +12,11 @@ class RegisterLoginLocalRepository private constructor(){
 
 
     fun insertLoginData(userName: String) {
-        Mmkv.encode(Constants.USER_NAME, userName)
+        Prefs.putString(Constants.USER_NAME, userName)
     }
 
     companion object {
+        @Volatile
         private var repository: RegisterLoginLocalRepository? = null
 
         fun getInstance(): RegisterLoginLocalRepository {

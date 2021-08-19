@@ -9,6 +9,7 @@ class SysLocalRepository private constructor(){
 
 
     companion object {
+        @Volatile
         private var repository: SysLocalRepository? = null
 
         fun getInstance(): SysLocalRepository {

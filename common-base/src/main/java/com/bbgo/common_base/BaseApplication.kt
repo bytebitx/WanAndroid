@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.constants.Constants
-import com.bbgo.common_base.ext.Mmkv
 import com.hjq.permissions.XXPermissions
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -17,7 +16,6 @@ open class BaseApplication : Application() {
         super.onCreate()
         context = this
         MMKV.initialize(this)
-        Mmkv = MMKV.defaultMMKV()!!
         initLogConfig()
         if (BuildConfig.DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog()     // 打印日志

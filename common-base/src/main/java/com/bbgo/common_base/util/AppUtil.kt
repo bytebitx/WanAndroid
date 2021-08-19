@@ -1,19 +1,3 @@
-/*
- * Copyright (C) guolin, Suzhou Quxiang Inc. Open source codes for study only.
- * Do not use for commercial purpose.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.bbgo.common_base.util
 
@@ -23,17 +7,18 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.provider.Settings
 import android.text.TextUtils
 import com.bbgo.common_base.BaseApplication
-import com.bbgo.common_base.ext.Mmkv
-import com.bbgo.common_base.ext.logD
+import com.bbgo.common_base.ext.Prefs
+import com.bbgo.common_base.ext.logE
 import com.bbgo.common_base.ext.logW
 import java.util.*
 
 /**
  * 应用程序全局的通用工具类，功能比较单一，经常被复用的功能，应该封装到此工具类当中，从而给全局代码提供方面的操作。
  *
- * @author guolin
+ * @author wangyb
  * @since 17/2/18
  */
 object AppUtil {
@@ -124,27 +109,30 @@ object AppUtil {
     fun getDeviceSerial(): String {
         if (deviceSerial == null) {
             var deviceId: String? = null
-            val appChannel = getApplicationMetaData("APP_CHANNEL")
-            /*if ("google" != appChannel || "samsung" != appChannel) {
-                try {
-                    deviceId = Settings.Secure.getString(BaseApplication.getContext().contentResolver, Settings.Secure.ANDROID_ID)
-                } catch (e: Exception) {
-                    logW(TAG, "get android_id with error", e)
+//            val appChannel = getApplicationMetaData("APP_CHANNEL")
+            kotlin.runCatching {
+                deviceId = Settings.Secure.getString(
+                    BaseApplication.getContext().contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+                deviceId?.let {
+                    if (it.length < 255) {
+                        deviceSerial = deviceId
+                        return deviceSerial.toString()
+                    }
                 }
-                if (!TextUtils.isEmpty(deviceId) && deviceId!!.length < 255) {
-                    deviceSerial = deviceId
-                    return deviceSerial.toString()
-                }
-            }*/
-            var uuid = Mmkv.getString("uuid", "")
-            logD("MMKV", Mmkv.toString())
-            /*if (!TextUtils.isEmpty(uuid)) {
+
+            }.onFailure {
+                logE(TAG, "get android_id with error", it)
+            }
+
+            var uuid = Prefs.getString("uuid", "")
+            if (uuid.isNotEmpty()) {
                 deviceSerial = uuid
                 return deviceSerial.toString()
-            }*/
-            uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase(Locale.getDefault())
-            Mmkv.putString("uuid", uuid)
-            logD("MMKV", Mmkv.toString())
+            }
+            uuid = UUID.randomUUID().toString().replace("-", "").uppercase(Locale.getDefault())
+            Prefs.putString("uuid", uuid)
             deviceSerial = uuid
             return deviceSerial.toString()
         } else {

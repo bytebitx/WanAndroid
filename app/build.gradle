@@ -100,4 +100,6 @@ dependencies {
     if (!Boolean.valueOf(rootProject.ext.module.isComposeModule)) {
         implementation project(":module-compose")
     }
+
+
 }

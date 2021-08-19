@@ -15,7 +15,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.Constants
-import com.bbgo.common_base.ext.Mmkv
+import com.bbgo.common_base.ext.Prefs
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
@@ -99,7 +99,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 navHeaderBinding.tvUserId.text = status.data?.userId.toString()
                 navHeaderBinding.tvUserGrade.text = status.data?.coinCount.toString()
                 navHeaderBinding.tvUserRank.text = status.data?.rank.toString()
-                navHeaderBinding.tvUsername.text = Mmkv.decodeString(Constants.USER_NAME)
+                navHeaderBinding.tvUsername.text = Prefs.getString(Constants.USER_NAME)
             }
         }
     }
@@ -158,14 +158,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     private fun setUserInfo() {
-        var userName = Mmkv.decodeString(Constants.USER_NAME)
-        if (userName.isNullOrEmpty()) {
+        var userName = Prefs.getString(Constants.USER_NAME)
+        if (userName.isEmpty()) {
             userName = getString(R.string.go_login)
         }
         navHeaderBinding.tvUsername.text = userName
 
         navHeaderBinding.root.setOnClickListener {
-            if (Mmkv.decodeString(Constants.USER_NAME).isNullOrEmpty()) {
+            if (userName.isEmpty()) {
                 ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
                 binding.drawerLayout.closeDrawers()
             }

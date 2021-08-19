@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 class SquareRepository private constructor(private val remoteRepository: SquareRemoteRepository, private val localRepository: SquareLocalRepository) {
 
     companion object {
+        @Volatile
         private var repository: SquareRepository? = null
 
         fun getInstance(remoteRepository: SquareRemoteRepository, localRepository: SquareLocalRepository): SquareRepository {

@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 class RegisterLoginRepository private constructor(private val remoteRepository: RegisterLoginRemoteRepository, private val localRepository: RegisterLoginLocalRepository) {
 
     companion object {
+        @Volatile
         private var repository: RegisterLoginRepository? = null
 
         fun getInstance(remoteRepository: RegisterLoginRemoteRepository, localRepository: RegisterLoginLocalRepository): RegisterLoginRepository {

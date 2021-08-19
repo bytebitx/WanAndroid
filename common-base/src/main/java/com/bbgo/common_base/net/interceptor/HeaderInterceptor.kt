@@ -1,7 +1,7 @@
 package com.bbgo.common_base.net.interceptor
 
 import com.bbgo.common_base.constants.HttpConstant
-import com.bbgo.common_base.ext.Mmkv
+import com.bbgo.common_base.ext.Prefs
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.util.*
@@ -32,8 +32,8 @@ class HeaderInterceptor : Interceptor {
                         || url.contains(HttpConstant.ARTICLE_WEBSITE)
                         || url.contains(HttpConstant.TODO_WEBSITE)
                         || url.contains(HttpConstant.COIN_WEBSITE))) {
-            val spDomain: String? = Mmkv.decodeString(domain, "")
-            val cookie: String = if (!spDomain.isNullOrEmpty()) spDomain else ""
+            val spDomain: String = Prefs.getString(domain, "")
+            val cookie: String = if (spDomain.isNotEmpty()) spDomain else ""
             if (cookie.isNotEmpty()) {
                 // 将 Cookie 添加到请求头
                 builder.addHeader(HttpConstant.COOKIE_NAME, cookie)

@@ -9,6 +9,7 @@ package com.bbgo.module_home.repository
 class HomeLocalRepository private constructor(){
 
     companion object {
+        @Volatile
         private var repository: HomeLocalRepository? = null
 
         fun getInstance(): HomeLocalRepository {

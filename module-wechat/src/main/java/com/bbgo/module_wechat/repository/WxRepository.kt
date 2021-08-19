@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 class WxRepository private constructor(private val remoteRepository: WxRemoteRepository, private val localRepository: WxLocalRepository) {
 
     companion object {
+        @Volatile
         private var repository: WxRepository? = null
 
         fun getInstance(remoteRepository: WxRemoteRepository, localRepository: WxLocalRepository): WxRepository {

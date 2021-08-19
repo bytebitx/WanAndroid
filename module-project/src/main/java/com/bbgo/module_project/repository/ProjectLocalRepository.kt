@@ -10,6 +10,7 @@ class ProjectLocalRepository private constructor(){
 
 
     companion object {
+        @Volatile
         private var repository: ProjectLocalRepository? = null
 
         fun getInstance(): ProjectLocalRepository {

@@ -10,6 +10,7 @@ class SquareLocalRepository private constructor(){
 
 
     companion object {
+        @Volatile
         private var repository: SquareLocalRepository? = null
 
         fun getInstance(): SquareLocalRepository {
