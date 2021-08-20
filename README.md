@@ -15,7 +15,11 @@
 ## 项目说明
 在整个项目中，将每个tab做成一个module，让你快速上手组件化知识。
 那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。
-实际项目中需要根据业务去拆分module，该项目主要是学习如何将项目拆分module。
+该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。
+
+网络请求框架使用：Retrofit2 + 协程Coroutines + Flow技术搭建，因此每个模块都有涉及
+
+Room的学习主要参考 module-square模块
 
 module-compose模块使用的是compose开发的界面，主要用来学习compose
 
