@@ -1,7 +1,5 @@
 package com.bbgo.wanandroid.repository
 
-import com.bbgo.common_base.bean.BaseBean
-import com.bbgo.module_login.bean.LoginRegisterResponse
 import com.bbgo.wanandroid.bean.UserInfoBean
 import com.bbgo.wanandroid.network.HttpService
 import kotlinx.coroutines.Dispatchers

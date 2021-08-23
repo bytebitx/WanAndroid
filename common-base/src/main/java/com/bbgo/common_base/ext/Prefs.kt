@@ -65,4 +65,8 @@ object Prefs {
     fun getBoolean(key: String, defaultValue: Boolean = false): Boolean {
         return mmkv.decodeBool(key, defaultValue)
     }
+
+    fun clear() {
+        mmkv.clear().apply()
+    }
 }

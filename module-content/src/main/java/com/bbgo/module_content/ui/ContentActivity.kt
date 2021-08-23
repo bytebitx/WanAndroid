@@ -17,8 +17,9 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.constants.Constants
-import com.bbgo.common_base.ext.Mmkv
+import com.bbgo.common_base.ext.Prefs
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_content.R
@@ -38,7 +39,6 @@ class ContentActivity : BaseActivity(){
     private var shareTitle: String = "Android 面试黑洞&mdash;&mdash;当我按下 Home 键再切回来，会发生什么？"
     private var shareUrl: String = "https://www.bilibili.com/video/BV1CA41177Se"
     private var shareId: Int = -1
-    private var isLogin = false
     private var position: Int = -1
 
 
@@ -90,8 +90,6 @@ class ContentActivity : BaseActivity(){
         }
 
         initWebView()
-
-        isLogin = !Mmkv.decodeString(Constants.USER_NAME).isNullOrEmpty()
 
     }
 
@@ -162,7 +160,7 @@ class ContentActivity : BaseActivity(){
                 return true
             }
             R.id.action_like -> {
-                if (isLogin) {
+                if (AppUtil.isLogin) {
                     if (shareId == -1) return true
                     collectService.collect(position, shareId)
                 } else {

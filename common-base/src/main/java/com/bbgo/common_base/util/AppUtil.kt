@@ -10,6 +10,7 @@ import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
 import com.bbgo.common_base.BaseApplication
+import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Prefs
 import com.bbgo.common_base.ext.logE
 import com.bbgo.common_base.ext.logW
@@ -231,4 +232,6 @@ object AppUtil {
      * 判断手机是否安装了微博。
      * */
     fun isWeiboInstalled() = isInstalled("com.sina.weibo")
+
+    var isLogin = false
 }

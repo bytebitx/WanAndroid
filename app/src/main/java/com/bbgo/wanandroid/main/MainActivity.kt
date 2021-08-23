@@ -3,10 +3,12 @@ package com.bbgo.wanandroid.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Autowired
@@ -15,11 +17,10 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.Constants
-import com.bbgo.common_base.ext.Prefs
-import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.observe
-import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.*
+import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.DialogUtil
+import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_service.login.LoginOutService
 import com.bbgo.wanandroid.R
 import com.bbgo.wanandroid.bean.UserInfo
@@ -82,6 +83,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun observeViewModel() {
         mainViewModel.getUserInfo()
         observe(mainViewModel.userInfoLiveData, ::handleUserInfo)
+        observe(mainViewModel.logOutLiveData, ::handleLogOut)
     }
 
     private fun handleUserInfo(status: Resource<UserInfo>) {
@@ -91,7 +93,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             is Resource.DataError -> {
                 mDialog.dismiss()
-                status.errorMsg?.let { showToast(it) }
+                binding.navView.menu.findItem(R.id.nav_logout).title = getString(R.string.login)
             }
             else -> {
                 mDialog.dismiss()
@@ -100,6 +102,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 navHeaderBinding.tvUserGrade.text = status.data?.coinCount.toString()
                 navHeaderBinding.tvUserRank.text = status.data?.rank.toString()
                 navHeaderBinding.tvUsername.text = Prefs.getString(Constants.USER_NAME)
+                binding.navView.menu.findItem(R.id.nav_logout).title = getString(R.string.nav_logout)
+                AppUtil.isLogin = true
             }
         }
     }
@@ -120,6 +124,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 navHeaderBinding.userIdLayout.visibility = View.GONE
                 navHeaderBinding.tvUserGrade.text = getString(R.string.nav_line_2)
                 navHeaderBinding.tvUserRank.text = getString(R.string.nav_line_2)
+
+                Prefs.clear()
+                binding.navView.menu.findItem(R.id.nav_logout).title = getString(R.string.login)
+                AppUtil.isLogin = false
             }
         }
     }
@@ -154,6 +162,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding.navView.setNavigationItemSelectedListener(this)
 
         setUserInfo()
+
+        navHeaderBinding.root.setOnClickListener {
+            if (AppUtil.isLogin) {
+                return@setOnClickListener
+            }
+            ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+        }
 
     }
 
@@ -254,44 +269,59 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val transaction = supportFragmentManager.beginTransaction()
         when(item.itemId) {
-            R.id.nav_score -> {
-//                val intent = Intent(this, GankActivity::class.java)
-//                startActivity(intent)
-            }
             R.id.nav_collect -> {
                 ARouter.getInstance().build(Constants.NAVIGATION_TO_COLLECT)
                     .navigation()
             }
-            R.id.nav_share -> {
-//                val intent = Intent(this, WanAndroidActivity::class.java)
-//                startActivity(intent)
-            }
-            R.id.nav_todo -> {
-//                val intent = Intent(this, DoubanActivity::class.java)
-//                startActivity(intent)
-            }
-            R.id.nav_setting -> {
-//                homeFragment?.let { transaction.show(it) } ?: HomeFragment.getInstance().let {
-//                    homeFragment = it
-//                    transaction.add(R.id.container, it, null)
-//                }
+            R.id.nav_night_mode -> {
+                if (SettingUtil.getIsNightMode()) {
+                    SettingUtil.setIsNightMode(false)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                } else {
+                    SettingUtil.setIsNightMode(true)
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                window.setWindowAnimations(R.style.WindowAnimationFadeInOut)
+                recreate()
             }
             R.id.nav_logout -> {
-                lifecycleScope.launch {
-                    loginOutService.logOut()
-                        .catch {
-
-                        }
-                        .collectLatest {
-                            handleLogOut(Resource.Success(it))
-                        }
+                if (AppUtil.isLogin) {
+                    mainViewModel.logOut(loginOutService)
+                } else {
+                    ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+                    binding.drawerLayout.closeDrawers()
                 }
-//                registerLoginViewModel.logOut()
+
             }
         }
         binding.drawerLayout.closeDrawers()
         transaction.commitAllowingStateLoss()
         return false
+    }
+
+    override fun recreate() {
+        kotlin.runCatching {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            homeFragment?.let {
+                fragmentTransaction.remove(it)
+            }
+            squareFragment?.let {
+                fragmentTransaction.remove(it)
+            }
+            sysFragment?.let {
+                fragmentTransaction.remove(it)
+            }
+            projectFragment?.let {
+                fragmentTransaction.remove(it)
+            }
+            weChatFragment?.let {
+                fragmentTransaction.remove(it)
+            }
+            fragmentTransaction.commitAllowingStateLoss()
+        }.onFailure {
+            it.printStackTrace()
+        }
+        super.recreate()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -19,8 +19,6 @@
 
 网络请求框架使用：Retrofit2 + 协程Coroutines + Flow技术搭建，因此每个模块都有涉及
 
-Room的学习主要参考 module-square模块
-
 module-compose模块使用的是compose开发的界面，主要用来学习compose
 
 ## Arouter使用
