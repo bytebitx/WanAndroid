@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
  */
 class CollectViewModel(private val repository: CollectRepository) : ViewModel() {
 
-    fun collectArticle(position: Int, id: Int) {
+    fun collectArticle(indexPage: Int, position: Int, id: Int) {
         viewModelScope.launch {
             repository.collectArticle(id)
                 .catch {
@@ -30,18 +30,18 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                 }
                 .collectLatest {
                     val event = if (it.errorCode == USER_NOT_LOGIN) {
-                        MessageEvent(UNKNOWN, position, id)
+                        MessageEvent(indexPage, UNKNOWN, position, id)
                     } else {
                         it.positon = position
                         it.type = COLLECT
-                        MessageEvent(COLLECT, position, id)
+                        MessageEvent(indexPage, COLLECT, position, id)
                     }
                     LiveDataBus.get().with(BusKey.COLLECT).value = event
                 }
         }
     }
 
-    fun unCollectArticle(position: Int, id: Int) {
+    fun unCollectArticle(indexPage: Int, position: Int, id: Int) {
         viewModelScope.launch {
             repository.unCollectArticle(id)
                 .catch {
@@ -49,11 +49,11 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                 }
                 .collectLatest {
                     val event = if (it.errorCode == USER_NOT_LOGIN) {
-                        MessageEvent(UNKNOWN, position, id)
+                        MessageEvent(indexPage, UNKNOWN, position, id)
                     } else {
                         it.positon = position
                         it.type = UNCOLLECT
-                        MessageEvent(UNCOLLECT, position, id)
+                        MessageEvent(indexPage, UNCOLLECT, position, id)
                     }
                     LiveDataBus.get().with(BusKey.COLLECT).value = event
                 }

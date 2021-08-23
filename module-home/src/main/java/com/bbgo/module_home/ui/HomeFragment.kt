@@ -19,6 +19,7 @@ import com.bbgo.common_base.bus.BusKey
 import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.event.MessageEvent
+import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
@@ -151,10 +152,18 @@ class HomeFragment : BaseFragment() {
                 if (view.id == R.id.iv_like) {
                     val article = articleList[position]
                     if (article.collect) {
-                        collectService.unCollect(position, articleList[position].id)
+                        collectService.unCollect(
+                            Constants.FRAGMENT_INDEX.HOME_INDEX,
+                            position,
+                            articleList[position].id
+                        )
                         return@setOnItemChildClickListener
                     }
-                    collectService.collect(position, articleList[position].id)
+                    collectService.collect(
+                        Constants.FRAGMENT_INDEX.HOME_INDEX,
+                        position,
+                        articleList[position].id
+                    )
                 }
             }
         }
@@ -165,7 +174,14 @@ class HomeFragment : BaseFragment() {
      */
     private fun initBus() {
         LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
-            handleCollect(it)
+            if (it.indexPage == Constants.FRAGMENT_INDEX.HOME_INDEX) {
+                handleCollect(it)
+            }
+        }
+        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
+            if (it.index == 0) {
+                scrollToTop()
+            }
         }
     }
 
@@ -245,6 +261,16 @@ class HomeFragment : BaseFragment() {
                 articleList[event.position].collect = false
                 homeAdapter.setList(articleList)
                 showToast(getString(R.string.cancel_collect_success))
+            }
+        }
+    }
+
+    private fun scrollToTop() {
+        binding.recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
             }
         }
     }

@@ -95,4 +95,12 @@ object Constants {
         const val UNCOLLECT = "UNCOLLECT"
         const val UNKNOWN = "UNKNOWN"
     }
+
+    object FRAGMENT_INDEX {
+        const val HOME_INDEX = 0
+        const val WECHAT_INDEX = 1
+        const val SYS_INDEX = 2
+        const val SQUARE_INDEX = 3
+        const val PROJECT_INDEX = 4
+    }
 }

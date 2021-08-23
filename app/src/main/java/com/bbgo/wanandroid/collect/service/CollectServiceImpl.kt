@@ -1,10 +1,8 @@
 package com.bbgo.wanandroid.collect.service
 
-import android.annotation.SuppressLint
 import android.content.Context
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.constants.Constants
-import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.wanandroid.collect.repository.CollectRepository
 import com.bbgo.wanandroid.collect.viewmodel.CollectViewModel
@@ -19,12 +17,12 @@ class CollectServiceImpl : CollectService{
 
     private val viewModel by lazy { CollectViewModel(CollectRepository.getInstance()) }
 
-    override fun collect(position: Int,pageId: Int) {
-        viewModel.collectArticle(position, pageId)
+    override fun collect(indexPage: Int, position: Int,pageId: Int) {
+        viewModel.collectArticle(indexPage, position, pageId)
     }
 
-    override fun unCollect(position: Int,pageId: Int) {
-        viewModel.unCollectArticle(position, pageId)
+    override fun unCollect(indexPage: Int, position: Int,pageId: Int) {
+        viewModel.unCollectArticle(indexPage, position, pageId)
 //        viewModelScope.launch {
 //            CollectRepository.getInstance().unCollectArticle(pageId)
 //                .catch {

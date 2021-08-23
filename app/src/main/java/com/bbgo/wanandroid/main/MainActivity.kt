@@ -16,7 +16,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.base.BaseFragment
+import com.bbgo.common_base.bus.BusKey
+import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.*
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.DialogUtil
@@ -141,15 +144,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_home ->
-                    switchFragment(0)
+                    switchFragment(Constants.FRAGMENT_INDEX.HOME_INDEX)
                 R.id.action_wechat ->
-                    switchFragment(1)
+                    switchFragment(Constants.FRAGMENT_INDEX.WECHAT_INDEX)
                 R.id.action_system ->
-                    switchFragment(2)
+                    switchFragment(Constants.FRAGMENT_INDEX.SYS_INDEX)
                 R.id.action_square ->
-                    switchFragment(3)
+                    switchFragment(Constants.FRAGMENT_INDEX.SQUARE_INDEX)
                 R.id.action_project ->
-                    switchFragment(4)
+                    switchFragment(Constants.FRAGMENT_INDEX.PROJECT_INDEX)
             }
             true
         }
@@ -169,6 +172,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
         }
+
+        binding.floatingBtn.setOnClickListener(onFABClickListener)
 
     }
 
@@ -191,7 +196,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val transaction = supportFragmentManager.beginTransaction()
         hideFragment(transaction)
         when(position) {
-            0 ->
+            Constants.FRAGMENT_INDEX.HOME_INDEX ->
                 homeFragment?.let {
                     transaction.show(it)
                 } ?: kotlin.run {
@@ -204,7 +209,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             }
                         }
                 }
-            1 ->
+            Constants.FRAGMENT_INDEX.WECHAT_INDEX ->
                 weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
                     ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
                         ?.let {
@@ -217,7 +222,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         }
                 }
 
-            2 ->
+            Constants.FRAGMENT_INDEX.SYS_INDEX ->
                 sysFragment?.let { transaction.show(it) } ?: kotlin.run {
                     ARouter.getInstance().build(Constants.NAVIGATION_TO_SYS_FRG).navigation()
                         ?.let {
@@ -229,7 +234,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             }
                         }
                 }
-            3 ->
+            Constants.FRAGMENT_INDEX.SQUARE_INDEX ->
                 squareFragment?.let { transaction.show(it) } ?: kotlin.run {
                     ARouter.getInstance().build(Constants.NAVIGATION_TO_SQUARE_FRG).navigation()
                         ?.let {
@@ -241,7 +246,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             }
                         }
                 }
-            4 ->
+            Constants.FRAGMENT_INDEX.PROJECT_INDEX ->
                 projectFragment?.let { transaction.show(it) } ?: kotlin.run {
                     ARouter.getInstance().build(Constants.NAVIGATION_TO_PROJECT_FRG).navigation()
                         ?.let {
@@ -322,6 +327,29 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             it.printStackTrace()
         }
         super.recreate()
+    }
+
+    /**
+     * FAB 监听
+     */
+    private val onFABClickListener = View.OnClickListener {
+        when (mIndex) {
+            Constants.FRAGMENT_INDEX.HOME_INDEX -> {
+                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(0)
+            }
+            Constants.FRAGMENT_INDEX.WECHAT_INDEX -> {
+                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(1)
+            }
+            Constants.FRAGMENT_INDEX.SYS_INDEX -> {
+                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(2)
+            }
+            Constants.FRAGMENT_INDEX.SQUARE_INDEX -> {
+                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(3)
+            }
+            Constants.FRAGMENT_INDEX.PROJECT_INDEX -> {
+                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(4)
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

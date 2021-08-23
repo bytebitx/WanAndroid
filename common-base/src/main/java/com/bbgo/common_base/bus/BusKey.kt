@@ -8,5 +8,6 @@ package com.bbgo.common_base.bus
 class BusKey {
     companion object {
         const val COLLECT = "COLLECT"
+        const val SCROLL_TOP = "SCROLL_TOP"
     }
 }

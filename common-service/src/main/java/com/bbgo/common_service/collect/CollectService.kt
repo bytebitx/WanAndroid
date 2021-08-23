@@ -8,6 +8,6 @@ import com.alibaba.android.arouter.facade.template.IProvider
  *  description: todo
  */
 interface CollectService : IProvider {
-    fun collect (position: Int, pageId: Int)
-    fun unCollect (position: Int,pageId: Int)
+    fun collect (indexPage: Int, position: Int, pageId: Int)
+    fun unCollect (indexPage: Int, position: Int,pageId: Int)
 }

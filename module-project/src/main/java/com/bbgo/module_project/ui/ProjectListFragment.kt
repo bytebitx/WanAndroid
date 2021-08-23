@@ -8,13 +8,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseFragment
+import com.bbgo.common_base.bus.BusKey
+import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.event.MessageEvent
+import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.observe
+import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.widget.SpaceItemDecoration
+import com.bbgo.common_service.collect.CollectService
+import com.bbgo.module_project.R
 import com.bbgo.module_project.bean.ArticleDetail
 import com.bbgo.module_project.databinding.FragmentProjectListBinding
 import com.bbgo.module_project.util.InjectorUtil
@@ -37,6 +45,10 @@ class ProjectListFragment : BaseFragment() {
 
     private var _binding: FragmentProjectListBinding? = null
     private val binding get() = _binding!!
+
+    @Autowired
+    lateinit var collectService: CollectService
+
     private lateinit var projectViewModel: ProjectViewModel
 
     /**
@@ -81,6 +93,7 @@ class ProjectListFragment : BaseFragment() {
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        binding.swipeRefreshLayout.isRefreshing = false
         isRefresh = true
     }
 
@@ -95,6 +108,8 @@ class ProjectListFragment : BaseFragment() {
 
 
     override fun initView() {
+        ARouter.getInstance().inject(this)
+
         cid = arguments?.getInt(Constants.CONTENT_CID_KEY) ?: 0
         binding.swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
         binding.recyclerView.run {
@@ -115,6 +130,55 @@ class ProjectListFragment : BaseFragment() {
                 .withString(Constants.CONTENT_TITLE_KEY, article.title)
                 .withString(Constants.CONTENT_URL_KEY, article.link)
                 .navigation()
+        }
+
+        mAdapter.run {
+            setOnItemClickListener { adapter, view, position ->
+                val article = articleList[position]
+                ARouter.getInstance().build(Constants.NAVIGATION_TO_CONTENT)
+                    .withString(Constants.POSITION, position.toString())
+                    .withString(Constants.CONTENT_ID_KEY, article.id.toString())
+                    .withString(Constants.CONTENT_TITLE_KEY, article.title)
+                    .withString(Constants.CONTENT_URL_KEY, article.link)
+                    .navigation()
+            }
+            addChildClickViewIds(R.id.iv_like)
+            setOnItemChildClickListener { adapter, view, position ->
+                if (view.id == R.id.iv_like) {
+                    val article = articleList[position]
+                    if (article.collect) {
+                        collectService.unCollect(
+                            Constants.FRAGMENT_INDEX.PROJECT_INDEX,
+                            position,
+                            articleList[position].id
+                        )
+                        return@setOnItemChildClickListener
+                    }
+                    collectService.collect(
+                        Constants.FRAGMENT_INDEX.PROJECT_INDEX,
+                        position,
+                        articleList[position].id
+                    )
+                }
+            }
+        }
+
+        initBus()
+    }
+
+    /**
+     * 初始化事件总线，和eventbus效果相同
+     */
+    private fun initBus() {
+        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
+            if (it.indexPage == Constants.FRAGMENT_INDEX.PROJECT_INDEX) {
+                handleCollect(it)
+            }
+        }
+        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
+            if (it.index == 4) {
+                scrollToTop()
+            }
         }
     }
 
@@ -144,6 +208,38 @@ class ProjectListFragment : BaseFragment() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun handleCollect(event: MessageEvent) {
+        when (event.type) {
+            Constants.CollectType.UNKNOWN -> {
+                ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+            }
+            else -> {
+                if (articleList.isEmpty()) {
+                    return
+                }
+                if (event.type == Constants.CollectType.COLLECT) {
+                    showToast(getString(R.string.collect_success))
+                    articleList[event.position].collect = true
+                    mAdapter.setList(articleList)
+                    return
+                }
+                articleList[event.position].collect = false
+                mAdapter.setList(articleList)
+                showToast(getString(R.string.cancel_collect_success))
+            }
+        }
+    }
+
+    private fun scrollToTop() {
+        binding.recyclerView.run {
+            if (linearLayoutManager.findFirstVisibleItemPosition() > 20) {
+                scrollToPosition(0)
+            } else {
+                smoothScrollToPosition(0)
             }
         }
     }
