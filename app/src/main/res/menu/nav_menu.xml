@@ -30,10 +30,10 @@
             android:icon="@drawable/ic_night_24dp"
             android:title="@string/nav_night_mode" />
 
-        <!--<item
+        <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_setting_24dp"
-            android:title="@string/nav_setting" />-->
+            android:title="@string/nav_setting" />
 
         <item
             android:id="@+id/nav_logout"

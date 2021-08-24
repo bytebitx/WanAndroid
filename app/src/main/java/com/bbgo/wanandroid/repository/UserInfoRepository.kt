@@ -1,5 +1,7 @@
 package com.bbgo.wanandroid.repository
 
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.wanandroid.bean.UserInfo
 import com.bbgo.wanandroid.bean.UserInfoBean
 import com.bbgo.wanandroid.network.HttpService
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +32,7 @@ class UserInfoRepository private constructor() {
         }
     }
 
-    suspend fun getUserInfo() : Flow<UserInfoBean> {
+    suspend fun getUserInfo() : Flow<HttpResult<UserInfo>> {
         return flow {
             emit(HttpService.service.getUserInfo())
         }.flowOn(Dispatchers.IO)

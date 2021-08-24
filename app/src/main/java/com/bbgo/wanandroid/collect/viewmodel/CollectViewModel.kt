@@ -32,8 +32,8 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                     val event = if (it.errorCode == USER_NOT_LOGIN) {
                         MessageEvent(indexPage, UNKNOWN, position, id)
                     } else {
-                        it.positon = position
-                        it.type = COLLECT
+                        it.data.positon = position
+                        it.data.type = COLLECT
                         MessageEvent(indexPage, COLLECT, position, id)
                     }
                     LiveDataBus.get().with(BusKey.COLLECT).value = event
@@ -51,8 +51,8 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                     val event = if (it.errorCode == USER_NOT_LOGIN) {
                         MessageEvent(indexPage, UNKNOWN, position, id)
                     } else {
-                        it.positon = position
-                        it.type = UNCOLLECT
+                        it.data.positon = position
+                        it.data.type = UNCOLLECT
                         MessageEvent(indexPage, UNCOLLECT, position, id)
                     }
                     LiveDataBus.get().with(BusKey.COLLECT).value = event

@@ -1,7 +1,8 @@
 package com.bbgo.module_project.net.api
 
-import com.bbgo.module_project.bean.Articles
-import com.bbgo.module_project.bean.ProjectTree
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_project.bean.ArticleData
+import com.bbgo.module_project.bean.ProjectBean
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,7 +19,7 @@ interface HttpProjectApiService {
      * http://www.wanandroid.com/project/tree/json
      */
     @GET("project/tree/json")
-    suspend fun getProjectTree(): ProjectTree
+    suspend fun getProjectTree(): HttpResult<List<ProjectBean>>
 
     /**
      * 项目列表数据
@@ -27,6 +28,6 @@ interface HttpProjectApiService {
      * @param cid
      */
     @GET("project/list/{page}/json")
-    suspend fun getProjectList(@Path("page") page: Int, @Query("cid") cid: Int): Articles
+    suspend fun getProjectList(@Path("page") page: Int, @Query("cid") cid: Int): HttpResult<ArticleData>
 
 }

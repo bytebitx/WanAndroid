@@ -1,11 +1,5 @@
 package com.bbgo.module_wechat.bean
 
-data class Articles(
-    val `data`: ArticleData,
-    val errorCode: Int,
-    val errorMsg: String
-)
-
 data class ArticleData(
         val curPage: Int,
         val datas: MutableList<ArticleDetail>,
@@ -14,24 +8,6 @@ data class ArticleData(
         val pageCount: Int,
         val size: Int,
         val total: Int
-)
-
-data class TopArticles(
-        val `data`: List<ArticleDetail>,
-        val errorCode: Int,
-        val errorMsg: String
-)
-
-data class NaviResponse(
-        val `data`: List<NaviData>,
-        val errorCode: Int,
-        val errorMsg: String
-)
-
-data class NaviData(
-        val articles: List<ArticleDetail>,
-        val cid: Int,
-        val name: String
 )
 
 
@@ -75,4 +51,14 @@ data class ArticleDetail(
 data class Tag(
         val name: String,
         val url: String
+)
+
+data class WXArticle (
+        val courseId: Int,
+        val id: Int,
+        val name: String,
+        val order: Int,
+        val parentChapterId: Int,
+        val userControlSetTop: Boolean,
+        val visible: Int
 )

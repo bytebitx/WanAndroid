@@ -1,6 +1,9 @@
 package com.bbgo.module_sys.repository
 
-import com.bbgo.module_sys.bean.*
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_sys.bean.ArticleData
+import com.bbgo.module_sys.bean.KnowledgeTree
+import com.bbgo.module_sys.bean.NaviData
 import com.bbgo.module_sys.net.HttpSysService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

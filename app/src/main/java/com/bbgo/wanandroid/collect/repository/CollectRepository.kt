@@ -1,5 +1,6 @@
 package com.bbgo.wanandroid.collect.repository
 
+import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.wanandroid.bean.CollectBean
 import com.bbgo.wanandroid.network.HttpService
 import kotlinx.coroutines.Dispatchers
@@ -29,13 +30,13 @@ class CollectRepository private constructor() {
         }
     }
 
-    suspend fun collectArticle(id: Int) : Flow<CollectBean> {
+    suspend fun collectArticle(id: Int) : Flow<HttpResult<CollectBean>> {
         return flow {
             emit(HttpService.service.addCollectArticle(id))
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun unCollectArticle(id: Int) : Flow<CollectBean> {
+    suspend fun unCollectArticle(id: Int) : Flow<HttpResult<CollectBean>> {
         return flow {
             emit(HttpService.service.cancelCollectArticle(id))
         }.flowOn(Dispatchers.IO)

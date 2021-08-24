@@ -1,10 +1,5 @@
 package com.bbgo.module_project.bean
 
-data class ProjectTree(
-    val `data`: List<ProjectBean>,
-    val errorCode: Int,
-    val errorMsg: String
-    )
 
 data class ProjectBean(
     val children: List<Any>,
@@ -15,12 +10,6 @@ data class ProjectBean(
     val parentChapterId: Int,
     val userControlSetTop: Boolean,
     val visible: Int
-)
-
-data class Articles(
-    val `data`: ArticleData,
-    val errorCode: Int,
-    val errorMsg: String
 )
 
 data class ArticleData(

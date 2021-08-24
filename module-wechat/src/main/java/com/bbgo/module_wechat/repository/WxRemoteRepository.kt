@@ -1,7 +1,8 @@
 package com.bbgo.module_wechat.repository
 
-import com.bbgo.module_wechat.bean.Articles
-import com.bbgo.module_wechat.bean.WXArticles
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_wechat.bean.ArticleData
+import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.net.HttpWeChatService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,19 +16,19 @@ import kotlinx.coroutines.flow.flowOn
  */
 class WxRemoteRepository private constructor(){
 
-    suspend fun getWXChapters() : Flow<WXArticles> {
+    suspend fun getWXChapters() : Flow<HttpResult<List<WXArticle>>> {
         return flow {
             emit(HttpWeChatService.service.getWXChapters())
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getWXArticles(id: Int, page: Int) : Flow<Articles> {
+    suspend fun getWXArticles(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return flow {
             emit(HttpWeChatService.service.getWXArticles(id, page))
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getKnowledgeList(id: Int, page: Int) : Flow<Articles> {
+    suspend fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return flow {
             emit(HttpWeChatService.service.getKnowledgeList(id, page))
         }.flowOn(Dispatchers.IO)

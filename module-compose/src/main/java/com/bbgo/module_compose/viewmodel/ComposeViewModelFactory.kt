@@ -2,7 +2,7 @@ package com.bbgo.module_compose.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bbgo.module_compose.repository.HomeRepository
+import com.bbgo.module_compose.repository.ComposeRepository
 
 /**
  *  author: wangyb
@@ -10,7 +10,7 @@ import com.bbgo.module_compose.repository.HomeRepository
  *  description: todo
  */
 
-class ComposeViewModelFactory(private val repository: HomeRepository) : ViewModelProvider.NewInstanceFactory() {
+class ComposeViewModelFactory(private val repository: ComposeRepository) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

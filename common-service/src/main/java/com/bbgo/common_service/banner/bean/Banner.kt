@@ -3,11 +3,6 @@ package com.bbgo.common_service.banner.bean
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-data class BannerResponse (
-    val `data`: List<Banner>,
-    val errorCode: Int = 0,
-    val errorMsg: String = "",
-)
 
 @Entity
 data class Banner(

@@ -1,6 +1,7 @@
 package com.bbgo.wanandroid.main
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
@@ -288,6 +289,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
                 window.setWindowAnimations(R.style.WindowAnimationFadeInOut)
                 recreate()
+            }
+            R.id.nav_setting -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    AppUtil.requestIgnoreBatteryOptimizations(this)
+                }
             }
             R.id.nav_logout -> {
                 if (AppUtil.isLogin) {

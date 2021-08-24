@@ -5,13 +5,6 @@ package com.bbgo.module_login.bean
  *  date: 2021/5/21 10:26 上午
  *  description: todo
  */
-
-data class LoginRegisterResponse (
-    val `data`: LoginData,
-    val errorCode: Int = 0,
-    val errorMsg: String = "",
-)
-
 data class LoginData(
     val chapterTops: MutableList<String>,
     val collectIds: MutableList<String>,

@@ -1,6 +1,7 @@
 package com.bbgo.module_square.repository
 
-import com.bbgo.module_square.bean.Articles
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_square.bean.ArticleData
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -27,7 +28,7 @@ class SquareRepository private constructor(private val remoteRepository: SquareR
     }
 
 
-    suspend fun getSquareList(pageNum: Int) : Flow<Articles> {
+    suspend fun getSquareList(pageNum: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getSquareList(pageNum)
     }
 

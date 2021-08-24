@@ -2,6 +2,7 @@
 package com.bbgo.common_base.util
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -15,6 +16,34 @@ import com.bbgo.common_base.ext.Prefs
 import com.bbgo.common_base.ext.logE
 import com.bbgo.common_base.ext.logW
 import java.util.*
+import androidx.core.content.ContextCompat.getSystemService
+
+import android.os.PowerManager
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
+
+import android.content.Intent
+import android.net.Uri
+import java.lang.Exception
+import androidx.core.content.ContextCompat.startActivity
+
+import android.content.ComponentName
+import androidx.annotation.NonNull
+import android.R
+import com.bbgo.common_base.BuildConfig
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.content.ContextCompat.startActivity
+
+
+
+
+
+
+
+
+
+
 
 /**
  * 应用程序全局的通用工具类，功能比较单一，经常被复用的功能，应该封装到此工具类当中，从而给全局代码提供方面的操作。
@@ -234,4 +263,233 @@ object AppUtil {
     fun isWeiboInstalled() = isInstalled("com.sina.weibo")
 
     var isLogin = false
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun isIgnoringBatteryOptimizations(context: Context): Boolean {
+        var isIgnoring = false
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager?
+        if (powerManager != null) {
+            isIgnoring = powerManager.isIgnoringBatteryOptimizations(appPackage)
+        }
+        return isIgnoring
+    }
+
+    /**
+     * 将应用加入后台白名单，提高应用存活率
+     */
+    @SuppressLint("BatteryLife")
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    fun requestIgnoreBatteryOptimizations(context: Context) {
+        if (isIgnoringBatteryOptimizations(context)) {
+            return
+        }
+        kotlin.runCatching {
+            val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+            intent.data = Uri.parse("package:$appPackage")
+            context.startActivity(intent)
+        }.onFailure {
+            it.printStackTrace()
+        }
+    }
+
+    fun goToSetting(context: Context) {
+        if (Build.BRAND == null) {
+            return
+        }
+        when(Build.BRAND.lowercase(Locale.getDefault())) {
+            "realme" -> goOPPOSetting(context)
+            "oppo" -> goOPPOSetting(context)
+            "huawei" -> goHuaWeiSetting(context)
+            "honor" -> goHuaWeiSetting(context)
+            "xiaomi" -> goXiaoMiSetting(context)
+            "vivo" -> goVivoSetting(context)
+            "meizu" -> goFlyeMeSetting(context)
+            "samsung" -> goSamSungSetting(context)
+        }
+    }
+
+    private fun goOPPOSetting(context: Context) {
+        var intent = Intent()
+        try {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra("packageName", appPackage)
+            val comp = ComponentName(
+                "com.color.safecenter",
+                "com.color.safecenter.permission.PermissionManagerActivity"
+            )
+            intent.component = comp
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            try {
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.putExtra("pkg_name", context.packageName)
+                intent.putExtra("class_name", "com.welab.notificationdemo.MainActivity")
+                val comp = ComponentName(
+                    "com.coloros.notificationmanager",
+                    "com.coloros.notificationmanager.AppDetailPreferenceActivity"
+                )
+                intent.component = comp
+                context.startActivity(intent)
+            } catch (e1: Exception) {
+                // 否则跳转到应用详情
+                intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", context.packageName, null)
+                intent.data = uri
+                context.startActivity(intent)
+            }
+        }
+    }
+
+    private fun goVivoSetting(context: Context) {
+        var localIntent: Intent
+        try {
+            if (Build.MODEL.contains("Y85") && !Build.MODEL.contains("Y85A") || Build.MODEL.contains(
+                    "vivo Y53L"
+                )
+            ) {
+                localIntent = Intent()
+                localIntent.setClassName(
+                    "com.vivo.permissionmanager",
+                    "com.vivo.permissionmanager.activity.PurviewTabActivity"
+                )
+                localIntent.putExtra("packagename", context.packageName)
+                localIntent.putExtra("tabId", "1")
+                context.startActivity(localIntent)
+            } else {
+                localIntent = Intent()
+                localIntent.setClassName(
+                    "com.vivo.permissionmanager",
+                    "com.vivo.permissionmanager.activity.SoftPermissionDetailActivity"
+                )
+                localIntent.action = "secure.intent.action.softPermissionDetail"
+                localIntent.putExtra("packagename", context.packageName)
+                context.startActivity(localIntent)
+            }
+        } catch (e: Exception) {
+            // 否则跳转到应用详情
+            localIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", context.packageName, null)
+            localIntent.data = uri
+            context.startActivity(localIntent)
+        }
+    }
+
+    private fun goHuaWeiSetting(context: Context) {
+        var componentName: ComponentName? = null
+        val sdkVersion = Build.VERSION.SDK_INT
+        try {
+            val intent = Intent()
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            //跳自启动管理
+            if (sdkVersion >= 28) { //9:已测试
+                componentName =
+                    ComponentName.unflattenFromString("com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity") //跳自启动管理
+            } else if (sdkVersion >= 26) { //8：已测试
+                componentName =
+                    ComponentName.unflattenFromString("com.huawei.systemmanager/.appcontrol.activity.StartupAppControlActivity")
+            } else if (sdkVersion >= 23) { //7.6：已测试
+                componentName =
+                    ComponentName.unflattenFromString("com.huawei.systemmanager/.startupmgr.ui.StartupNormalAppListActivity")
+            } else if (sdkVersion >= 21) { //5
+                componentName =
+                    ComponentName.unflattenFromString("com.huawei.systemmanager/com.huawei.permissionmanager.ui.MainActivity")
+            }
+            //componentName = new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity");//锁屏清理
+            intent.component = componentName
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            //跳转失败
+            // 否则跳转到应用详情
+            val intentDetail = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", context.packageName, null)
+            intentDetail.data = uri
+            context.startActivity(intentDetail)
+        }
+    }
+
+    private fun goXiaoMiSetting(context: Context) {
+        try {
+            // MIUI 8
+            val localIntent = Intent("miui.intent.action.APP_PERM_EDITOR")
+            localIntent.setClassName(
+                "com.miui.securitycenter",
+                "com.miui.permcenter.permissions.PermissionsEditorActivity"
+            )
+            localIntent.putExtra("extra_pkgname", context.packageName)
+            context.startActivity(localIntent)
+        } catch (e: Exception) {
+            try {
+                // MIUI 5/6/7
+                val localIntent = Intent("miui.intent.action.APP_PERM_EDITOR")
+                localIntent.setClassName(
+                    "com.miui.securitycenter",
+                    "com.miui.permcenter.permissions.AppPermissionsEditorActivity"
+                )
+                localIntent.putExtra("extra_pkgname", context.packageName)
+                context.startActivity(localIntent)
+            } catch (e1: Exception) {
+                // 否则跳转到应用详情
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", context.packageName, null)
+                intent.data = uri
+                context.startActivity(intent)
+            }
+        }
+    }
+
+    private fun goSamSungSetting(context: Context) {
+        val intent = Intent()
+        var componentName: ComponentName? = null
+        try {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            //跳自启动管理
+            componentName =
+                ComponentName.unflattenFromString("com.samsung.android.sm/.app.dashboard.SmartManagerDashBoardActivity")
+            intent.component = componentName
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            try {
+                componentName = ComponentName(
+                    "com.samsung.android.sm_cn",
+                    "com.samsung.android.sm.ui.ram.AutoRunActivity"
+                )
+                intent.component = componentName
+                context.startActivity(intent)
+            } catch (e1: Exception) {
+                //跳转失败
+                // 否则跳转到应用详情
+                val intentDetail = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", context.packageName, null)
+                intentDetail.data = uri
+                context.startActivity(intentDetail)
+            }
+        }
+    }
+
+    private fun goFlyeMeSetting(context: Context) {
+        val intent = Intent()
+        var componentName: ComponentName? = null
+        try {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            //跳自启动管理
+            componentName =
+                ComponentName.unflattenFromString("com.meizu.safe/.permission.SmartBGActivity") //跳转到后台管理页面
+            intent.component = componentName
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            try {
+                componentName =
+                    ComponentName.unflattenFromString("com.meizu.safe/.permission.PermissionMainActivity") //跳转到手机管家
+                intent.component = componentName
+                context.startActivity(intent)
+            } catch (e1: Exception) {
+                //跳转失败
+                // 否则跳转到应用详情
+                val intentDetail = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", context.packageName, null)
+                intentDetail.data = uri
+                context.startActivity(intentDetail)
+            }
+        }
+    }
 }

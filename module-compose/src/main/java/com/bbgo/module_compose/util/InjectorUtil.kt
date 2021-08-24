@@ -1,8 +1,8 @@
 package com.bbgo.module_compose.util
 
-import com.bbgo.module_compose.repository.HomeLocalRepository
-import com.bbgo.module_compose.repository.HomeRemoteRepository
-import com.bbgo.module_compose.repository.HomeRepository
+import com.bbgo.module_compose.repository.ComposeLocalRepository
+import com.bbgo.module_compose.repository.ComposeRemoteRepository
+import com.bbgo.module_compose.repository.ComposeRepository
 import com.bbgo.module_compose.viewmodel.ComposeViewModelFactory
 
 
@@ -14,7 +14,7 @@ import com.bbgo.module_compose.viewmodel.ComposeViewModelFactory
 object InjectorUtil {
 
     fun getComposeViewModelFactory() = ComposeViewModelFactory(
-        HomeRepository.getInstance(
-            HomeRemoteRepository.instance, HomeLocalRepository.getInstance()))
+        ComposeRepository.getInstance(
+            ComposeRemoteRepository.instance, ComposeLocalRepository.getInstance()))
 
 }

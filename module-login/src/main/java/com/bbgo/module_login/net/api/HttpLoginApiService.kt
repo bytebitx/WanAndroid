@@ -1,7 +1,8 @@
 package com.bbgo.module_login.net.api
 
 import com.bbgo.common_base.bean.BaseBean
-import com.bbgo.module_login.bean.LoginRegisterResponse
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_login.bean.LoginData
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -25,7 +26,7 @@ interface HttpLoginApiService {
     @POST("user/login")
     @FormUrlEncoded
     suspend fun loginWanAndroid(@Field("username") username: String,
-                        @Field("password") password: String): LoginRegisterResponse
+                        @Field("password") password: String): HttpResult<LoginData>
 
     /**
      * 注册
@@ -38,7 +39,7 @@ interface HttpLoginApiService {
     @FormUrlEncoded
     suspend fun registerWanAndroid(@Field("username") username: String,
                            @Field("password") password: String,
-                           @Field("repassword") repassword: String): LoginRegisterResponse
+                           @Field("repassword") repassword: String): HttpResult<LoginData>
 
     /**
      * 退出登录

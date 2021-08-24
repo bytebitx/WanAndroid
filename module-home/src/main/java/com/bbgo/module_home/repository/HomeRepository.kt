@@ -1,8 +1,9 @@
 package com.bbgo.module_home.repository
 
-import com.bbgo.common_service.banner.bean.BannerResponse
-import com.bbgo.module_home.bean.Articles
-import com.bbgo.module_home.bean.TopArticles
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.common_service.banner.bean.Banner
+import com.bbgo.module_home.bean.ArticleData
+import com.bbgo.module_home.bean.ArticleDetail
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -28,15 +29,15 @@ class HomeRepository private constructor(private val remoteRepository: HomeRemot
         }
     }
 
-    suspend fun getTopArticles() : Flow<TopArticles> {
+    suspend fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
         return remoteRepository.getTopArticles()
     }
 
-    suspend fun getArticles(pageNum: Int) : Flow<Articles> {
+    suspend fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getArticles(pageNum)
     }
 
-    suspend fun getBanners(): Flow<BannerResponse> {
+    suspend fun getBanners(): Flow<HttpResult<List<Banner>>> {
         return remoteRepository.getBanners()
     }
 }

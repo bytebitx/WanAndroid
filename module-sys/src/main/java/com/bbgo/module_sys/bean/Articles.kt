@@ -1,10 +1,6 @@
 package com.bbgo.module_sys.bean
 
-data class Articles(
-    val `data`: ArticleData,
-    val errorCode: Int,
-    val errorMsg: String
-)
+
 
 data class ArticleData(
         val curPage: Int,
@@ -14,12 +10,6 @@ data class ArticleData(
         val pageCount: Int,
         val size: Int,
         val total: Int
-)
-
-data class NaviBody(
-        val `data`: List<NaviData>,
-        val errorCode: Int,
-        val errorMsg: String
 )
 
 data class NaviData(

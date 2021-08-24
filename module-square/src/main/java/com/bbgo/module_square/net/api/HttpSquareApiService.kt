@@ -1,6 +1,7 @@
 package com.bbgo.module_square.net.api
 
-import com.bbgo.module_square.bean.Articles
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_square.bean.ArticleData
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -17,6 +18,6 @@ interface HttpSquareApiService {
      * @param pageNum 页码拼接在url上从0开始
      */
     @GET("user_article/list/{pageNum}/json")
-    suspend fun getSquareList(@Path("pageNum") pageNum: Int): Articles
+    suspend fun getSquareList(@Path("pageNum") pageNum: Int): HttpResult<ArticleData>
 
 }

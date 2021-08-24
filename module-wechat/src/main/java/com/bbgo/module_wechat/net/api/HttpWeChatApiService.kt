@@ -1,7 +1,8 @@
 package com.bbgo.module_wechat.net.api
 
-import com.bbgo.module_wechat.bean.Articles
-import com.bbgo.module_wechat.bean.WXArticles
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_wechat.bean.ArticleData
+import com.bbgo.module_wechat.bean.WXArticle
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -18,7 +19,7 @@ interface HttpWeChatApiService {
      * http://wanandroid.com/wxarticle/chapters/json
      */
     @GET("wxarticle/chapters/json")
-    suspend fun getWXChapters(): WXArticles
+    suspend fun getWXChapters(): HttpResult<List<WXArticle>>
 
     /**
      * 查看某个公众号历史数据
@@ -28,7 +29,7 @@ interface HttpWeChatApiService {
      */
     @GET("/wxarticle/list/{id}/{page}/json")
     suspend fun getWXArticles(@Path("id") id: Int,
-                              @Path("page") page: Int): Articles
+                              @Path("page") page: Int): HttpResult<ArticleData>
 
     /**
      * 在某个公众号中搜索历史文章
@@ -40,7 +41,7 @@ interface HttpWeChatApiService {
     @GET("/wxarticle/list/{id}/{page}/json")
     suspend fun queryWXArticles(@Path("id") id: Int,
                                 @Query("k") key: String,
-                                @Path("page") page: Int): Articles
+                                @Path("page") page: Int): HttpResult<ArticleData>
 
     /**
      * 知识体系下的文章
@@ -49,6 +50,6 @@ interface HttpWeChatApiService {
      * @param cid
      */
     @GET("article/list/{page}/json")
-    suspend fun getKnowledgeList(@Path("page") page: Int, @Query("cid") cid: Int): Articles
+    suspend fun getKnowledgeList(@Path("page") page: Int, @Query("cid") cid: Int): HttpResult<ArticleData>
 
 }

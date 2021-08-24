@@ -1,7 +1,8 @@
 package com.bbgo.module_login.repository
 
 import com.bbgo.common_base.bean.BaseBean
-import com.bbgo.module_login.bean.LoginRegisterResponse
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_login.bean.LoginData
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -29,12 +30,12 @@ class RegisterLoginRepository private constructor(private val remoteRepository: 
 
     suspend fun registerWanAndroid(username: String,
                                    password: String,
-                                   repassword: String) : Flow<LoginRegisterResponse> {
+                                   repassword: String) : Flow<HttpResult<LoginData>> {
         return remoteRepository.registerWanAndroid(username, password, repassword)
     }
 
     suspend fun loginWanAndroid(username: String,
-                                password: String) : Flow<LoginRegisterResponse> {
+                                password: String) : Flow<HttpResult<LoginData>> {
         return remoteRepository.loginWanAndroid(username, password)
     }
 

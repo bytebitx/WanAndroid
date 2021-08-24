@@ -1,7 +1,8 @@
 package com.bbgo.module_project.repository
 
-import com.bbgo.module_project.bean.Articles
-import com.bbgo.module_project.bean.ProjectTree
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_project.bean.ArticleData
+import com.bbgo.module_project.bean.ProjectBean
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -27,11 +28,11 @@ class ProjectRepository private constructor(private val remoteRepository: Projec
         }
     }
 
-    suspend fun getProjectTree() : Flow<ProjectTree> {
+    suspend fun getProjectTree() : Flow<HttpResult<List<ProjectBean>>> {
         return remoteRepository.getProjectTree()
     }
 
-    suspend fun getProjectList(id: Int, page: Int) : Flow<Articles> {
+    suspend fun getProjectList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getProjectList(id, page)
     }
 

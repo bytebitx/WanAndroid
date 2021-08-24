@@ -1,6 +1,7 @@
 package com.bbgo.module_square.repository
 
-import com.bbgo.module_square.bean.Articles
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_square.bean.ArticleData
 import com.bbgo.module_square.net.HttpSquareService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.flowOn
 class SquareRemoteRepository private constructor(){
 
 
-    suspend fun getSquareList(pageNum: Int) : Flow<Articles> {
+    suspend fun getSquareList(pageNum: Int) : Flow<HttpResult<ArticleData>> {
         return flow {
             emit(HttpSquareService.service.getSquareList(pageNum))
         }.flowOn(Dispatchers.IO)

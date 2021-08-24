@@ -13,7 +13,7 @@
 
 
 ## 项目说明
-在整个项目中，将每个tab做成一个module，让你快速上手组件化知识。
+整个项目结构清晰简单，将每个tab做成一个module，让你快速上手组件化知识。
 那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。
 该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。
 
@@ -21,11 +21,17 @@
 
 module-compose模块使用的是compose开发的界面，主要用来学习compose
 
+由于hilt最新发布的版本和Gradle7.0不兼容，所以暂时未引进hilt的使用。但是目前已经有解决方式，想要在项目中使用hilt的同学，可参考：
+https://stackoverflow.com/questions/67705710/error-in-gradle-when-implement-hilt-library-in-android
+
+
 ## Arouter使用
 
 一、使用room之后，组件化操作的时候，如果子module有数据存储需求，由于AppDatabase在主module中，则处理方式有两种：
 1.在service模块，提供方法的时候，将对应的bean转为string，然后在子module中调用service提供的方法的时候，将获取到的数据转为string即可
 2.在service模块，提供方法的时候，定义相应的bean即可
+
+但是这样其实比较耦合，如果子module有数据存储需求，其实应该子module应该有一个单独的db。
 
 二、每个模块需要有
 kapt {

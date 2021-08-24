@@ -1,11 +1,5 @@
 package com.bbgo.module_square.bean
 
-data class Articles(
-        val `data`: ArticleData,
-        val errorCode: Int,
-        val errorMsg: String
-)
-
 data class ArticleData(
         val curPage: Int,
         val datas: MutableList<ArticleDetail>,
@@ -15,25 +9,6 @@ data class ArticleData(
         val size: Int,
         val total: Int
 )
-
-data class TopArticles(
-        val `data`: List<ArticleDetail>,
-        val errorCode: Int,
-        val errorMsg: String
-)
-
-data class NaviResponse(
-        val `data`: List<NaviData>,
-        val errorCode: Int,
-        val errorMsg: String
-)
-
-data class NaviData(
-        val articles: List<ArticleDetail>,
-        val cid: Int,
-        val name: String
-)
-
 
 data class ArticleDetail(
         val apkLink: String,

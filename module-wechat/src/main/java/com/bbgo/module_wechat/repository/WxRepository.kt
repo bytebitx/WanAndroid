@@ -1,7 +1,8 @@
 package com.bbgo.module_wechat.repository
 
-import com.bbgo.module_wechat.bean.Articles
-import com.bbgo.module_wechat.bean.WXArticles
+import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.module_wechat.bean.ArticleData
+import com.bbgo.module_wechat.bean.WXArticle
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -27,15 +28,15 @@ class WxRepository private constructor(private val remoteRepository: WxRemoteRep
         }
     }
 
-    suspend fun getWXChapters() : Flow<WXArticles> {
+    suspend fun getWXChapters() : Flow<HttpResult<List<WXArticle>>> {
         return remoteRepository.getWXChapters()
     }
 
-    suspend fun getWXArticles(id: Int, page: Int) : Flow<Articles> {
+    suspend fun getWXArticles(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getWXArticles(id, page)
     }
 
-    suspend fun getKnowledgeList(id: Int, page: Int) : Flow<Articles> {
+    suspend fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getKnowledgeList(id, page)
     }
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.logE
 import com.bbgo.module_compose.bean.ArticleDetail
-import com.bbgo.module_compose.repository.HomeRepository
+import com.bbgo.module_compose.repository.ComposeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
  *  date: 3/29/21 9:31 PM
  *  description: todo
  */
-class ComposeViewModel(private val repository: HomeRepository) : ViewModel() {
+class ComposeViewModel(private val repository: ComposeRepository) : ViewModel() {
 
 
     val articleLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()

@@ -1,13 +1,6 @@
 package com.bbgo.module_sys.bean
 
 
-data class KnowledgeTreeBody(
-    val `data`: List<KnowledgeTree>,
-    val errorCode: Int = 0,
-    val errorMsg: String = "",
-)
-
-
 data class KnowledgeTree(
     val children: List<KnowledgeDetail>,
     val courseId: Int,
