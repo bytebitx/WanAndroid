@@ -68,28 +68,28 @@ dependencies {
     implementation project(":common-base")
     implementation project(":common-service")
     if (!Boolean.valueOf(rootProject.ext.module.isContentModule)) {
-        implementation project(":module-content")
+        implementation project(":modules:module-content")
     }
     if (!Boolean.valueOf(rootProject.ext.module.isLoginModule)) {
-        implementation project(":module-login")
+        implementation project(":modules:module-login")
     }
     if (!Boolean.valueOf(rootProject.ext.module.isHomeModule)) {
-        implementation project(":module-home")
+        implementation project(":modules:module-home")
     }
     if (!Boolean.valueOf(rootProject.ext.module.isWeChatModule)) {
-        implementation project(":module-wechat")
+        implementation project(":modules:module-wechat")
     }
     if (!Boolean.valueOf(rootProject.ext.module.isSysModule)) {
-        implementation project(":module-sys")
+        implementation project(":modules:module-sys")
     }
     if (!Boolean.valueOf(rootProject.ext.module.isSquareModule)) {
-        implementation project(":module-square")
+        implementation project(":modules:module-square")
     }
     if (!Boolean.valueOf(rootProject.ext.module.isProjectModule)) {
-        implementation project(":module-project")
+        implementation project(":modules:module-project")
     }
     if (!Boolean.valueOf(rootProject.ext.module.isComposeModule)) {
-        implementation project(":module-compose")
+        implementation project(":modules:module-compose")
     }
 
     implementation rootProject.ext.roomLibs
