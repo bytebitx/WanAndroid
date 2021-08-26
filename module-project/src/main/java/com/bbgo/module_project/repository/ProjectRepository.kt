@@ -1,8 +1,8 @@
 package com.bbgo.module_project.repository
 
 import com.bbgo.common_base.bean.HttpResult
-import com.bbgo.module_project.bean.ArticleData
-import com.bbgo.module_project.bean.ProjectBean
+import com.bbgo.module_project.bean.*
+import com.bbgo.module_project.local.DBUtil
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -34,6 +34,38 @@ class ProjectRepository private constructor(private val remoteRepository: Projec
 
     suspend fun getProjectList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getProjectList(id, page)
+    }
+
+    fun insertProjectTree(projectBean: ProjectBean) {
+        localRepository.insertProjectTree(projectBean)
+    }
+
+    fun getProjectTreeFromDB() : Flow<List<ProjectBean>> {
+        return localRepository.getProjectTree()
+    }
+
+    fun insertProjectArticles(articleDetail: ArticleDetail) {
+        localRepository.insertProjectArticle(articleDetail)
+    }
+
+    fun getProjectArticlesFromDB() : Flow<MutableList<ArticleDetail>> {
+        return localRepository.getProjectArticles()
+    }
+
+    fun insertTag(tag: Tag) {
+        localRepository.insertTag(tag)
+    }
+
+    fun getTagsFromDB() : Flow<List<Tag>> {
+        return localRepository.getTags()
+    }
+
+    fun getArticleDetailWithTagFromDB() : Flow<MutableList<ArticleDetailWithTag>> {
+        return localRepository.getArticleDetailWithTag()
+    }
+
+    fun deleteArticleById(articleId: String) {
+        localRepository.deleteArticleById(articleId)
     }
 
 }

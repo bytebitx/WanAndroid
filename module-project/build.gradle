@@ -19,6 +19,16 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true"
+                ]
+            }
+        }
     }
 
     buildTypes {
@@ -65,6 +75,11 @@ dependencies {
 
     implementation project(":common-base")
     implementation project(":common-service")
-    kapt rootProject.ext.compiler["arouterCompiler"]
+
     implementation rootProject.ext.other["rvHelper"]
+
+    kapt rootProject.ext.compiler["arouterCompiler"]
+
+    implementation rootProject.ext.roomLibs
+    kapt rootProject.ext.compiler["roomCompiler"]
 }

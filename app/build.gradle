@@ -92,12 +92,10 @@ dependencies {
         implementation project(":module-compose")
     }
 
-    api rootProject.ext.roomLibs
+    implementation rootProject.ext.roomLibs
     kapt rootProject.ext.compiler["roomCompiler"]
 
     implementation rootProject.ext.other["rvHelper"]
-
-    implementation rootProject.ext.other["banner"]
 
     kapt rootProject.ext.compiler["arouterCompiler"]
 

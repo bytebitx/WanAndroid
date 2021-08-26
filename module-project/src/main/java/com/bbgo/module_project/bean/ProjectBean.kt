@@ -1,65 +1,93 @@
 package com.bbgo.module_project.bean
 
+import androidx.room.*
+import androidx.room.ForeignKey.CASCADE
 
+@Entity(tableName = "project_tree")
 data class ProjectBean(
-    val children: List<Any>,
-    val courseId: Int,
-    val id: Int,
-    val name: String,
-    val order: Int,
-    val parentChapterId: Int,
-    val userControlSetTop: Boolean,
-    val visible: Int
+    @PrimaryKey var id: Int = 0,
+    @Ignore var children: List<Any>? = null,
+    var courseId: Int = 0,
+    var name: String = "",
+    var order: Int = 0,
+    @ColumnInfo(name = "parent_chapter_id") var parentChapterId: Int = 0,
+    @ColumnInfo(name = "user_control_set_top") var userControlSetTop: Boolean = false,
+    var visible: Int = 0
 )
 
 data class ArticleData(
-    val curPage: Int,
-    val datas: MutableList<ArticleDetail>,
-    val offset: Int,
-    val over: Boolean,
-    val pageCount: Int,
-    val size: Int,
-    val total: Int
+    var curPage: Int,
+    var datas: MutableList<ArticleDetail>,
+    var offset: Int,
+    var over: Boolean,
+    var pageCount: Int,
+    var size: Int,
+    var total: Int
 )
 
+@Entity(tableName = "article_detail")
 data class ArticleDetail(
-    val apkLink: String,
-    val audit: Int,
-    val author: String,
-    val canEdit: Boolean,
-    val chapterId: Int,
-    val chapterName: String,
-    var collect: Boolean,
-    val courseId: Int,
-    val desc: String,
-    val descMd: String,
-    val envelopePic: String,
-    val fresh: Boolean,
-    val host: String,
-    val id: Int,
-    val link: String,
-    val niceDate: String,
-    val niceShareDate: String,
-    val origin: String,
-    val prefix: String,
-    val projectLink: String,
-    val publishTime: Long,
-    val realSuperChapterId: Int,
-    val selfVisible: Int,
-    val shareDate: Long,
-    val shareUser: String,
-    val superChapterId: Int,
-    val superChapterName: String,
-    val tags: List<Tag>,
-    val title: String,
-    val type: Int,
-    val userId: Int,
-    val visible: Int,
-    val zan: Int,
-    var top: String,
+    @PrimaryKey var id: Int = 0,
+    @ColumnInfo(name = "apk_link") var apkLink: String = "",
+    var audit: Int = 0,
+    var author: String = "",
+    @ColumnInfo(name = "can_edit") var canEdit: Boolean = false,
+    @ColumnInfo(name = "chapter_id") var chapterId: Int = 0,
+    @ColumnInfo(name = "chapter_name") var chapterName: String = "",
+    var collect: Boolean = false,
+    @ColumnInfo(name = "course_id") var courseId: Int = 0,
+    var desc: String = "",
+    @ColumnInfo(name = "desc_md") var descMd: String = "",
+    @ColumnInfo(name = "envelope_pic") var envelopePic: String = "",
+    var fresh: Boolean = false,
+    var host: String = "",
+    var link: String = "",
+    @ColumnInfo(name = "nice_date") var niceDate: String = "",
+    @ColumnInfo(name = "nice_share_date") var niceShareDate: String = "",
+    var origin: String = "",
+    var prefix: String = "",
+    @ColumnInfo(name = "project_link") var projectLink: String = "",
+    @ColumnInfo(name = "publish_time") var publishTime: Long = 0,
+    @ColumnInfo(name = "real_super_chapter_id") var realSuperChapterId: Int = 0,
+    @ColumnInfo(name = "self_visible") var selfVisible: Int = 0,
+    @ColumnInfo(name = "share_date") var shareDate: Long = 0,
+    @ColumnInfo(name = "share_user") var shareUser: String = "",
+    @ColumnInfo(name = "super_chapter_id") var superChapterId: Int = 0,
+    @ColumnInfo(name = "super_chapter_name") var superChapterName: String = "",
+    @Ignore var tags: List<Tag>? = null,
+    var title: String = "",
+    var type: Int = 0,
+    @ColumnInfo(name = "user_id") var userId: Int = 0,
+    var visible: Int = 0,
+    var zan: Int = 0,
+    var top: String = "",
 )
 
+@Entity(tableName = "tag",
+    foreignKeys = [
+        ForeignKey(
+    entity = ArticleDetail::class,
+    parentColumns = arrayOf("id"),
+    childColumns = arrayOf("article_id"),
+    onDelete = CASCADE,)],
+    indices = [Index(value = arrayOf("article_id"), unique = true)]
+)
 data class Tag(
-    val name: String,
-    val url: String
+    @PrimaryKey(autoGenerate = true)var id: Long,
+    @ColumnInfo(name = "article_id") var artileId: Int,
+    var name: String,
+    var url: String
+)
+
+/**
+ * 连表查询，需要定义一个中间bean，具体用法详见
+ * https://developer.android.google.cn/training/data-storage/room/relationships?hl=zh-cn
+ */
+data class ArticleDetailWithTag(
+    @Embedded var articleDetail: ArticleDetail,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "article_id"
+    )
+    var tags: List<Tag>?
 )
