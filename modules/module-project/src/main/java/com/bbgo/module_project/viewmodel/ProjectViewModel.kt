@@ -8,6 +8,8 @@ import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.logE
+import com.bbgo.common_base.util.FileUtil
+import com.bbgo.common_base.util.MD5Utils
 import com.bbgo.common_base.util.NetWorkUtil
 import com.bbgo.module_project.bean.ArticleDetail
 import com.bbgo.module_project.bean.ArticleDetailWithTag
@@ -18,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 /**
  *  author: wangyb
@@ -131,6 +134,14 @@ class ProjectViewModel(private val repository: ProjectRepository) : ViewModel() 
             DBUtil.getInstance().runInTransaction {
                 DBUtil.getInstance().runInTransaction {
                     articlesLiveData.value?.data?.forEach { articleDetail ->
+                        if (articleDetail.envelopePic.isNotEmpty()) run {
+                            FileUtil.downloadFile(
+                                articleDetail.envelopePic,
+                                FileUtil.getInternalStorePath() +
+                                        File.separator +
+                                        MD5Utils.getMD5(articleDetail.envelopePic) + ".png"
+                            )
+                        }
                         repository.insertProjectArticles(articleDetail)
                         articleDetail.tags?.forEach { tag ->
                             tag.artileId = articleDetail.id

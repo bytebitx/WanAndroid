@@ -3,6 +3,8 @@ package com.bbgo.common_base.util
 import android.os.Environment
 import android.os.Environment.MEDIA_MOUNTED
 import com.bbgo.common_base.BaseApplication
+import com.bbgo.common_base.listener.DowloadListener
+import com.liulishuo.filedownloader.FileDownloader
 import com.orhanobut.logger.Logger
 import java.io.File
 
@@ -22,15 +24,16 @@ class FileUtil {
 
         /**
          * 内置存储卡的路径
+         * /data/user/0/com.bbgo.wanandroid/files
          */
-        fun getInternalStorePath(): String? {
+        fun getInternalStorePath(): String {
             return BaseApplication.getContext().filesDir.absolutePath
         }
 
         /**
          * 优先使用外置存储卡，没有则使用内部存储卡
          */
-        fun getStorePath(): String? {
+        fun getStorePath(): String {
             return if (isExistExternalStore()) {
                 Environment.getExternalStorageDirectory().absolutePath
             } else {
@@ -89,6 +92,13 @@ class FileUtil {
          */
         fun isExistExternalStore(): Boolean {
             return Environment.getExternalStorageState() == MEDIA_MOUNTED
+        }
+
+        fun downloadFile(url: String, localPath: String) {
+            FileDownloader.getImpl().create(url)
+                .setPath(localPath)
+                .setListener(DowloadListener())
+                .start()
         }
     }
 }

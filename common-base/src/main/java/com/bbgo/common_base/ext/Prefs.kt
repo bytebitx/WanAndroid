@@ -1,5 +1,9 @@
 package com.bbgo.common_base.ext
 
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.tencent.mmkv.MMKV
 
 object Prefs {
@@ -69,4 +73,17 @@ object Prefs {
     fun clear() {
         mmkv.clear().apply()
     }
+
+    /*****************************************************************************/
+
+    /**
+     * dataStore 存入数据默认就是异步，没有同步方法
+     * 取数据异步通过Flow实现
+     */
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+    fun put(key: String, value: Any) {
+
+    }
+
 }
