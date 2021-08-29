@@ -13,21 +13,26 @@
 
 
 ## 项目说明
-整个项目结构清晰简单，将每个tab做成一个module，让你快速上手组件化知识。
-那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。
-该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。
+通用依赖库在common文件夹下，子组件都在modules文件夹下面。   
+整个项目结构清晰简单，将每个tab做成一个module，让你快速上手组件化知识。   
+那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。   
+该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。   
 
-网络请求框架使用:
+网络请求框架使用:   
 Retrofit2 + 协程Coroutines + Flow技术搭建，因此每个模块都有涉及。
 该网络请求框架同时支持多个BaseUrl以及动态改变BaseUrl；如果使用的网络接口的baseUrl不是http://www.wanandroid.com，
 则直接在Retrofit注解上写上完整的请求接口地址即可。具体的实现方式是自定义拦截器，将旧的baseUrl替换成新的即可，
 详情可见：MultiBaseUrlInterceptor
 
-Room:
+Room:   
 使用到Room的模块主要是module-project模块，涉及到Room的增删改查，定义关联表等知识。
 
-composeUI:
+composeUI:   
 module-compose模块使用的是compose开发的界面，主要用来学习compose
+
+Hilt:   
+1.组件化使用Hilt，需要在主工程和子module中加入hilt相关依赖
+2.Hilt相关的使用参考module-wechat 模块
 
 
 ## Arouter使用

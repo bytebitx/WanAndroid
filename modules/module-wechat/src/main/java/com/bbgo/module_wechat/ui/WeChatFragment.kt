@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.databinding.FragmentWechatBinding
-import com.bbgo.module_wechat.util.InjectorUtil
+import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  *  author: wangyb
@@ -23,13 +23,17 @@ import com.google.android.material.tabs.TabLayoutMediator
  *  description: todo
  */
 @Route(path = Constants.NAVIGATION_TO_WECHAT_FRG)
+@AndroidEntryPoint
 class WeChatFragment : BaseFragment() {
 
     private var _binding: FragmentWechatBinding? = null
     private val binding get() = _binding!!
-    private val weChatViewModel: WeChatViewModel by activityViewModels{
-        InjectorUtil.getWeChatViewModelFactory()
-    }
+
+    @Inject
+    lateinit var weChatViewModel: WeChatViewModel
+//    private val weChatViewModel: WeChatViewModel by activityViewModels{
+//        InjectorUtil.getWeChatViewModelFactory()
+//    }
 
     /**
      * datas

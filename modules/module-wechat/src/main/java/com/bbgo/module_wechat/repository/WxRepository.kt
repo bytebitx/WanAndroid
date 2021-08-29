@@ -3,16 +3,21 @@ package com.bbgo.module_wechat.repository
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_wechat.bean.ArticleData
 import com.bbgo.module_wechat.bean.WXArticle
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  *  author: wangyb
  *  date: 3/29/21 9:32 PM
  *  description: todo
  */
-class WxRepository private constructor(private val remoteRepository: WxRemoteRepository, private val localRepository: WxLocalRepository) {
+@ActivityRetainedScoped
+class WxRepository @Inject constructor(private val remoteRepository: WxRemoteRepository, private val localRepository: WxLocalRepository) {
 
-    companion object {
+    /*companion object {
         @Volatile
         private var repository: WxRepository? = null
 
@@ -26,7 +31,7 @@ class WxRepository private constructor(private val remoteRepository: WxRemoteRep
             }
             return repository!!
         }
-    }
+    }*/
 
     suspend fun getWXChapters() : Flow<HttpResult<List<WXArticle>>> {
         return remoteRepository.getWXChapters()

@@ -1,8 +1,8 @@
 rootProject.name = "WanAndroid"
 
 include ':app'
-include ':common-base'
-include ':common-service'
+include ':common:common-base'
+include ':common:common-service'
 include ':modules:module-content'
 include ':modules:module-login'
 include ':modules:module-home'

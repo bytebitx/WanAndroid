@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -65,8 +66,8 @@ kapt {
 
 dependencies {
 
-    implementation project(":common-base")
-    implementation project(":common-service")
+    implementation project(":common:common-base")
+    implementation project(":common:common-service")
     if (!Boolean.valueOf(rootProject.ext.module.isContentModule)) {
         implementation project(":modules:module-content")
     }
@@ -99,5 +100,6 @@ dependencies {
 
     kapt rootProject.ext.compiler["arouterCompiler"]
 
-
+    compileOnly(rootProject.ext.jetpack["hilt"])
+    kapt rootProject.ext.compiler["hiltAndroidCompiler"]
 }

@@ -8,16 +8,19 @@ import com.bbgo.common_base.ext.Resource
 import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.repository.WxRepository
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 3/29/21 9:31 PM
  *  description: todo
  */
-class WeChatViewModel(private val repository: WxRepository) : ViewModel() {
+@ActivityRetainedScoped
+class WeChatViewModel @Inject constructor(private val repository: WxRepository) : ViewModel() {
 
     val wxChapterLiveData by lazy { MutableLiveData<Resource<List<WXArticle>>>() }
     val wxArticlesLiveData by lazy { MutableLiveData<Resource<MutableList<ArticleDetail>>>() }

@@ -1,4 +1,4 @@
-package com.bbgo.common_base.ext
+package com.bbgo.common_base.util
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -9,7 +9,7 @@ import com.bbgo.common_base.BaseApplication
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-object Pref {
+object DataStoreUtils {
 
     /**
      * dataStore 存入数据默认就是异步，没有同步方法

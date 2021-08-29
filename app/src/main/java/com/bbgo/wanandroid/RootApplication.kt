@@ -2,10 +2,11 @@ package com.bbgo.wanandroid
 
 import androidx.appcompat.app.AppCompatDelegate
 import com.bbgo.common_base.BaseApplication
-import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.SettingUtil
+import dagger.hilt.android.HiltAndroidApp
 import java.util.*
 
+@HiltAndroidApp
 class RootApplication : BaseApplication() {
     override fun onCreate() {
         super.onCreate()

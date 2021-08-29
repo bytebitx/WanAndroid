@@ -17,20 +17,22 @@ import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_wechat.R
-import com.bbgo.module_wechat.util.InjectorUtil
-import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.databinding.FragmentHomeBinding
+import com.bbgo.module_wechat.viewmodel.WeChatViewModel
+import com.bbgo.module_wechat.viewmodel.WeChatViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Created by wangyb
  */
+@AndroidEntryPoint
 class ArticleListFragment : BaseFragment() {
 
     companion object {
@@ -54,6 +56,9 @@ class ArticleListFragment : BaseFragment() {
      * 多个fragment需要多个viewmodel实例
      */
     private lateinit var weChatViewModel: WeChatViewModel
+
+    @Inject
+    lateinit var factory: WeChatViewModelFactory
 
     /**
      * cid
@@ -154,8 +159,7 @@ class ArticleListFragment : BaseFragment() {
             }
         }
 
-        weChatViewModel = ViewModelProvider(this, InjectorUtil.getWeChatViewModelFactory())
-            .get(WeChatViewModel::class.java)
+        weChatViewModel = ViewModelProvider(this, factory).get(WeChatViewModel::class.java)
 
         initBus()
     }

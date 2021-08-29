@@ -74,9 +74,8 @@ kapt {
 
 dependencies {
 
-    implementation project(":common-base")
-    implementation project(":common-service")
-    implementation rootProject.ext.other["agentWeb"]
+    implementation project(":common:common-base")
+    implementation project(":common:common-service")
 
     kapt rootProject.ext.compiler["arouterCompiler"]
 }

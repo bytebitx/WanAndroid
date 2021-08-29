@@ -1,14 +1,20 @@
 package com.bbgo.module_wechat.repository
 
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import dagger.hilt.android.scopes.ActivityScoped
+import javax.inject.Inject
+import javax.inject.Singleton
+
 /**
  *  author: wangyb
  *  date: 3/30/21 2:36 PM
  *  description: todo
  */
-class WxLocalRepository private constructor(){
+@ActivityRetainedScoped
+class WxLocalRepository @Inject constructor(){
 
 
-    companion object {
+    /*companion object {
         @Volatile
         private var repository: WxLocalRepository? = null
 
@@ -22,5 +28,5 @@ class WxLocalRepository private constructor(){
             }
             return repository!!
         }
-    }
+    }*/
 }
