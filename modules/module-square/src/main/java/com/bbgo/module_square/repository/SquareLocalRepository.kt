@@ -1,27 +1,15 @@
 package com.bbgo.module_square.repository
 
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import javax.inject.Inject
+
 
 /**
  *  author: wangyb
  *  date: 3/30/21 2:36 PM
  *  description: todo
  */
-class SquareLocalRepository private constructor(){
+@ActivityRetainedScoped
+class SquareLocalRepository @Inject constructor(){
 
-
-    companion object {
-        @Volatile
-        private var repository: SquareLocalRepository? = null
-
-        fun getInstance(): SquareLocalRepository {
-            if (repository == null) {
-                synchronized(SquareRepository::class.java) {
-                    if (repository == null) {
-                        repository = SquareLocalRepository()
-                    }
-                }
-            }
-            return repository!!
-        }
-    }
 }

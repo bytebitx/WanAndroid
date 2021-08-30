@@ -9,20 +9,22 @@ import com.bbgo.common_base.ext.logE
 import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.module_home.bean.ArticleDetail
 import com.bbgo.module_home.repository.HomeRepository
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 3/29/21 9:31 PM
  *  description: todo
  */
-class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
-
+@ActivityRetainedScoped
+class HomeViewModel @Inject constructor(private val repository: HomeRepository) : ViewModel() {
 
     val articleLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()
     val bannerLiveData = MutableLiveData<Resource<List<Banner>>>()

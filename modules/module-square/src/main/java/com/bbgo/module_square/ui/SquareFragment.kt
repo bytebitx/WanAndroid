@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -25,8 +24,9 @@ import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_square.R
 import com.bbgo.module_square.bean.ArticleDetail
 import com.bbgo.module_square.databinding.SquareFragmentHomeBinding
-import com.bbgo.module_square.util.InjectorUtil
 import com.bbgo.module_square.viewmodel.SquareViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  *  author: wangyb
@@ -34,6 +34,7 @@ import com.bbgo.module_square.viewmodel.SquareViewModel
  *  description: todo
  */
 @Route(path = Constants.NAVIGATION_TO_SQUARE_FRG)
+@AndroidEntryPoint
 class SquareFragment : BaseFragment() {
 
     private var _binding: SquareFragmentHomeBinding? = null
@@ -42,9 +43,8 @@ class SquareFragment : BaseFragment() {
     @Autowired
     lateinit var collectService: CollectService
 
-    private val squareViewModel: SquareViewModel by activityViewModels{
-        InjectorUtil.getSquareViewModelFactory()
-    }
+    @Inject
+    lateinit var squareViewModel: SquareViewModel
 
     /**
      * RecyclerView Divider

@@ -9,6 +9,7 @@ if (Boolean.valueOf(path)) {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -65,4 +66,7 @@ dependencies {
     implementation project(":common:common-base")
     implementation project(":common:common-service")
     kapt rootProject.ext.compiler["arouterCompiler"]
+
+    compileOnly(rootProject.ext.jetpack["hilt"])
+    kapt rootProject.ext.compiler["hiltAndroidCompiler"]
 }

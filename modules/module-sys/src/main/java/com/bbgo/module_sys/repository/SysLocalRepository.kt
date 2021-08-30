@@ -1,26 +1,13 @@
 package com.bbgo.module_sys.repository
 
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import javax.inject.Inject
+
 /**
  *  author: wangyb
  *  date: 3/30/21 2:36 PM
  *  description: todo
  */
-class SysLocalRepository private constructor(){
-
-
-    companion object {
-        @Volatile
-        private var repository: SysLocalRepository? = null
-
-        fun getInstance(): SysLocalRepository {
-            if (repository == null) {
-                synchronized(SysRepository::class.java) {
-                    if (repository == null) {
-                        repository = SysLocalRepository()
-                    }
-                }
-            }
-            return repository!!
-        }
-    }
+@ActivityRetainedScoped
+class SysLocalRepository @Inject constructor(){
 }

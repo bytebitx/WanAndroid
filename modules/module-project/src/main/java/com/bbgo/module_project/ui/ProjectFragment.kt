@@ -13,9 +13,9 @@ import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.module_project.bean.ProjectBean
 import com.bbgo.module_project.databinding.FragmentProjectBinding
-import com.bbgo.module_project.util.InjectorUtil
 import com.bbgo.module_project.viewmodel.ProjectViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  *  author: wangyb
@@ -23,13 +23,12 @@ import com.google.android.material.tabs.TabLayoutMediator
  *  description: todo
  */
 @Route(path = Constants.NAVIGATION_TO_PROJECT_FRG)
+@AndroidEntryPoint
 class ProjectFragment : BaseFragment() {
 
     private var _binding: FragmentProjectBinding? = null
     private val binding get() = _binding!!
-    private val projectViewModel: ProjectViewModel by activityViewModels{
-        InjectorUtil.getProjectViewModelFactory()
-    }
+    private val projectViewModel: ProjectViewModel by activityViewModels()
 
     /**
      * datas

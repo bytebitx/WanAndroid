@@ -33,6 +33,10 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
 Hilt:   
 1.组件化使用Hilt，需要在主工程和子module中加入hilt相关依赖
 2.Hilt相关的使用参考module-wechat 模块
+3.ViewModel中使用@HiltViewModel注解，则在Fragment或者Activity中无法只用Inject来实例化ViewModel，具体实例化方法参考@HiltViewModel注解注释的内容
+4.ViewModel中使用@HiltViewModel注解，是使用HiltViewModelFactory来创建ViewModel实例，提供了灵活性
+5.ViewModel中使用@ActivityRetainedScoped注解，则在Fragment或者Activity中直接用Inject来实例化ViewModel
+
 
 
 ## Arouter使用

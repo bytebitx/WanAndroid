@@ -25,12 +25,13 @@ import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_project.R
 import com.bbgo.module_project.bean.ArticleDetail
 import com.bbgo.module_project.databinding.FragmentProjectListBinding
-import com.bbgo.module_project.util.InjectorUtil
 import com.bbgo.module_project.viewmodel.ProjectViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * Created by wangyb
  */
+@AndroidEntryPoint
 class ProjectListFragment : BaseFragment() {
 
     companion object {
@@ -119,8 +120,7 @@ class ProjectListFragment : BaseFragment() {
             recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
-        projectViewModel = ViewModelProvider(this, InjectorUtil.getProjectViewModelFactory())
-            .get(ProjectViewModel::class.java)
+        projectViewModel = ViewModelProvider(this).get(ProjectViewModel::class.java)
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val article = articleList[position]

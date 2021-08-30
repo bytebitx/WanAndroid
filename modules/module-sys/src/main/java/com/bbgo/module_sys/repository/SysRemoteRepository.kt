@@ -5,17 +5,20 @@ import com.bbgo.module_sys.bean.ArticleData
 import com.bbgo.module_sys.bean.KnowledgeTree
 import com.bbgo.module_sys.bean.NaviData
 import com.bbgo.module_sys.net.HttpSysService
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 3/30/21 2:35 PM
  *  description: todo
  */
-class SysRemoteRepository private constructor(){
+@ActivityRetainedScoped
+class SysRemoteRepository @Inject constructor(){
 
     suspend fun getKnowledgeTree() : Flow<HttpResult<List<KnowledgeTree>>> {
         return flow {
@@ -35,13 +38,4 @@ class SysRemoteRepository private constructor(){
         }.flowOn(Dispatchers.IO)
     }
 
-
-    /********************静态内部类单例***************************/
-    companion object {
-        val instance = SingleTonHolder.holder
-    }
-
-    private object SingleTonHolder {
-        val holder = SysRemoteRepository()
-    }
 }

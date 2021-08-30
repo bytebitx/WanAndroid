@@ -25,9 +25,7 @@ import com.bbgo.module_wechat.R
 import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.databinding.FragmentHomeBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
-import com.bbgo.module_wechat.viewmodel.WeChatViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  * Created by wangyb
@@ -56,9 +54,6 @@ class ArticleListFragment : BaseFragment() {
      * 多个fragment需要多个viewmodel实例
      */
     private lateinit var weChatViewModel: WeChatViewModel
-
-    @Inject
-    lateinit var factory: WeChatViewModelFactory
 
     /**
      * cid
@@ -159,7 +154,7 @@ class ArticleListFragment : BaseFragment() {
             }
         }
 
-        weChatViewModel = ViewModelProvider(this, factory).get(WeChatViewModel::class.java)
+        weChatViewModel = ViewModelProvider(this).get(WeChatViewModel::class.java)
 
         initBus()
     }

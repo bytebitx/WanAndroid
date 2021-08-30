@@ -1,33 +1,31 @@
 package com.bbgo.module_project.viewmodel
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.logE
 import com.bbgo.common_base.util.FileUtil
 import com.bbgo.common_base.util.MD5Utils
 import com.bbgo.common_base.util.NetWorkUtil
 import com.bbgo.module_project.bean.ArticleDetail
-import com.bbgo.module_project.bean.ArticleDetailWithTag
 import com.bbgo.module_project.bean.ProjectBean
 import com.bbgo.module_project.local.DBUtil
 import com.bbgo.module_project.repository.ProjectRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
+import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 3/29/21 9:31 PM
  *  description: todo
  */
-class ProjectViewModel(private val repository: ProjectRepository) : ViewModel() {
+@HiltViewModel
+class ProjectViewModel @Inject constructor(private val repository: ProjectRepository) : ViewModel() {
 
     val projectTreeLiveData by lazy { MutableLiveData<Resource<List<ProjectBean>>>() }
     val articlesLiveData by lazy { MutableLiveData<Resource<MutableList<ArticleDetail>>>() }

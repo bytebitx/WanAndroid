@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,9 +31,10 @@ import com.bbgo.module_home.R
 import com.bbgo.module_home.bean.ArticleDetail
 import com.bbgo.module_home.databinding.FragmentHomeBinding
 import com.bbgo.module_home.databinding.ItemHomeBannerBinding
-import com.bbgo.module_home.util.InjectorUtil
 import com.bbgo.module_home.viewmodel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 /**
@@ -43,6 +43,7 @@ import kotlinx.coroutines.launch
  *  description: todo
  */
 @Route(path = Constants.NAVIGATION_TO_HOME_FRG)
+@AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
     companion object {
@@ -57,9 +58,9 @@ class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var bannerBinding: ItemHomeBannerBinding
-    private val homeViewModel: HomeViewModel by activityViewModels{
-        InjectorUtil.getHomeViewModelFactory()
-    }
+
+    @Inject
+    lateinit var homeViewModel: HomeViewModel
     @Autowired
     lateinit var collectService: CollectService
     @Autowired

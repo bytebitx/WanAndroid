@@ -4,26 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bbgo.common_base.base.BaseFragment
-import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.widget.SpaceItemDecoration
-import com.bbgo.module_sys.bean.ArticleDetail
 import com.bbgo.module_sys.bean.KnowledgeTree
 import com.bbgo.module_sys.databinding.FragmentRefreshLayoutBinding
-import com.bbgo.module_sys.util.InjectorUtil
 import com.bbgo.module_sys.viewmodel.SysViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Created by wangyb
  */
+@AndroidEntryPoint
 class KnowledgeTreeFragment : BaseFragment() {
 
     companion object {
@@ -35,9 +31,8 @@ class KnowledgeTreeFragment : BaseFragment() {
     private var _binding: FragmentRefreshLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private val sysViewModel: SysViewModel by activityViewModels{
-        InjectorUtil.getSysViewModelFactory()
-    }
+    @Inject
+    lateinit var sysViewModel: SysViewModel
 
     /**
      * datas

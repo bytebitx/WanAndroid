@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bbgo.common_base.base.BaseFragment
@@ -13,12 +12,14 @@ import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.module_sys.bean.NaviData
 import com.bbgo.module_sys.databinding.FragmentNavigationBinding
-import com.bbgo.module_sys.util.InjectorUtil
 import com.bbgo.module_sys.viewmodel.SysViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Created by wangyb
  */
+@AndroidEntryPoint
 class NavigationFragment : BaseFragment() {
 
     companion object {
@@ -30,9 +31,8 @@ class NavigationFragment : BaseFragment() {
     private var _binding: FragmentNavigationBinding? = null
     private val binding get() = _binding!!
 
-    private val sysViewModel: SysViewModel by activityViewModels{
-        InjectorUtil.getSysViewModelFactory()
-    }
+    @Inject
+    lateinit var sysViewModel: SysViewModel
 
     private var currentPosition = 0
 

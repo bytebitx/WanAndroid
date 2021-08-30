@@ -10,6 +10,7 @@ import com.bbgo.common_base.constants.Constants
 import com.bbgo.module_sys.R
 import com.bbgo.module_sys.databinding.FragmentSysBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  *  author: wangyb
@@ -17,6 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
  *  description: todo
  */
 @Route(path = Constants.NAVIGATION_TO_SYS_FRG)
+@AndroidEntryPoint
 class SysFragment : BaseFragment() {
 
     private val titleList = mutableListOf<String>()

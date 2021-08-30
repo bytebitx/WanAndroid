@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.Constants
@@ -29,11 +30,7 @@ class WeChatFragment : BaseFragment() {
     private var _binding: FragmentWechatBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var weChatViewModel: WeChatViewModel
-//    private val weChatViewModel: WeChatViewModel by activityViewModels{
-//        InjectorUtil.getWeChatViewModelFactory()
-//    }
+    private val weChatViewModel: WeChatViewModel by activityViewModels()
 
     /**
      * datas
