@@ -2,7 +2,6 @@ package com.bbgo.module_project.repository
 
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_project.bean.*
-import com.bbgo.module_project.local.DBUtil
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -23,7 +22,7 @@ class ProjectRepository @Inject constructor(private val remoteRepository: Projec
         return remoteRepository.getProjectList(id, page)
     }
 
-    fun insertProjectTree(projectBean: ProjectBean) {
+    suspend fun insertProjectTree(projectBean: List<ProjectBean>) {
         localRepository.insertProjectTree(projectBean)
     }
 
@@ -31,16 +30,12 @@ class ProjectRepository @Inject constructor(private val remoteRepository: Projec
         return localRepository.getProjectTree()
     }
 
-    fun insertProjectArticles(articleDetail: ArticleDetail) {
-        localRepository.insertProjectArticle(articleDetail)
+    suspend fun insertProjectArticles(articleDetail: List<ArticleDetail>) {
+        localRepository.insertProjectArticles(articleDetail)
     }
 
     fun getProjectArticlesFromDB() : Flow<MutableList<ArticleDetail>> {
         return localRepository.getProjectArticles()
-    }
-
-    fun insertTag(tag: Tag) {
-        localRepository.insertTag(tag)
     }
 
     fun getTagsFromDB() : Flow<List<Tag>> {
@@ -51,7 +46,7 @@ class ProjectRepository @Inject constructor(private val remoteRepository: Projec
         return localRepository.getArticleDetailWithTag()
     }
 
-    fun deleteArticleById(articleId: String) {
+    suspend fun deleteArticleById(articleId: String) {
         localRepository.deleteArticleById(articleId)
     }
 

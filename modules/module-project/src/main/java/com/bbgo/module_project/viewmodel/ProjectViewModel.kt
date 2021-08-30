@@ -5,18 +5,14 @@ import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.logE
-import com.bbgo.common_base.util.FileUtil
-import com.bbgo.common_base.util.MD5Utils
 import com.bbgo.common_base.util.NetWorkUtil
 import com.bbgo.module_project.bean.ArticleDetail
 import com.bbgo.module_project.bean.ProjectBean
-import com.bbgo.module_project.local.DBUtil
 import com.bbgo.module_project.repository.ProjectRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.io.File
 import javax.inject.Inject
 
 /**
@@ -74,11 +70,9 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
      * 将从网络中获取的数据存入DB
      */
     private fun insertProjectTree() {
-        viewModelScope.launch(Dispatchers.IO) {
-            DBUtil.getInstance().runInTransaction {
-                projectTreeLiveData.value?.data?.forEach { projectBean ->
-                    repository.insertProjectTree(projectBean)
-                }
+        viewModelScope.launch {
+            projectTreeLiveData.value?.data?.let {
+                repository.insertProjectTree(it)
             }
         }
     }
@@ -128,25 +122,9 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
     }
 
     private fun insertProjectArticle() {
-        viewModelScope.launch(Dispatchers.IO) {
-            DBUtil.getInstance().runInTransaction {
-                DBUtil.getInstance().runInTransaction {
-                    articlesLiveData.value?.data?.forEach { articleDetail ->
-                        if (articleDetail.envelopePic.isNotEmpty()) run {
-                            FileUtil.downloadFile(
-                                articleDetail.envelopePic,
-                                FileUtil.getInternalStorePath() +
-                                        File.separator +
-                                        MD5Utils.getMD5(articleDetail.envelopePic) + ".png"
-                            )
-                        }
-                        repository.insertProjectArticles(articleDetail)
-                        articleDetail.tags?.forEach { tag ->
-                            tag.artileId = articleDetail.id
-                            repository.insertTag(tag)
-                        }
-                    }
-                }
+        articlesLiveData.value?.data?.let {
+            viewModelScope.launch {
+                repository.insertProjectArticles(it)
             }
         }
     }
