@@ -2,13 +2,16 @@ package com.bbgo.module_login.repository
 
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Prefs
+import dagger.hilt.android.scopes.ActivityRetainedScoped
+import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 3/30/21 2:36 PM
  *  description: todo
  */
-class RegisterLoginLocalRepository private constructor(){
+@ActivityRetainedScoped
+class RegisterLoginLocalRepository @Inject constructor(){
 
 
     fun insertLoginData(userName: String) {

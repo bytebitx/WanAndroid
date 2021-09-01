@@ -3,7 +3,6 @@ package com.bbgo.module_login.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.constants.Constants
@@ -13,8 +12,9 @@ import com.bbgo.common_base.ext.showToast
 import com.bbgo.module_login.R
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.databinding.ActivityRegisterBinding
-import com.bbgo.module_login.util.InjectorUtil
 import com.bbgo.module_login.viewmodel.RegisterLoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  *  author: wangyb
@@ -22,13 +22,13 @@ import com.bbgo.module_login.viewmodel.RegisterLoginViewModel
  *  description: todo
  */
 @Route(path = Constants.NAVIGATION_TO_REGISTER)
+@AndroidEntryPoint
 class RegisterActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityRegisterBinding
 
-    private val registerLoginViewModel by viewModels<RegisterLoginViewModel> {
-        InjectorUtil.getLoginViewModelFactory()
-    }
+    @Inject
+    lateinit var registerLoginViewModel: RegisterLoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

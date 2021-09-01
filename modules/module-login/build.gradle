@@ -1,6 +1,6 @@
-def path = rootProject.ext.module.isLoginModule
+def isModule = rootProject.ext.module.isLoginModule
 
-if (Boolean.valueOf(path)) {
+if (Boolean.valueOf(isModule)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -9,6 +9,8 @@ if (Boolean.valueOf(path)) {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: "com.vanniktech.maven.publish"
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -51,7 +53,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(path)) {
+            if (Boolean.valueOf(isModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -76,4 +78,28 @@ dependencies {
     implementation project(":common:common-base")
     implementation project(":common:common-service")
     kapt rootProject.ext.compiler["arouterCompiler"]
+
+    compileOnly(rootProject.ext.jetpack["hilt"])
+    kapt rootProject.ext.compiler["hiltAndroidCompiler"]
 }
+
+//  发布module到maven仓库
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.17.0'
+    }
+}
+
+allprojects {
+    plugins.withId("com.vanniktech.maven.publish") {
+        mavenPublish {
+            sonatypeHost = "S01"
+        }
+    }
+}
+
+apply plugin: "com.vanniktech.maven.publish"

@@ -8,16 +8,19 @@ import com.bbgo.common_base.ext.USER_REGISTERED_ERROR
 import com.bbgo.common_base.ext.logD
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.repository.RegisterLoginRepository
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 3/29/21 9:31 PM
  *  description: todo
  */
-class RegisterLoginViewModel(private val repository: RegisterLoginRepository) : ViewModel() {
+@ActivityRetainedScoped
+class RegisterLoginViewModel @Inject constructor(private val repository: RegisterLoginRepository) : ViewModel() {
 
     val registerLoginLiveData = MutableLiveData<Resource<LoginData>>()
     val logOutLiveData = MutableLiveData<Resource<String>>()

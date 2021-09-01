@@ -8,6 +8,7 @@ if (Boolean.valueOf(path)) {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
+apply plugin: "com.vanniktech.maven.publish"
 
 
 android {
@@ -79,3 +80,24 @@ dependencies {
 
     kapt rootProject.ext.compiler["arouterCompiler"]
 }
+
+//  发布module到maven仓库
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.17.0'
+    }
+}
+
+allprojects {
+    plugins.withId("com.vanniktech.maven.publish") {
+        mavenPublish {
+            sonatypeHost = "S01"
+        }
+    }
+}
+
+apply plugin: "com.vanniktech.maven.publish"

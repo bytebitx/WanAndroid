@@ -4,17 +4,20 @@ import com.bbgo.common_base.bean.BaseBean
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.net.HttpLoginService
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 3/30/21 2:35 PM
  *  description: todo
  */
-class RegisterLoginRemoteRepository private constructor(){
+@ActivityRetainedScoped
+class RegisterLoginRemoteRepository @Inject constructor(){
 
     suspend fun registerWanAndroid(username: String,
                               password: String,

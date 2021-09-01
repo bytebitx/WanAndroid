@@ -3,7 +3,6 @@ package com.bbgo.module_login.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
@@ -15,8 +14,9 @@ import com.bbgo.common_base.util.DialogUtil
 import com.bbgo.module_login.R
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.databinding.ActivityLoginBinding
-import com.bbgo.module_login.util.InjectorUtil
 import com.bbgo.module_login.viewmodel.RegisterLoginViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  *  author: wangyb
@@ -24,13 +24,13 @@ import com.bbgo.module_login.viewmodel.RegisterLoginViewModel
  *  description: todo
  */
 @Route(path = Constants.NAVIGATION_TO_LOGIN)
+@AndroidEntryPoint
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityLoginBinding
 
-    private val registerLoginViewModel by viewModels<RegisterLoginViewModel> {
-        InjectorUtil.getLoginViewModelFactory()
-    }
+    @Inject
+    lateinit var registerLoginViewModel: RegisterLoginViewModel
 
     private val mDialog by lazy {
         DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
