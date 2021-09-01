@@ -16,7 +16,11 @@
 通用依赖库在common文件夹下，子组件都在modules文件夹下面。   
 整个项目结构清晰简单，将每个tab做成一个module，让你快速上手组件化知识。   
 那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。   
-该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。   
+该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。
+
+
+login模块和content模块由于改动较小，所以将这两个模块已上传到maven上面；APP壳工程既可以源码依赖，也可以aar依赖。
+
 
 网络请求框架使用:   
 Retrofit2 + 协程Coroutines + Flow技术搭建，因此每个模块都有涉及。
