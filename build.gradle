@@ -7,9 +7,10 @@ buildscript {
         compose_version = '1.0.1'
     }
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/public' }
         mavenCentral()
         google()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.0'
@@ -22,10 +23,11 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        maven { url 'https://jitpack.io' }
         mavenCentral()
         google()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://jitpack.io' }
+
     }
 }
 

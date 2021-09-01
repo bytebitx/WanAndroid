@@ -15,4 +15,4 @@
 .cxx
 local.properties
 gradle.properties
-/modules/module-login/secring.gpg
+/secring.gpg

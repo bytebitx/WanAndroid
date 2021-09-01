@@ -1,6 +1,6 @@
-def path = rootProject.ext.module.isLoginModule
+def isModule = rootProject.ext.module.isLoginModule
 
-if (Boolean.valueOf(path)) {
+if (Boolean.valueOf(isModule)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -9,8 +9,7 @@ if (Boolean.valueOf(path)) {
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
-//apply plugin: 'maven-publish'
-//apply plugin: 'signing'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: "com.vanniktech.maven.publish"
 
 android {
@@ -54,7 +53,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(path)) {
+            if (Boolean.valueOf(isModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -79,7 +78,12 @@ dependencies {
     implementation project(":common:common-base")
     implementation project(":common:common-service")
     kapt rootProject.ext.compiler["arouterCompiler"]
+
+    compileOnly(rootProject.ext.jetpack["hilt"])
+    kapt rootProject.ext.compiler["hiltAndroidCompiler"]
 }
+
+//  发布module到maven仓库
 
 buildscript {
     repositories {
@@ -99,65 +103,3 @@ allprojects {
 }
 
 apply plugin: "com.vanniktech.maven.publish"
-
-//publishing {
-//    publications {
-//        maven(MavenPublication) {
-//            groupId 'io.github.bbggo' //开通maven central时候定义的
-//            artifactId 'module-login' //资源名称
-//            version '0.0.1' //版本名称
-//            pom {
-//                name = 'module-login'
-//                description = 'login module'
-//                url = 'https://github.com/bbggo/WanAndroid'
-//                inceptionYear = '2021'
-//            }
-//            scm {
-//                url = 'https://github.com/bbggo/WanAndroid'
-//                connection = 'scm:git@https://github.com/bbggo/WanAndroid.git'
-//                developerConnection = 'scm:git@https://github.com/bbggo/WanAndroid.git'
-//            }
-//
-//            licenses {
-//                license {
-//                    name = 'The Apache Software License, Version 2.0'
-//                    url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                    distribution = 'repo'
-//                    comments = 'A business-friendly OSS license'
-//                }
-//            }
-//
-//            developers {
-//                developer {
-//                    id = 'bbggo'
-//                    name = 'wangyuebin'
-//                    email = '395044952@qq.com'
-//                    url = 'https://github.com/bbggo/WanAndroid'
-//                }
-//            }
-//
-//            issueManagement {
-//                system = 'Github'
-//                url = 'https://github.com/bbggo/WanAndroid'
-//            }
-//            artifact 'build/outputs/aar/module-login-debug.aar'
-////            artifact generateSourcesJar //需要上传的source jar
-////            artifact generateJavadoc //需要上传的java doc
-////            artifact makeJar //需要上传的资源jar路径或者是aar路径，这边可以填写一个生成jar的task，如makeJar方法就是一个生成jar的task
-//        }
-//    }
-//    repositories {
-//        maven {
-//            // 指定要上传的maven仓库
-//            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-//            //Maven仓库用户名和密码
-//            credentials {
-//                username 'bbggo'
-//                password password
-//            }
-//        }
-//    }
-//}
-//signing {
-//    sign publishing.publications.gradle //签名配置
-//}
