@@ -69,10 +69,12 @@ dependencies {
     implementation project(":common:common-base")
     implementation project(":common:common-service")
     if (!Boolean.valueOf(rootProject.ext.module.isContentModule)) {
-        implementation project(":modules:module-content")
+//        implementation project(":modules:module-content")
+        implementation 'io.github.bbggo:module-content:1.0.1'
     }
     if (!Boolean.valueOf(rootProject.ext.module.isLoginModule)) {
-        implementation project(":modules:module-login")
+//        implementation project(":modules:module-login")
+        implementation 'io.github.bbggo:module-login:0.0.2'
     }
     if (!Boolean.valueOf(rootProject.ext.module.isHomeModule)) {
         implementation project(":modules:module-home")

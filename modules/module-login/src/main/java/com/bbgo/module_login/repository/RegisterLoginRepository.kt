@@ -3,14 +3,17 @@ package com.bbgo.module_login.repository
 import com.bbgo.common_base.bean.BaseBean
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_login.bean.LoginData
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 3/29/21 9:32 PM
  *  description: todo
  */
-class RegisterLoginRepository private constructor(private val remoteRepository: RegisterLoginRemoteRepository, private val localRepository: RegisterLoginLocalRepository) {
+@ActivityRetainedScoped
+class RegisterLoginRepository @Inject constructor(private val remoteRepository: RegisterLoginRemoteRepository, private val localRepository: RegisterLoginLocalRepository) {
 
     companion object {
         @Volatile
