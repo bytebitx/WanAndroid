@@ -25,7 +25,7 @@
 //
 //@Module
 //@InstallIn(SingletonComponent::class)
-//class NetWorkModule {
+//object NetWorkModule {
 //
 //    private val BASE_URL = "https://wanandroid.com/"
 //
