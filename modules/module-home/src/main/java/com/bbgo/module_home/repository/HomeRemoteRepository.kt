@@ -21,21 +21,15 @@ import javax.inject.Inject
 class HomeRemoteRepository @Inject constructor(){
 
 
-    suspend fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
-        return flow {
-            emit(HttpHomeService.service.getTopArticles())
-        }.flowOn(Dispatchers.IO)
+    fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
+        return HttpHomeService.service.getTopArticles()
     }
 
-    suspend fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
-        return flow {
-            emit(HttpHomeService.service.getArticles(pageNum))
-        }.flowOn(Dispatchers.IO)
+    fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
+        return HttpHomeService.service.getArticles(pageNum)
     }
 
-    suspend fun getBanners(): Flow<HttpResult<List<Banner>>> {
-        return flow {
-            emit(HttpHomeService.service.getBanners())
-        }.flowOn(Dispatchers.IO)
+    fun getBanners(): Flow<HttpResult<List<Banner>>> {
+        return HttpHomeService.service.getBanners()
     }
 }

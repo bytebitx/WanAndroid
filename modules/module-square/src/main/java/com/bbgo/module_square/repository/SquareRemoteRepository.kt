@@ -4,10 +4,7 @@ import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_square.bean.ArticleData
 import com.bbgo.module_square.net.HttpSquareService
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -19,9 +16,7 @@ import javax.inject.Inject
 class SquareRemoteRepository @Inject constructor(){
 
 
-    suspend fun getSquareList(pageNum: Int) : Flow<HttpResult<ArticleData>> {
-        return flow {
-            emit(HttpSquareService.service.getSquareList(pageNum))
-        }.flowOn(Dispatchers.IO)
+    fun getSquareList(pageNum: Int) : Flow<HttpResult<ArticleData>> {
+        return HttpSquareService.service.getSquareList(pageNum)
     }
 }

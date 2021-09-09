@@ -3,6 +3,7 @@ package com.bbgo.module_compose.net.api
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_compose.bean.ArticleData
 import com.bbgo.module_compose.bean.ArticleDetail
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -18,7 +19,7 @@ interface HttpComposeApiService {
      * http://www.wanandroid.com/article/top/json
      */
     @GET("article/top/json")
-    suspend fun getTopArticles(): HttpResult<List<ArticleDetail>>
+    fun getTopArticles(): Flow<HttpResult<List<ArticleDetail>>>
 
     /**
      * 获取文章列表
@@ -26,6 +27,6 @@ interface HttpComposeApiService {
      * @param pageNum
      */
     @GET("article/list/{pageNum}/json")
-    suspend fun getArticles(@Path("pageNum") pageNum: Int): HttpResult<ArticleData>
+    fun getArticles(@Path("pageNum") pageNum: Int): Flow<HttpResult<ArticleData>>
 
 }

@@ -25,7 +25,6 @@ import com.bbgo.common_base.util.DialogUtil
 import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_service.login.LoginOutService
 import com.bbgo.wanandroid.R
-import com.bbgo.wanandroid.bean.UserInfo
 import com.bbgo.wanandroid.databinding.ActivityMainBinding
 import com.bbgo.wanandroid.databinding.NavHeaderMainBinding
 import com.bbgo.wanandroid.util.InjectorUtil
@@ -76,37 +75,21 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         ARouter.getInstance().inject(this)
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        mainViewModel.getUserInfo()
+        val userId = intent.getStringExtra("userId")
+        val userName = intent.getStringExtra("userName")
+        if (userId.isNullOrEmpty()) return
+        navHeaderBinding.userIdLayout.visibility = View.VISIBLE
+        navHeaderBinding.tvUserId.text = userId
+        navHeaderBinding.tvUsername.text = userName
+        binding.navView.menu.findItem(R.id.nav_logout).title = getString(R.string.nav_logout)
+        AppUtil.isLogin = true
     }
 
     override fun observeViewModel() {
         mainViewModel.getUserInfo()
-        observe(mainViewModel.userInfoLiveData, ::handleUserInfo)
         observe(mainViewModel.logOutLiveData, ::handleLogOut)
-    }
-
-    private fun handleUserInfo(status: Resource<UserInfo>) {
-        when (status) {
-            is Resource.Loading -> {
-                mDialog.show()
-            }
-            is Resource.DataError -> {
-                mDialog.dismiss()
-                binding.navView.menu.findItem(R.id.nav_logout).title = getString(R.string.login)
-            }
-            else -> {
-                mDialog.dismiss()
-                navHeaderBinding.userIdLayout.visibility = View.VISIBLE
-                navHeaderBinding.tvUserId.text = status.data?.userId.toString()
-                navHeaderBinding.tvUserGrade.text = status.data?.coinCount.toString()
-                navHeaderBinding.tvUserRank.text = status.data?.rank.toString()
-                navHeaderBinding.tvUsername.text = Prefs.getString(Constants.USER_NAME)
-                binding.navView.menu.findItem(R.id.nav_logout).title = getString(R.string.nav_logout)
-                AppUtil.isLogin = true
-            }
-        }
     }
 
     private fun handleLogOut(status: Resource<String>) {

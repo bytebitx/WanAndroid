@@ -16,15 +16,15 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class HomeRepository @Inject constructor(private val remoteRepository: HomeRemoteRepository, private val localRepository: HomeLocalRepository) {
 
-    suspend fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
+    fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
         return remoteRepository.getTopArticles()
     }
 
-    suspend fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
+    fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getArticles(pageNum)
     }
 
-    suspend fun getBanners(): Flow<HttpResult<List<Banner>>> {
+    fun getBanners(): Flow<HttpResult<List<Banner>>> {
         return remoteRepository.getBanners()
     }
 }

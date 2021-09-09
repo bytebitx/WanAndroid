@@ -2,7 +2,6 @@ package com.bbgo.wanandroid.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource

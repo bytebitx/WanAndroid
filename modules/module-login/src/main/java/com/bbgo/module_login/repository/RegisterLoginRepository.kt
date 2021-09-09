@@ -31,18 +31,18 @@ class RegisterLoginRepository @Inject constructor(private val remoteRepository: 
         }
     }
 
-    suspend fun registerWanAndroid(username: String,
+    fun registerWanAndroid(username: String,
                                    password: String,
                                    repassword: String) : Flow<HttpResult<LoginData>> {
         return remoteRepository.registerWanAndroid(username, password, repassword)
     }
 
-    suspend fun loginWanAndroid(username: String,
+    fun loginWanAndroid(username: String,
                                 password: String) : Flow<HttpResult<LoginData>> {
         return remoteRepository.loginWanAndroid(username, password)
     }
 
-    suspend fun logout() : Flow<BaseBean> {
+    fun logout() : Flow<BaseBean> {
         return remoteRepository.logout()
     }
 

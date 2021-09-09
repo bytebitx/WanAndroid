@@ -7,10 +7,8 @@ import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.logE
 import com.bbgo.module_compose.bean.ArticleDetail
 import com.bbgo.module_compose.repository.ComposeRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 
@@ -38,7 +36,6 @@ class ComposeViewModel(private val repository: ComposeRepository) : ViewModel() 
                         allArticles
                     }
                 }
-                .flowOn(Dispatchers.IO)
                 .catch {
                     logE(TAG, it.message, it)
                 }

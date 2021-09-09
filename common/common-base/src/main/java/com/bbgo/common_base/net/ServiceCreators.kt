@@ -36,6 +36,7 @@ object ServiceCreators {
     private val builder = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(httpClient)
+        .addCallAdapterFactory(FlowCallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().registerTypeAdapterFactory(
             GsonTypeAdapterFactory()
         ).create()))

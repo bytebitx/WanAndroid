@@ -4,10 +4,7 @@ import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_compose.bean.ArticleData
 import com.bbgo.module_compose.bean.ArticleDetail
 import com.bbgo.module_compose.net.HttpComposeService
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 /**
  *  author: wangyb
@@ -17,16 +14,12 @@ import kotlinx.coroutines.flow.flowOn
 class ComposeRemoteRepository private constructor(){
 
 
-    suspend fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
-        return flow {
-            emit(HttpComposeService.service.getTopArticles())
-        }.flowOn(Dispatchers.IO)
+    fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
+        return HttpComposeService.service.getTopArticles()
     }
 
-    suspend fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
-        return flow {
-            emit(HttpComposeService.service.getArticles(pageNum))
-        }.flowOn(Dispatchers.IO)
+    fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
+        return HttpComposeService.service.getArticles(pageNum)
     }
 
 

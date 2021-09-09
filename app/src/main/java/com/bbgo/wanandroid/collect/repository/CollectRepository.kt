@@ -30,15 +30,11 @@ class CollectRepository private constructor() {
         }
     }
 
-    suspend fun collectArticle(id: Int) : Flow<HttpResult<CollectBean>> {
-        return flow {
-            emit(HttpService.service.addCollectArticle(id))
-        }.flowOn(Dispatchers.IO)
+    fun collectArticle(id: Int) : Flow<HttpResult<CollectBean>> {
+        return HttpService.service.addCollectArticle(id)
     }
 
-    suspend fun unCollectArticle(id: Int) : Flow<HttpResult<CollectBean>> {
-        return flow {
-            emit(HttpService.service.cancelCollectArticle(id))
-        }.flowOn(Dispatchers.IO)
+    fun unCollectArticle(id: Int) : Flow<HttpResult<CollectBean>> {
+        return HttpService.service.cancelCollectArticle(id)
     }
 }

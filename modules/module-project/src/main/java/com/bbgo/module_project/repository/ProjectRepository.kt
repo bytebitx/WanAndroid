@@ -14,15 +14,15 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class ProjectRepository @Inject constructor(private val remoteRepository: ProjectRemoteRepository, private val localRepository: ProjectLocalRepository) {
 
-    suspend fun getProjectTree() : Flow<HttpResult<List<ProjectBean>>> {
+    fun getProjectTree() : Flow<HttpResult<List<ProjectBean>>> {
         return remoteRepository.getProjectTree()
     }
 
-    suspend fun getProjectList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
+    fun getProjectList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getProjectList(id, page)
     }
 
-    suspend fun insertProjectTree(projectBean: List<ProjectBean>) {
+    fun insertProjectTree(projectBean: List<ProjectBean>) {
         localRepository.insertProjectTree(projectBean)
     }
 
@@ -30,7 +30,7 @@ class ProjectRepository @Inject constructor(private val remoteRepository: Projec
         return localRepository.getProjectTree()
     }
 
-    suspend fun insertProjectArticles(articleDetail: List<ArticleDetail>) {
+    fun insertProjectArticles(articleDetail: List<ArticleDetail>) {
         localRepository.insertProjectArticles(articleDetail)
     }
 
@@ -46,7 +46,7 @@ class ProjectRepository @Inject constructor(private val remoteRepository: Projec
         return localRepository.getArticleDetailWithTag()
     }
 
-    suspend fun deleteArticleById(articleId: String) {
+    fun deleteArticleById(articleId: String) {
         localRepository.deleteArticleById(articleId)
     }
 

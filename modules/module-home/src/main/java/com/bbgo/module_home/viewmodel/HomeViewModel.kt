@@ -10,10 +10,8 @@ import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.module_home.bean.ArticleDetail
 import com.bbgo.module_home.repository.HomeRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,7 +42,6 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
                         allArticles
                     }
                 }
-                .flowOn(Dispatchers.IO)
                 .catch {
                     logE(TAG, it.message, it)
                 }
@@ -60,7 +57,6 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
                 .catch {
                     logD("HomeViewModel", "${it.message}")
                 }
-                .flowOn(Dispatchers.IO)
                 .collectLatest {
                     bannerLiveData.value = Resource.Success(it.data)
                 }

@@ -4,6 +4,7 @@ import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_sys.bean.ArticleData
 import com.bbgo.module_sys.bean.KnowledgeTree
 import com.bbgo.module_sys.bean.NaviData
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,7 +21,7 @@ interface HttpSysApiService {
      * http://www.wanandroid.com/tree/json
      */
     @GET("tree/json")
-    suspend fun getKnowledgeTree(): HttpResult<List<KnowledgeTree>>
+    fun getKnowledgeTree(): Flow<HttpResult<List<KnowledgeTree>>>
 
     /**
      * 知识体系下的文章
@@ -29,14 +30,14 @@ interface HttpSysApiService {
      * @param cid
      */
     @GET("article/list/{page}/json")
-    suspend fun getKnowledgeList(@Path("page") page: Int, @Query("cid") cid: Int): HttpResult<ArticleData>
+    fun getKnowledgeList(@Path("page") page: Int, @Query("cid") cid: Int): Flow<HttpResult<ArticleData>>
 
     /**
      * 导航数据
      * http://www.wanandroid.com/navi/json
      */
     @GET("navi/json")
-    suspend fun getNavigationList(): HttpResult<List<NaviData>>
+    fun getNavigationList(): Flow<HttpResult<List<NaviData>>>
 
 
 }

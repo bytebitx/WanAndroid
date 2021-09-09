@@ -3,6 +3,7 @@ package com.bbgo.wanandroid.network.api
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.wanandroid.bean.CollectBean
 import com.bbgo.wanandroid.bean.UserInfo
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -20,7 +21,7 @@ interface HttpApiService {
      * @param id article id
      */
     @POST("lg/collect/{id}/json")
-    suspend fun addCollectArticle(@Path("id") id: Int): HttpResult<CollectBean>
+    fun addCollectArticle(@Path("id") id: Int): Flow<HttpResult<CollectBean>>
 
     /**
      * 文章列表中取消收藏文章
@@ -28,14 +29,14 @@ interface HttpApiService {
      * @param id
      */
     @POST("lg/uncollect_originId/{id}/json")
-    suspend fun cancelCollectArticle(@Path("id") id: Int): HttpResult<CollectBean>
+    fun cancelCollectArticle(@Path("id") id: Int): Flow<HttpResult<CollectBean>>
 
     /**
      * 获取个人积分，需要登录后访问
      * https://www.wanandroid.com/lg/coin/userinfo/json
      */
     @GET("/lg/coin/userinfo/json")
-    suspend fun getUserInfo(): HttpResult<UserInfo>
+    fun getUserInfo(): Flow<HttpResult<UserInfo>>
 
 
 }

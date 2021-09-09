@@ -14,7 +14,7 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class SquareRepository @Inject constructor(private val remoteRepository: SquareRemoteRepository, private val localRepository: SquareLocalRepository) {
 
-    suspend fun getSquareList(pageNum: Int) : Flow<HttpResult<ArticleData>> {
+    fun getSquareList(pageNum: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getSquareList(pageNum)
     }
 

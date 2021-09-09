@@ -3,6 +3,7 @@ package com.bbgo.module_login.net.api
 import com.bbgo.common_base.bean.BaseBean
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_login.bean.LoginData
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -25,8 +26,8 @@ interface HttpLoginApiService {
      */
     @POST("user/login")
     @FormUrlEncoded
-    suspend fun loginWanAndroid(@Field("username") username: String,
-                        @Field("password") password: String): HttpResult<LoginData>
+    fun loginWanAndroid(@Field("username") username: String,
+                        @Field("password") password: String): Flow<HttpResult<LoginData>>
 
     /**
      * 注册
@@ -37,15 +38,15 @@ interface HttpLoginApiService {
      */
     @POST("user/register")
     @FormUrlEncoded
-    suspend fun registerWanAndroid(@Field("username") username: String,
+    fun registerWanAndroid(@Field("username") username: String,
                            @Field("password") password: String,
-                           @Field("repassword") repassword: String): HttpResult<LoginData>
+                           @Field("repassword") repassword: String): Flow<HttpResult<LoginData>>
 
     /**
      * 退出登录
      * http://www.wanandroid.com/user/logout/json
      */
     @GET("user/logout/json")
-    suspend fun logout(): BaseBean
+    fun logout(): Flow<BaseBean>
 
 }

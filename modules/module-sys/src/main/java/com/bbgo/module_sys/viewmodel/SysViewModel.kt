@@ -12,7 +12,7 @@ import com.bbgo.module_sys.bean.NaviData
 import com.bbgo.module_sys.repository.SysRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,11 +27,11 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
 
     private val TAG = "SysViewModel"
 
-    val wxArticlesLiveData by lazy { MutableLiveData<Resource<MutableList<ArticleDetail>>>() }
+    private val wxArticlesLiveData =  MutableLiveData<Resource<MutableList<ArticleDetail>>>()
 
-    val treeLiveData by lazy { MutableLiveData<Resource<List<KnowledgeTree>>>() }
+    val treeLiveData = MutableLiveData<Resource<List<KnowledgeTree>>>()
 
-    val naviLiveData by lazy { MutableLiveData<Resource<List<NaviData>>>() }
+    val naviLiveData = MutableLiveData<Resource<List<NaviData>>>()
 
     fun getKnowledgeTree() {
         viewModelScope.launch {
@@ -50,7 +50,7 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
                 .catch {
                     logE(TAG, it.message, it)
                 }
-                .collect {
+                .collectLatest {
                     treeLiveData.value = it
                 }
         }
@@ -72,7 +72,7 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
                 }
                 .catch {
                 }
-                .collect {
+                .collectLatest {
                     wxArticlesLiveData.value = it
                 }
         }
@@ -95,7 +95,7 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
                 .catch {
                     logE(TAG, it.message, it)
                 }
-                .collect {
+                .collectLatest {
                     naviLiveData.value = it
                 }
         }

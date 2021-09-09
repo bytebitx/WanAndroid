@@ -19,15 +19,11 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class ProjectRemoteRepository @Inject constructor(){
 
-    suspend fun getProjectTree() : Flow<HttpResult<List<ProjectBean>>> {
-        return flow {
-            emit(HttpProjectService.service.getProjectTree())
-        }.flowOn(Dispatchers.IO)
+    fun getProjectTree() : Flow<HttpResult<List<ProjectBean>>> {
+        return HttpProjectService.service.getProjectTree()
     }
 
-    suspend fun getProjectList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
-        return flow {
-            emit(HttpProjectService.service.getProjectList(page, id))
-        }.flowOn(Dispatchers.IO)
+    fun getProjectList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
+        return HttpProjectService.service.getProjectList(page, id)
     }
 }

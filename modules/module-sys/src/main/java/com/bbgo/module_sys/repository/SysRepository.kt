@@ -16,15 +16,15 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class SysRepository @Inject constructor(private val remoteRepository: SysRemoteRepository, private val localRepository: SysLocalRepository) {
 
-    suspend fun getKnowledgeTree() : Flow<HttpResult<List<KnowledgeTree>>> {
+    fun getKnowledgeTree() : Flow<HttpResult<List<KnowledgeTree>>> {
         return remoteRepository.getKnowledgeTree()
     }
 
-    suspend fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
+    fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getKnowledgeList(id, page)
     }
 
-    suspend fun getNavigationList() : Flow<HttpResult<List<NaviData>>> {
+    fun getNavigationList() : Flow<HttpResult<List<NaviData>>> {
         return remoteRepository.getNavigationList()
     }
 }

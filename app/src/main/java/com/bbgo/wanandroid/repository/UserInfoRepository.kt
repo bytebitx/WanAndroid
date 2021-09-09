@@ -32,10 +32,8 @@ class UserInfoRepository private constructor() {
         }
     }
 
-    suspend fun getUserInfo() : Flow<HttpResult<UserInfo>> {
-        return flow {
-            emit(HttpService.service.getUserInfo())
-        }.flowOn(Dispatchers.IO)
+    fun getUserInfo() : Flow<HttpResult<UserInfo>> {
+        return HttpService.service.getUserInfo()
     }
 
 }

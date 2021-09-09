@@ -33,15 +33,15 @@ class WxRepository @Inject constructor(private val remoteRepository: WxRemoteRep
         }
     }*/
 
-    suspend fun getWXChapters() : Flow<HttpResult<List<WXArticle>>> {
+    fun getWXChapters() : Flow<HttpResult<List<WXArticle>>> {
         return remoteRepository.getWXChapters()
     }
 
-    suspend fun getWXArticles(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
+    fun getWXArticles(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getWXArticles(id, page)
     }
 
-    suspend fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
+    fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getKnowledgeList(id, page)
     }
 }

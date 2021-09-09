@@ -19,25 +19,19 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class RegisterLoginRemoteRepository @Inject constructor(){
 
-    suspend fun registerWanAndroid(username: String,
+    fun registerWanAndroid(username: String,
                               password: String,
                               repassword: String) : Flow<HttpResult<LoginData>> {
-        return flow {
-            emit(HttpLoginService.service.registerWanAndroid(username, password, repassword))
-        }.flowOn(Dispatchers.IO)
+        return HttpLoginService.service.registerWanAndroid(username, password, repassword)
     }
 
-    suspend fun loginWanAndroid(username: String,
+    fun loginWanAndroid(username: String,
                                 password: String) : Flow<HttpResult<LoginData>> {
-        return flow {
-            emit(HttpLoginService.service.loginWanAndroid(username, password))
-        }.flowOn(Dispatchers.IO)
+        return HttpLoginService.service.loginWanAndroid(username, password)
     }
 
-    suspend fun logout() : Flow<BaseBean> {
-        return flow {
-            emit(HttpLoginService.service.logout())
-        }.flowOn(Dispatchers.IO)
+    fun logout() : Flow<BaseBean> {
+        return HttpLoginService.service.logout()
     }
 
     /********************静态内部类单例***************************/

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.USER_REGISTERED_ERROR
 import com.bbgo.common_base.ext.logD
+import com.bbgo.common_base.ext.logE
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.repository.RegisterLoginRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -47,7 +48,6 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
                 .catch {
                     logD(TAG, "catch $it")
                 }
-                .flowOn(Dispatchers.IO)
                 .collectLatest {
                     registerLoginLiveData.value = it
                 }
@@ -75,11 +75,10 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
                     }
                 }
                 .catch {
-                    logD(TAG, "catch $it")
+                    logE(TAG, "catch ${it.stackTrace}", it)
                 }
-                .flowOn(Dispatchers.IO)
                 .collectLatest {
-                    logD("HomeViewModel", "collect current thread ${Thread.currentThread().name}")
+                    logD(TAG, "collect current thread ${Thread.currentThread().name}")
                     registerLoginLiveData.value = it
                 }
         }
@@ -111,7 +110,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
         }
     }
 
-    suspend fun logOutToMain(): Flow<String> {
+    fun logOutToMain(): Flow<String> {
         /**
          * 1.必须要有异常处理
          * 2.必须要有collect，否则map里面的代码不执行

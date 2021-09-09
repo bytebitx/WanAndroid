@@ -23,8 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProjectViewModel @Inject constructor(private val repository: ProjectRepository) : ViewModel() {
 
-    val projectTreeLiveData by lazy { MutableLiveData<Resource<List<ProjectBean>>>() }
-    val articlesLiveData by lazy { MutableLiveData<Resource<MutableList<ArticleDetail>>>() }
+    val projectTreeLiveData = MutableLiveData<Resource<List<ProjectBean>>>()
+    val articlesLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()
     private val articleList = mutableListOf<ArticleDetail>()
 
     fun getProjectTree() {
@@ -70,7 +70,7 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
      * 将从网络中获取的数据存入DB
      */
     private fun insertProjectTree() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             projectTreeLiveData.value?.data?.let {
                 repository.insertProjectTree(it)
             }
@@ -123,7 +123,7 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
 
     private fun insertProjectArticle() {
         articlesLiveData.value?.data?.let {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 repository.insertProjectArticles(it)
             }
         }

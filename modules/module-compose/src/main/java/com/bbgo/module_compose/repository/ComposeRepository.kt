@@ -27,11 +27,11 @@ class ComposeRepository private constructor(private val remoteRepository: Compos
         }
     }
 
-    suspend fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
+    fun getTopArticles() : Flow<HttpResult<List<ArticleDetail>>> {
         return remoteRepository.getTopArticles()
     }
 
-    suspend fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
+    fun getArticles(pageNum: Int) : Flow<HttpResult<ArticleData>> {
         return remoteRepository.getArticles(pageNum)
     }
 }

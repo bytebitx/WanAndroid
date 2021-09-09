@@ -28,7 +28,7 @@ class ProjectLocalRepository @Inject constructor(
     private val tagDao: TagDao
 ){
 
-    suspend fun insertProjectTree(projectBeans: List<ProjectBean>) = withContext(Dispatchers.IO) {
+    fun insertProjectTree(projectBeans: List<ProjectBean>) {
         db.runInTransaction {
             projectBeans.forEach { projectBean ->
                 projectTreeDao.insert(projectBean)
@@ -40,7 +40,7 @@ class ProjectLocalRepository @Inject constructor(
         return projectTreeDao.getProjectTree()
     }
 
-    suspend fun insertProjectArticles(articleDetails: List<ArticleDetail>) = withContext(Dispatchers.IO) {
+    fun insertProjectArticles(articleDetails: List<ArticleDetail>) {
         db.runInTransaction {
             articleDetails.forEach { articleDetail ->
                 articleDetailDao.insert(articleDetail)
@@ -68,7 +68,7 @@ class ProjectLocalRepository @Inject constructor(
         return articleDetailDao.getArticleDetailWithTag()
     }
 
-    suspend fun deleteArticleById(articleId: String) = withContext(Dispatchers.IO) {
+    fun deleteArticleById(articleId: String) {
         articleDetailDao.deleteArticleById(articleId)
     }
 }

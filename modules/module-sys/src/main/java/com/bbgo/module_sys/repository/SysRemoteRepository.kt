@@ -20,22 +20,16 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class SysRemoteRepository @Inject constructor(){
 
-    suspend fun getKnowledgeTree() : Flow<HttpResult<List<KnowledgeTree>>> {
-        return flow {
-            emit(HttpSysService.service.getKnowledgeTree())
-        }.flowOn(Dispatchers.IO)
+    fun getKnowledgeTree() : Flow<HttpResult<List<KnowledgeTree>>> {
+        return HttpSysService.service.getKnowledgeTree()
     }
 
-    suspend fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
-        return flow {
-            emit(HttpSysService.service.getKnowledgeList(id, page))
-        }.flowOn(Dispatchers.IO)
+    fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
+        return HttpSysService.service.getKnowledgeList(id, page)
     }
 
-    suspend fun getNavigationList() : Flow<HttpResult<List<NaviData>>> {
-        return flow {
-            emit(HttpSysService.service.getNavigationList())
-        }.flowOn(Dispatchers.IO)
+    fun getNavigationList() : Flow<HttpResult<List<NaviData>>> {
+        return HttpSysService.service.getNavigationList()
     }
 
 }

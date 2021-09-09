@@ -66,7 +66,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
             is Resource.Success -> {
                 mDialog.dismiss()
-                ARouter.getInstance().build(Constants.NAVIGATION_TO_MAIN).navigation()
+                if (resource.data == null) return
+                ARouter.getInstance().build(Constants.NAVIGATION_TO_MAIN)
+                    .withString("userId", resource.data!!.id.toString())
+                    .withString("userName", resource.data!!.username)
+                    .navigation()
             }
         }
     }

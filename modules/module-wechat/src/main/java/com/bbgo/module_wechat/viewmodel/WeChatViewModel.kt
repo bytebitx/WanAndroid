@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource
+import com.bbgo.common_base.ext.logE
 import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.repository.WxRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class WeChatViewModel @Inject constructor(private val repository: WxRepository) : ViewModel() {
 
-    val wxChapterLiveData by lazy { MutableLiveData<Resource<List<WXArticle>>>() }
-    val wxArticlesLiveData by lazy { MutableLiveData<Resource<MutableList<ArticleDetail>>>() }
+    val wxChapterLiveData = MutableLiveData<Resource<List<WXArticle>>>()
+    val wxArticlesLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()
 
     fun getWXChapters() {
         viewModelScope.launch {
@@ -41,7 +43,6 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
                 }
                 .catch {
                 }
-                .flowOn(Dispatchers.IO)
                 .collectLatest {
                     wxChapterLiveData.value = it
                 }
@@ -63,8 +64,9 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
                     }
                 }
                 .catch {
+                    logE(TAG, it.message, it)
                 }
-                .collect {
+                .collectLatest {
                     wxArticlesLiveData.value = it
                 }
         }
@@ -86,9 +88,11 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
                 }
                 .catch {
                 }
-                .collect {
+                .collectLatest {
                     wxArticlesLiveData.value = it
                 }
         }
     }
+
+    private val TAG = "WeChatViewModel"
 }

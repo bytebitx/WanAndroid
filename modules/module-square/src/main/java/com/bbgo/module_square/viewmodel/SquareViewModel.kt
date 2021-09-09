@@ -38,6 +38,6 @@ class SquareViewModel @Inject constructor(private val repository: SquareReposito
     }
 
     companion object {
-        private const val TAG = "HomeViewModel"
+        private const val TAG = "SquareViewModel"
     }
 }
