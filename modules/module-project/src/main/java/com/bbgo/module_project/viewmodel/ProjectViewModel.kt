@@ -44,7 +44,6 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
                     }
                     .catch {
                     }
-                    .flowOn(Dispatchers.IO)
                     .collectLatest {
                         projectTreeLiveData.value = it
 
@@ -59,7 +58,6 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
                 .catch {
 
                 }
-                .flowOn(Dispatchers.IO)
                 .collectLatest {
                     projectTreeLiveData.value = Resource.Success(it)
                 }
@@ -95,7 +93,7 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
                     .catch {
                         logE(TAG, it.message, it)
                     }
-                    .collect {
+                    .collectLatest {
                         articlesLiveData.value = it
 
                         insertProjectArticle()

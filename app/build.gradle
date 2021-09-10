@@ -73,8 +73,8 @@ dependencies {
         implementation 'io.github.bbggo:module-content:1.0.1'
     }
     if (!Boolean.valueOf(rootProject.ext.module.isLoginModule)) {
-        implementation project(":modules:module-login")
-//        implementation 'io.github.bbggo:module-login:0.0.2'
+//        implementation project(":modules:module-login")
+        implementation 'io.github.bbggo:module-login:0.0.3'
     }
     if (!Boolean.valueOf(rootProject.ext.module.isHomeModule)) {
         implementation project(":modules:module-home")

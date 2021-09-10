@@ -44,7 +44,8 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
 3. ViewModel中使用@HiltViewModel注解，是使用HiltViewModelFactory来创建ViewModel实例，提供了灵活性
 4. ViewModel中使用@ActivityRetainedScoped注解，则在Fragment或者Activity中直接用Inject来实例化ViewModel
 
-
+## 一些知识点
+1. 使用Flow，不管是请求网络返回数据还是从DB中返回数据的时候，已经处于main线程了；网络请求和从DB中查询数据操作是在子线程。
 
 ## Arouter使用
 
