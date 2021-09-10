@@ -1,7 +1,8 @@
-package com.bbgo.module_project
+package com.bbgo.module_wechat.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bbgo.module_wechat.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

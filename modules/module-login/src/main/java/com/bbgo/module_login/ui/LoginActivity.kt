@@ -7,6 +7,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
@@ -23,7 +24,7 @@ import javax.inject.Inject
  *  date: 2021/5/21 11:31 上午
  *  description: todo
  */
-@Route(path = Constants.NAVIGATION_TO_LOGIN)
+@Route(path = RouterPath.LoginRegister.PAGE_LOGIN)
 @AndroidEntryPoint
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -67,7 +68,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             is Resource.Success -> {
                 mDialog.dismiss()
                 if (resource.data == null) return
-                ARouter.getInstance().build(Constants.NAVIGATION_TO_MAIN)
+                ARouter.getInstance().build(RouterPath.Main.PAGE_MAIN)
                     .withString("userId", resource.data!!.id.toString())
                     .withString("userName", resource.data!!.username)
                     .navigation()

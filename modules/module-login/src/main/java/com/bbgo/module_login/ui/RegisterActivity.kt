@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseActivity
-import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
@@ -21,7 +21,7 @@ import javax.inject.Inject
  *  date: 2021/5/27 2:47 下午
  *  description: todo
  */
-@Route(path = Constants.NAVIGATION_TO_REGISTER)
+@Route(path = RouterPath.LoginRegister.PAGE_REGISTER)
 @AndroidEntryPoint
 class RegisterActivity : BaseActivity(), View.OnClickListener {
 

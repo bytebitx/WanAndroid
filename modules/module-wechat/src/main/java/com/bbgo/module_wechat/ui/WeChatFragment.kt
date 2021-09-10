@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
-import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
@@ -16,14 +16,13 @@ import com.bbgo.module_wechat.databinding.FragmentWechatBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 /**
  *  author: wangyb
  *  date: 2021/5/20 3:04 下午
  *  description: todo
  */
-@Route(path = Constants.NAVIGATION_TO_WECHAT_FRG)
+@Route(path = RouterPath.WeChat.PAGE_WECHAT)
 @AndroidEntryPoint
 class WeChatFragment : BaseFragment() {
 

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
-import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.module_sys.R
 import com.bbgo.module_sys.databinding.FragmentSysBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
  *  date: 2021/5/20 3:04 下午
  *  description: todo
  */
-@Route(path = Constants.NAVIGATION_TO_SYS_FRG)
+@Route(path = RouterPath.Sys.PAGE_SYS)
 @AndroidEntryPoint
 class SysFragment : BaseFragment() {
 

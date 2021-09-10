@@ -1,14 +1,14 @@
-package com.bbgo.common_base.notchlib;
+package com.bbgo.library_statusbar;
 
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Build;
 
-import com.bbgo.common_base.notchlib.impl.AndroidPNotchScreen;
-import com.bbgo.common_base.notchlib.impl.HuaweiNotchScreen;
-import com.bbgo.common_base.notchlib.impl.MiNotchScreen;
-import com.bbgo.common_base.notchlib.impl.OppoNotchScreen;
-import com.bbgo.common_base.notchlib.utils.RomUtils;
+import com.bbgo.library_statusbar.impl.AndroidPNotchScreen;
+import com.bbgo.library_statusbar.impl.HuaweiNotchScreen;
+import com.bbgo.library_statusbar.impl.MiNotchScreen;
+import com.bbgo.library_statusbar.impl.OppoNotchScreen;
+import com.bbgo.library_statusbar.utils.RomUtils;
 
 import java.util.List;
 

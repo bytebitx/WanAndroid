@@ -1,3 +1,4 @@
+[toc]
 # WanAndroid
 🔥 🔥 🔥 一个充满设计感的WanAndroid APP，采用Kotlin 语言，组件化开发，MVVM+JetPack架构设计，**Arouter**、**LiveData**、**ViewModel**、**Room**、**Retrofit2**、**协程Coroutines**、**Flow**等流行技术。
 
@@ -51,10 +52,9 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
 ## Arouter使用
 
 #### 1. 使用room之后，组件化操作的时候，如果子module有数据存储需求，由于AppDatabase在主module中，则处理方式有两种：
-1. 在service模块，提供方法的时候，将对应的bean转为string，然后在子module中调用service提供的方法的时候，将获取到的数据转为string即可
-2. 在service模块，提供方法的时候，定义相应的bean即可
-
-但是这样其实比较耦合，如果子module有数据存储需求，其实应该子module应该有一个单独的db。
+1.1 在service模块，提供方法的时候，将对应的bean转为string，然后在子module中调用service提供的方法的时候，将获取到的数据转为string即可
+1.2 在service模块，提供方法的时候，定义相应的bean即可
+1.3 以上做法其实比较耦合，如果子module有数据存储需求，其实应该子module应该有一个单独的db。
 
 #### 2. 每个模块需要有
 ```java

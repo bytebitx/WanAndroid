@@ -17,7 +17,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.constants.Constants
-import com.bbgo.common_base.ext.Prefs
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.SettingUtil
@@ -31,7 +31,7 @@ import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 
-@Route(path = Constants.NAVIGATION_TO_CONTENT)
+@Route(path = RouterPath.Content.PAGE_CONTENT)
 class ContentActivity : BaseActivity(){
 
     private var mAgentWeb: AgentWeb? = null
@@ -164,7 +164,7 @@ class ContentActivity : BaseActivity(){
                     if (shareId == -1) return true
                     collectService.collect(-1, position, shareId)
                 } else {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+                    ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
                     showToast(resources.getString(R.string.login_tint))
                 }
                 return true

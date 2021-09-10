@@ -18,6 +18,7 @@ import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.bus.BusKey
 import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.*
 import com.bbgo.common_base.util.AppUtil
@@ -32,13 +33,13 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VI
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
-@Route(path = Constants.NAVIGATION_TO_MAIN)
+@Route(path = RouterPath.Main.PAGE_MAIN)
 @AndroidEntryPoint
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHeaderBinding: NavHeaderMainBinding
-    @Autowired(name = Constants.SERVICE_LOGOUT)
+    @Autowired(name = RouterPath.LoginRegister.SERVICE_LOGOUT)
     lateinit var loginOutService: LoginOutService
 
     //默认为0
@@ -125,15 +126,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.action_home ->
-                    switchFragment(Constants.FRAGMENT_INDEX.HOME_INDEX)
+                    switchFragment(Constants.FragmentIndex.HOME_INDEX)
                 R.id.action_wechat ->
-                    switchFragment(Constants.FRAGMENT_INDEX.WECHAT_INDEX)
+                    switchFragment(Constants.FragmentIndex.WECHAT_INDEX)
                 R.id.action_system ->
-                    switchFragment(Constants.FRAGMENT_INDEX.SYS_INDEX)
+                    switchFragment(Constants.FragmentIndex.SYS_INDEX)
                 R.id.action_square ->
-                    switchFragment(Constants.FRAGMENT_INDEX.SQUARE_INDEX)
+                    switchFragment(Constants.FragmentIndex.SQUARE_INDEX)
                 R.id.action_project ->
-                    switchFragment(Constants.FRAGMENT_INDEX.PROJECT_INDEX)
+                    switchFragment(Constants.FragmentIndex.PROJECT_INDEX)
             }
             true
         }
@@ -151,7 +152,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             if (AppUtil.isLogin) {
                 return@setOnClickListener
             }
-            ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+            ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
         }
 
         binding.floatingBtn.setOnClickListener(onFABClickListener)
@@ -167,7 +168,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         navHeaderBinding.root.setOnClickListener {
             if (userName.isEmpty()) {
-                ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+                ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
                 binding.drawerLayout.closeDrawers()
             }
         }
@@ -177,11 +178,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val transaction = supportFragmentManager.beginTransaction()
         hideFragment(transaction)
         when(position) {
-            Constants.FRAGMENT_INDEX.HOME_INDEX ->
+            Constants.FragmentIndex.HOME_INDEX ->
                 homeFragment?.let {
                     transaction.show(it)
                 } ?: kotlin.run {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_HOME_FRG).navigation()
+                    ARouter.getInstance().build(RouterPath.Home.PAGE_HOME).navigation()
                         ?.let {
                             homeFragment = it as BaseFragment
                             homeFragment?.let {
@@ -190,9 +191,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             }
                         }
                 }
-            Constants.FRAGMENT_INDEX.WECHAT_INDEX ->
+            Constants.FragmentIndex.WECHAT_INDEX ->
                 weChatFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_WECHAT_FRG).navigation()
+                    ARouter.getInstance().build(RouterPath.WeChat.PAGE_WECHAT).navigation()
                         ?.let {
                             weChatFragment = it as BaseFragment
                             weChatFragment?.let {
@@ -203,9 +204,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         }
                 }
 
-            Constants.FRAGMENT_INDEX.SYS_INDEX ->
+            Constants.FragmentIndex.SYS_INDEX ->
                 sysFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_SYS_FRG).navigation()
+                    ARouter.getInstance().build(RouterPath.Sys.PAGE_SYS).navigation()
                         ?.let {
                             sysFragment = it as BaseFragment
                             sysFragment?.let {
@@ -215,9 +216,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             }
                         }
                 }
-            Constants.FRAGMENT_INDEX.SQUARE_INDEX ->
+            Constants.FragmentIndex.SQUARE_INDEX ->
                 squareFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_SQUARE_FRG).navigation()
+                    ARouter.getInstance().build(RouterPath.Square.PAGE_SQUARE).navigation()
                         ?.let {
                             squareFragment = it as BaseFragment
                             squareFragment?.let {
@@ -227,9 +228,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                             }
                         }
                 }
-            Constants.FRAGMENT_INDEX.PROJECT_INDEX ->
+            Constants.FragmentIndex.PROJECT_INDEX ->
                 projectFragment?.let { transaction.show(it) } ?: kotlin.run {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_PROJECT_FRG).navigation()
+                    ARouter.getInstance().build(RouterPath.Project.PAGE_PROJECT).navigation()
                         ?.let {
                             projectFragment = it as BaseFragment
                             projectFragment?.let {
@@ -256,7 +257,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val transaction = supportFragmentManager.beginTransaction()
         when(item.itemId) {
             R.id.nav_collect -> {
-                ARouter.getInstance().build(Constants.NAVIGATION_TO_COLLECT)
+                ARouter.getInstance().build(RouterPath.Compose.PAGE_COMPOSE)
                     .navigation()
             }
             R.id.nav_night_mode -> {
@@ -279,7 +280,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 if (AppUtil.isLogin) {
                     mainViewModel.logOut(loginOutService)
                 } else {
-                    ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+                    ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
                     binding.drawerLayout.closeDrawers()
                 }
 
@@ -320,19 +321,19 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
      */
     private val onFABClickListener = View.OnClickListener {
         when (mIndex) {
-            Constants.FRAGMENT_INDEX.HOME_INDEX -> {
+            Constants.FragmentIndex.HOME_INDEX -> {
                 LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(0)
             }
-            Constants.FRAGMENT_INDEX.WECHAT_INDEX -> {
+            Constants.FragmentIndex.WECHAT_INDEX -> {
                 LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(1)
             }
-            Constants.FRAGMENT_INDEX.SYS_INDEX -> {
+            Constants.FragmentIndex.SYS_INDEX -> {
                 LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(2)
             }
-            Constants.FRAGMENT_INDEX.SQUARE_INDEX -> {
+            Constants.FragmentIndex.SQUARE_INDEX -> {
                 LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(3)
             }
-            Constants.FRAGMENT_INDEX.PROJECT_INDEX -> {
+            Constants.FragmentIndex.PROJECT_INDEX -> {
                 LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(4)
             }
         }

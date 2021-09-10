@@ -3,6 +3,7 @@ package com.bbgo.wanandroid.collect.service
 import android.content.Context
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.wanandroid.collect.repository.CollectRepository
 import com.bbgo.wanandroid.collect.viewmodel.CollectViewModel
@@ -12,7 +13,7 @@ import com.bbgo.wanandroid.collect.viewmodel.CollectViewModel
  *  date: 2021/5/27 7:31 下午
  *  description: todo
  */
-@Route(path = Constants.SERVICE_COLLECT)
+@Route(path = RouterPath.Main.SERVICE_COLLECT)
 class CollectServiceImpl : CollectService{
 
     private val viewModel by lazy { CollectViewModel(CollectRepository.getInstance()) }

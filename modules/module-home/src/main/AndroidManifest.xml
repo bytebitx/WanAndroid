@@ -4,10 +4,8 @@
 
     <application>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
         </activity>
-
-        <activity android:name=".ComposeActivity"/>
 
     </application>
 

@@ -8,8 +8,9 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.base.BaseActivity
-import com.bbgo.common_base.notchlib.NotchScreenManager
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.util.AppUtil
+import com.bbgo.library_statusbar.NotchScreenManager
 import com.bbgo.wanandroid.databinding.ActivitySplashBinding
 import com.bbgo.wanandroid.main.MainActivity
 

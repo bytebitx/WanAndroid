@@ -1,4 +1,4 @@
-package com.bbgo.module_compose
+package com.bbgo.module_compose.activity
 
 import android.app.Activity
 import android.os.Bundle
@@ -31,17 +31,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseActivity
-import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.logD
+import com.bbgo.module_compose.R
+import com.bbgo.module_compose.bean.ArticleDetail
 import com.bbgo.module_compose.theme.*
 import com.bbgo.module_compose.util.InjectorUtil
 import com.bbgo.module_compose.viewmodel.ComposeViewModel
-import com.bbgo.module_compose.bean.ArticleDetail
 
-@Route(path = Constants.NAVIGATION_TO_COLLECT)
+@Route(path = RouterPath.Compose.PAGE_COMPOSE)
 class ComposeActivity : BaseActivity() {
 
     @ExperimentalFoundationApi

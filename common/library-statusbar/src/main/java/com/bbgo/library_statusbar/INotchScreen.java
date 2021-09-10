@@ -1,4 +1,4 @@
-package com.bbgo.common_base.notchlib;
+package com.bbgo.library_statusbar;
 
 import android.app.Activity;
 import android.graphics.Rect;

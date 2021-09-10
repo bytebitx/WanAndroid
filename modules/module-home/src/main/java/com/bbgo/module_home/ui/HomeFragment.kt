@@ -17,6 +17,7 @@ import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.bus.BusKey
 import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
@@ -42,7 +43,7 @@ import javax.inject.Inject
  *  date: 2021/5/20 3:00 下午
  *  description: todo
  */
-@Route(path = Constants.NAVIGATION_TO_HOME_FRG)
+@Route(path = RouterPath.Home.PAGE_HOME)
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
@@ -141,7 +142,7 @@ class HomeFragment : BaseFragment() {
             addHeaderView(bannerBinding.root)
             setOnItemClickListener { adapter, view, position ->
                 val article = articleList[position]
-                ARouter.getInstance().build(Constants.NAVIGATION_TO_CONTENT)
+                ARouter.getInstance().build(RouterPath.Content.PAGE_CONTENT)
                     .withString(Constants.POSITION, position.toString())
                     .withString(Constants.CONTENT_ID_KEY, article.id.toString())
                     .withString(Constants.CONTENT_TITLE_KEY, article.title)
@@ -154,14 +155,14 @@ class HomeFragment : BaseFragment() {
                     val article = articleList[position]
                     if (article.collect) {
                         collectService.unCollect(
-                            Constants.FRAGMENT_INDEX.HOME_INDEX,
+                            Constants.FragmentIndex.HOME_INDEX,
                             position,
                             articleList[position].id
                         )
                         return@setOnItemChildClickListener
                     }
                     collectService.collect(
-                        Constants.FRAGMENT_INDEX.HOME_INDEX,
+                        Constants.FragmentIndex.HOME_INDEX,
                         position,
                         articleList[position].id
                     )
@@ -175,7 +176,7 @@ class HomeFragment : BaseFragment() {
      */
     private fun initBus() {
         LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
-            if (it.indexPage == Constants.FRAGMENT_INDEX.HOME_INDEX) {
+            if (it.indexPage == Constants.FragmentIndex.HOME_INDEX) {
                 handleCollect(it)
             }
         }
@@ -250,7 +251,7 @@ class HomeFragment : BaseFragment() {
     private fun handleCollect(event: MessageEvent) {
         when (event.type) {
             Constants.CollectType.UNKNOWN -> {
-                ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+                ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
             }
             else -> {
                 if (event.type == Constants.CollectType.COLLECT) {

@@ -1,4 +1,4 @@
-package com.bbgo.common_base.notchlib.utils;
+package com.bbgo.library_statusbar.utils;
 
 import android.app.Activity;
 import android.content.Context;

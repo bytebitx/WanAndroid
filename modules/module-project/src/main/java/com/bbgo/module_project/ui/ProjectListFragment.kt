@@ -14,6 +14,7 @@ import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.bus.BusKey
 import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
@@ -124,7 +125,7 @@ class ProjectListFragment : BaseFragment() {
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val article = articleList[position]
-            ARouter.getInstance().build(Constants.NAVIGATION_TO_CONTENT)
+            ARouter.getInstance().build(RouterPath.Content.PAGE_CONTENT)
                 .withString(Constants.POSITION, position.toString())
                 .withString(Constants.CONTENT_ID_KEY, article.id.toString())
                 .withString(Constants.CONTENT_TITLE_KEY, article.title)
@@ -135,7 +136,7 @@ class ProjectListFragment : BaseFragment() {
         mAdapter.run {
             setOnItemClickListener { adapter, view, position ->
                 val article = articleList[position]
-                ARouter.getInstance().build(Constants.NAVIGATION_TO_CONTENT)
+                ARouter.getInstance().build(RouterPath.Content.PAGE_CONTENT)
                     .withString(Constants.POSITION, position.toString())
                     .withString(Constants.CONTENT_ID_KEY, article.id.toString())
                     .withString(Constants.CONTENT_TITLE_KEY, article.title)
@@ -148,14 +149,14 @@ class ProjectListFragment : BaseFragment() {
                     val article = articleList[position]
                     if (article.collect) {
                         collectService.unCollect(
-                            Constants.FRAGMENT_INDEX.PROJECT_INDEX,
+                            Constants.FragmentIndex.PROJECT_INDEX,
                             position,
                             articleList[position].id
                         )
                         return@setOnItemChildClickListener
                     }
                     collectService.collect(
-                        Constants.FRAGMENT_INDEX.PROJECT_INDEX,
+                        Constants.FragmentIndex.PROJECT_INDEX,
                         position,
                         articleList[position].id
                     )
@@ -171,7 +172,7 @@ class ProjectListFragment : BaseFragment() {
      */
     private fun initBus() {
         LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
-            if (it.indexPage == Constants.FRAGMENT_INDEX.PROJECT_INDEX) {
+            if (it.indexPage == Constants.FragmentIndex.PROJECT_INDEX) {
                 handleCollect(it)
             }
         }
@@ -215,7 +216,7 @@ class ProjectListFragment : BaseFragment() {
     private fun handleCollect(event: MessageEvent) {
         when (event.type) {
             Constants.CollectType.UNKNOWN -> {
-                ARouter.getInstance().build(Constants.NAVIGATION_TO_LOGIN).navigation()
+                ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
             }
             else -> {
                 if (articleList.isEmpty()) {

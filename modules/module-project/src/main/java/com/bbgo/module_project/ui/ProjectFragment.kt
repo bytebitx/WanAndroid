@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
-import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
  *  date: 2021/5/20 3:04 下午
  *  description: todo
  */
-@Route(path = Constants.NAVIGATION_TO_PROJECT_FRG)
+@Route(path = RouterPath.Project.PAGE_PROJECT)
 @AndroidEntryPoint
 class ProjectFragment : BaseFragment() {
 

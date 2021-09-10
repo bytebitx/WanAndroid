@@ -1,4 +1,4 @@
-package com.bbgo.common_base.notchlib.impl;
+package com.bbgo.library_statusbar.impl;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -7,8 +7,9 @@ import android.os.Build;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.bbgo.common_base.notchlib.INotchScreen;
-import com.bbgo.common_base.notchlib.utils.ScreenUtil;
+
+import com.bbgo.library_statusbar.INotchScreen;
+import com.bbgo.library_statusbar.utils.ScreenUtil;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

@@ -3,7 +3,7 @@
     package="com.bbgo.module_compose">
 
     <application>
-        <activity android:name=".ComposeActivity"/>
+        <activity android:name=".activity.ComposeActivity"/>
     </application>
 
 
