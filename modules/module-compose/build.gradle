@@ -1,5 +1,5 @@
-def path = rootProject.ext.module.isComposeModule
-if (Boolean.valueOf(path)) {
+def isComposeModule = rootProject.ext.module.isComposeModule
+if (Boolean.valueOf(isComposeModule)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -59,7 +59,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(path)) {
+            if (Boolean.valueOf(isComposeModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -98,3 +98,23 @@ dependencies {
 
     kapt rootProject.ext.compiler["arouterCompiler"]
 }
+
+//  发布module到maven仓库
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.17.0'
+    }
+}
+
+allprojects {
+    plugins.withId("com.vanniktech.maven.publish") {
+        mavenPublish {
+            sonatypeHost = "S01"
+        }
+    }
+}
+
+apply plugin: "com.vanniktech.maven.publish"

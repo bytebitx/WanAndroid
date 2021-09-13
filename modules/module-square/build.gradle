@@ -1,6 +1,6 @@
-def path = rootProject.ext.module.isSquareModule
+def isSquareModule = rootProject.ext.module.isSquareModule
 
-if (Boolean.valueOf(path)) {
+if (Boolean.valueOf(isSquareModule)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -41,7 +41,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(path)) {
+            if (Boolean.valueOf(isSquareModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -69,4 +69,8 @@ dependencies {
 
     compileOnly(rootProject.ext.jetpack["hilt"])
     kapt rootProject.ext.compiler["hiltAndroidCompiler"]
+
+    if (Boolean.valueOf(isSquareModule)) {
+        implementation project(":modules:module-collect")
+    }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">module-compose</string>
+    <string name="app_name">ComposeUI模块</string>
     <string name="nav_my_collect">我的收藏</string>
     <string name="new_fresh">新</string>
     <string name="top_tip">置顶</string>

@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -28,7 +29,6 @@ import com.bbgo.common_service.login.LoginOutService
 import com.bbgo.wanandroid.R
 import com.bbgo.wanandroid.databinding.ActivityMainBinding
 import com.bbgo.wanandroid.databinding.NavHeaderMainBinding
-import com.bbgo.wanandroid.util.InjectorUtil
 import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_LABELED
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +39,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navHeaderBinding: NavHeaderMainBinding
+
     @Autowired(name = RouterPath.LoginRegister.SERVICE_LOGOUT)
     lateinit var loginOutService: LoginOutService
 
@@ -57,7 +58,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
     }
 
-    private val mainViewModel by viewModels<MainViewModel> { InjectorUtil.getHomeViewModelFactory() }
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
@@ -89,7 +90,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun observeViewModel() {
-        mainViewModel.getUserInfo()
         observe(mainViewModel.logOutLiveData, ::handleLogOut)
     }
 

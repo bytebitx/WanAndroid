@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">module-sys</string>
+    <string name="app_name">体系模块</string>
     <string name="knowledge_system">体系</string>
     <string name="navigation">导航</string>
     <string name="collect_success">收藏成功</string>
     <string name="cancel_collect_success">已取消收藏</string>
+    <string name="new_fresh">新</string>
+    <string name="top_tip">置顶</string>
 </resources>

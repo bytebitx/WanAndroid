@@ -1,6 +1,6 @@
-def isModule = rootProject.ext.module.isLoginModule
+def isLoginModule = rootProject.ext.module.isLoginModule
 
-if (Boolean.valueOf(isModule)) {
+if (Boolean.valueOf(isLoginModule)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -52,7 +52,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(isModule)) {
+            if (Boolean.valueOf(isLoginModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'

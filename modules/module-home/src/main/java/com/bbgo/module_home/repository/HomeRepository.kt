@@ -27,4 +27,8 @@ class HomeRepository @Inject constructor(private val remoteRepository: HomeRemot
     fun getBanners(): Flow<HttpResult<List<Banner>>> {
         return remoteRepository.getBanners()
     }
+
+    fun insertBanners(banners: List<Banner>) {
+        localRepository.insertBanners(banners)
+    }
 }

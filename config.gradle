@@ -9,42 +9,42 @@ ext {
             /**
              * 内容模块
              */
-            isContentModule: true,
+            isContentModule: false,
 
             /**
              * 登录模块
              */
-            isLoginModule: true,
+            isLoginModule: false,
 
             /**
              * 首页模块
              */
-            isHomeModule: true,
+            isHomeModule: false,
 
             /**
              * 广场模块
              */
-            isSquareModule: true,
+            isSquareModule: false,
 
             /**
              * 微信公众号模块
              */
-            isWeChatModule: true,
+            isWeChatModule: false,
 
             /**
              * 项目模块
              */
-            isProjectModule: true,
+            isProjectModule: false,
 
             /**
              * ComposeUI 构建的UI模块
              */
-            isComposeModule: true,
+            isComposeModule: false,
 
             /**
              * 体系模块
              */
-            isSysModule: true,
+            isSysModule: false,
     ]
 
     android = [

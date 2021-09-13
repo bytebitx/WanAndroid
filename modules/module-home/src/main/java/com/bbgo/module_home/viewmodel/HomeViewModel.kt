@@ -10,8 +10,12 @@ import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.module_home.bean.ArticleDetail
 import com.bbgo.module_home.repository.HomeRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -52,13 +56,16 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
     }
 
     fun getBanner() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             repository.getBanners()
+                .map {
+                    it
+                }
                 .catch {
-                    logD("HomeViewModel", "${it.message}")
+                    logD(TAG, "${it.message}")
                 }
                 .collectLatest {
-                    bannerLiveData.value = Resource.Success(it.data)
+                    bannerLiveData.postValue(Resource.Success(it.data))
                 }
         }
     }

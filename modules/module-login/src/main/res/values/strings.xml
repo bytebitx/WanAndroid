@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">module-login</string>
+    <string name="app_name">登录模块</string>
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="go_login">去登陆</string>

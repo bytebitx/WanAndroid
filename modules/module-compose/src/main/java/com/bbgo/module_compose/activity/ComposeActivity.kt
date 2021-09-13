@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Html
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -42,7 +43,7 @@ import com.bbgo.module_compose.util.InjectorUtil
 import com.bbgo.module_compose.viewmodel.ComposeViewModel
 
 @Route(path = RouterPath.Compose.PAGE_COMPOSE)
-class ComposeActivity : BaseActivity() {
+class ComposeActivity : AppCompatActivity() {
 
     @ExperimentalFoundationApi
     val composeViewModel: ComposeViewModel by viewModels { InjectorUtil.getComposeViewModelFactory() }

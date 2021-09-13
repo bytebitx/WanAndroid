@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -25,7 +24,6 @@ import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.util.ImageLoader
 import com.bbgo.common_base.widget.SpaceItemDecoration
-import com.bbgo.common_service.banner.BannerService
 import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_home.R
@@ -34,7 +32,6 @@ import com.bbgo.module_home.databinding.FragmentHomeBinding
 import com.bbgo.module_home.databinding.ItemHomeBannerBinding
 import com.bbgo.module_home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -64,8 +61,6 @@ class HomeFragment : BaseFragment() {
     lateinit var homeViewModel: HomeViewModel
     @Autowired
     lateinit var collectService: CollectService
-    @Autowired
-    lateinit var bannerService: BannerService
 
     /**
      * RecyclerView Divider
@@ -206,9 +201,7 @@ class HomeFragment : BaseFragment() {
             }
             else -> {
                 status.data?.let {
-                    lifecycleScope.launch {
-                        bannerService.insertBanners(it)
-                    }
+
                     val bannerFeedList = ArrayList<String>()
                     val bannerTitleList = ArrayList<String>()
                     it.forEach { banner ->

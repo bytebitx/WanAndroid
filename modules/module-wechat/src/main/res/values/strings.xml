@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">WeChat-module</string>
+    <string name="app_name">微信公众号模块</string>
     <string name="collect_success">收藏成功</string>
     <string name="cancel_collect_success">已取消收藏</string>
+    <string name="new_fresh">新</string>
+    <string name="top_tip">置顶</string>
 </resources>

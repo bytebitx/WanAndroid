@@ -4,7 +4,7 @@
 
     <application>
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.HomeActivity">
         </activity>
 
     </application>

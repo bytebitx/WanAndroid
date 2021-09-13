@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bbgo.common_base.R
 import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_base.util.StatusBarUtil
+import com.bbgo.library_statusbar.NotchScreenManager
 
 /**
  *  author: wangyb
@@ -22,6 +23,7 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        NotchScreenManager.getInstance().setDisplayInNotch(this)
         initColor()
         observeViewModel()
     }
