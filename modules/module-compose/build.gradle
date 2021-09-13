@@ -1,5 +1,5 @@
-def isComposeModule = rootProject.ext.module.isComposeModule
-if (Boolean.valueOf(isComposeModule)) {
+def isBuildModule = rootProject.ext.module.isBuildModule
+if (Boolean.valueOf(isBuildModule)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -59,7 +59,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(isComposeModule)) {
+            if (Boolean.valueOf(isBuildModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'

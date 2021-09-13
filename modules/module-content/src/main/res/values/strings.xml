@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">module-content</string>
+    <string name="app_name">WebContent模块</string>
     <string name="share_article_url">%1$s分享【%2$s】：%3$s</string>
     <string name="action_share">分享</string>
     <string name="login_tint">请先登录</string>

@@ -1,5 +1,5 @@
-def isSysModule = rootProject.ext.module.isSysModule
-if (Boolean.valueOf(isSysModule)) {
+def isBuildModule = rootProject.ext.module.isBuildModule
+if (Boolean.valueOf(isBuildModule)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -38,7 +38,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(isSysModule)) {
+            if (Boolean.valueOf(isBuildModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -67,7 +67,15 @@ dependencies {
     compileOnly(rootProject.ext.jetpack["hilt"])
     kapt rootProject.ext.compiler["hiltAndroidCompiler"]
 
-    if (Boolean.valueOf(isSysModule)) {
+    if (Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-collect")
+    }
+    if (Boolean.valueOf(isBuildModule)) {
+        implementation project(":modules:module-content")
+//        implementation 'io.github.bbggo:module-content:1.0.1'
+    }
+    if (Boolean.valueOf(isBuildModule)) {
+        implementation project(":modules:module-login")
+//        implementation 'io.github.bbggo:module-login:0.0.3'
     }
 }

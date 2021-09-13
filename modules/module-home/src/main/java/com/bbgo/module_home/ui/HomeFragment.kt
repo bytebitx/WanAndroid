@@ -59,7 +59,7 @@ class HomeFragment : BaseFragment() {
 
     @Inject
     lateinit var homeViewModel: HomeViewModel
-    @Autowired
+    @Autowired(name = RouterPath.Main.SERVICE_COLLECT)
     lateinit var collectService: CollectService
 
     /**

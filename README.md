@@ -16,7 +16,7 @@
 
 ### 项目目录及架构
 1. 将该项目clone到本地的时候，需要在项目根目录下面添加**gradle.properties**文件，文件内容如下：
-```java
+```class
 org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8   
 android.useAndroidX=true   
 android.enableJetifier=true   
@@ -61,7 +61,7 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
 1.3 以上做法其实比较耦合，如果子module有数据存储需求，其实应该子module应该有一个单独的db。
 
 #### 2. 每个模块需要有
-```java
+```class
 kapt {
     arguments {
         arg("AROUTER_MODULE_NAME", project.getName())
@@ -84,7 +84,7 @@ kapt {
 #### 8. 对提供的服务使用@Autowired注解获取实例的时候，不能是private，否则编译不通过
 
 #### 9. 接上一条，在使用服务的实例的之前，需要调用
-```java
+```class
 ARouter.getInstance().inject(this)
 ```
 
