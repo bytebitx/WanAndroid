@@ -38,7 +38,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/ModuleTheme">
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".activity.SquareMainActivity">

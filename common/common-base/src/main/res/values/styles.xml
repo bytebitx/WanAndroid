@@ -12,13 +12,6 @@
         <item name="android:listDivider">@drawable/bg_divider</item>
     </style>
 
-    <style name="ModuleTheme" parent="BaseAppTheme">
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="AppTheme" parent="BaseAppTheme.NoActionBar"></style>
 
     <style name="AppTheme.FullScreen" parent="@style/Theme.AppCompat.DayNight">

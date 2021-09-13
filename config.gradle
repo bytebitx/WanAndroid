@@ -6,7 +6,17 @@ ext {
              * isBuildModule=true
              * 修改之后需要Sync方可生效
              */
-            isBuildModule: false
+            isBuildModule: false,
+
+            /**
+             * 内容模块
+             */
+            isContentModule: false,
+
+            /**
+             * 登录模块
+             */
+            isLoginModule: false,
     ]
 
     android = [

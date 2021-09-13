@@ -1,5 +1,5 @@
-def isBuildModule = rootProject.ext.module.isBuildModule
-if (Boolean.valueOf(isBuildModule)) {
+def isContentModule = rootProject.ext.module.isContentModule
+if (Boolean.valueOf(isContentModule)) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
@@ -53,7 +53,7 @@ android {
 
     sourceSets {
         main {
-            if (Boolean.valueOf(isBuildModule)) {
+            if (Boolean.valueOf(isContentModule)) {
                 manifest.srcFile 'src/main/module/AndroidManifest.xml'
             } else {
                 manifest.srcFile 'src/main/AndroidManifest.xml'
@@ -80,7 +80,7 @@ dependencies {
 
     kapt rootProject.ext.compiler["arouterCompiler"]
 
-    if (Boolean.valueOf(isBuildModule)) {
+    if (Boolean.valueOf(isContentModule)) {
         implementation project(":modules:module-collect")
     }
 }
