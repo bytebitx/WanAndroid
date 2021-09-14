@@ -93,12 +93,14 @@ class HomeFragment : BaseFragment() {
     /**
      * is Refresh
      */
-    private var isRefresh = true
+    private var isRefresh = false
 
     /**
      * RefreshListener
      */
     private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        isRefresh = true
+        homeViewModel.getArticles(0)
     }
 
     /**
@@ -142,6 +144,7 @@ class HomeFragment : BaseFragment() {
                     .withString(Constants.CONTENT_ID_KEY, article.id.toString())
                     .withString(Constants.CONTENT_TITLE_KEY, article.title)
                     .withString(Constants.CONTENT_URL_KEY, article.link)
+                    .withString(Constants.COLLECT, article.collect.toString())
                     .navigation()
             }
             addChildClickViewIds(R.id.iv_like)
@@ -227,13 +230,17 @@ class HomeFragment : BaseFragment() {
 
             }
             is Resource.DataError -> {
+                binding.swipeRefreshLayout.isRefreshing = false
             }
             else -> {
+                binding.swipeRefreshLayout.isRefreshing = false
                 articles.data?.let {
-                    articleList.addAll(it)
                     if (isRefresh) {
+                        articleList.clear()
+                        articleList.addAll(it)
                         homeAdapter.setList(articleList)
                     } else {
+                        articleList.addAll(it)
                         homeAdapter.addData(articleList)
                     }
                 }

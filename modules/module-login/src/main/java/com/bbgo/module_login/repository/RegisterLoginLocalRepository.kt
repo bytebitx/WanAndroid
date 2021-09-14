@@ -2,6 +2,7 @@ package com.bbgo.module_login.repository
 
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Prefs
+import com.bbgo.module_login.bean.LoginData
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
@@ -14,8 +15,10 @@ import javax.inject.Inject
 class RegisterLoginLocalRepository @Inject constructor(){
 
 
-    fun insertLoginData(userName: String) {
-        Prefs.putString(Constants.USER_NAME, userName)
+    fun insertLoginData(loginData: LoginData?) {
+        if (loginData == null) return
+        Prefs.putString(Constants.USER_NAME, loginData.username)
+        Prefs.putString(Constants.USER_ID, loginData.id.toString())
     }
 
     companion object {

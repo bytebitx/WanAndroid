@@ -41,7 +41,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
                             it.errorMsg
                         )
                     } else {
-                        repository.insertLoginData(it.data.username)
+                        repository.insertLoginData(it.data)
                         Resource.Success(it.data)
                     }
                 }
@@ -70,7 +70,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
                             it.errorMsg
                         )
                     } else {
-                        repository.insertLoginData(it.data.username)
+                        repository.insertLoginData(it.data)
                         Resource.Success(it.data)
                     }
                 }
@@ -94,7 +94,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
             repository.logout()
                 .map {
                     if (it.errorCode == 0) {
-                        repository.insertLoginData("")
+                        repository.insertLoginData(null)
                     }
                     it
                 }
@@ -118,7 +118,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
         return repository.logout()
             .map {
                 val str = if (it.errorCode == 0) {
-                    repository.insertLoginData("")
+                    repository.insertLoginData(null)
                     ""
                 } else {
                     it.errorMsg

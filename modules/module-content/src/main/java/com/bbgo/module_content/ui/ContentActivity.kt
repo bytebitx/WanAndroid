@@ -16,8 +16,11 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
+import com.bbgo.common_base.bus.BusKey
+import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
+import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.SettingUtil
@@ -36,16 +39,24 @@ class ContentActivity : BaseActivity(){
 
     private var mAgentWeb: AgentWeb? = null
 
-    private var shareTitle: String = "Android 面试黑洞&mdash;&mdash;当我按下 Home 键再切回来，会发生什么？"
-    private var shareUrl: String = "https://www.bilibili.com/video/BV1CA41177Se"
-    private var shareId: Int = -1
-    private var position: Int = -1
+    @Autowired
+    lateinit var title: String
+    @Autowired
+    lateinit var url: String
+    @Autowired
+    lateinit var id: String
+    @Autowired
+    lateinit var position: String
+    @Autowired
+    lateinit var isCollect: String
 
 
     @Autowired
     lateinit var collectService: CollectService
 
     private lateinit var binding: ActivityContentBinding
+
+    private lateinit var menu: Menu
 
     companion object {
 
@@ -62,20 +73,14 @@ class ContentActivity : BaseActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ARouter.getInstance().inject(this)
         binding = ActivityContentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ARouter.getInstance().inject(this)
         initView()
+        initBus()
     }
 
     private fun initView() {
-        intent.extras?.let {
-            shareId = it.getInt(Constants.CONTENT_ID_KEY, -1)
-            shareTitle = it.getString(Constants.CONTENT_TITLE_KEY, "")
-            shareUrl = it.getString(Constants.CONTENT_URL_KEY, "")
-            position = it.getInt(Constants.POSITION, 0)
-        }
-
         binding.actionBar.apply {
             title = ""//getString(R.string.loading)
             setSupportActionBar(binding.actionBar.toolbar)
@@ -88,9 +93,7 @@ class ContentActivity : BaseActivity(){
                 binding.actionBar.tvTitle.isSelected = true
             }, 2000)
         }
-
         initWebView()
-
     }
 
     /**
@@ -103,12 +106,12 @@ class ContentActivity : BaseActivity(){
         val layoutParams = CoordinatorLayout.LayoutParams(-1, -1)
         layoutParams.behavior = AppBarLayout.ScrollingViewBehavior()
 
-        mAgentWeb = shareUrl.getAgentWeb(
+        mAgentWeb = url.getAgentWeb(
             this,
             binding.clMain,
             layoutParams,
             webView,
-            WebClientFactory.create(shareUrl),
+            WebClientFactory.create(url),
             mWebChromeClient,
             SettingUtil.getColor())
 
@@ -138,10 +141,42 @@ class ContentActivity : BaseActivity(){
         }
     }
 
+    private fun initBus() {
+        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
+            handleCollect(it)
+        }
+    }
 
+    private fun handleCollect(event: MessageEvent) {
+        when (event.type) {
+            Constants.CollectType.UNKNOWN -> {
+                ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
+            }
+            else -> {
+                val menuItem = menu.findItem(R.id.action_like)
+                if (event.type == Constants.CollectType.COLLECT) {
+                    showToast(getString(R.string.collect_success))
+                    menuItem.title = getString(R.string.action_un_like)
+                    isCollect = "true"
+                    return
+                }
+                showToast(getString(R.string.cancel_collect_success))
+                menuItem.title = getString(R.string.action_like)
+                isCollect = "false"
+            }
+        }
+    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_content, menu)
+        this.menu = menu
+        val title = if (isCollect.toBoolean()) {
+            getString(R.string.action_un_like)
+        } else {
+            getString(R.string.action_like)
+        }
+        val menuItem = menu.findItem(R.id.action_like)
+        menuItem.title = title
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -152,7 +187,7 @@ class ContentActivity : BaseActivity(){
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, getString(
                         R.string.share_article_url,
-                        getString(R.string.app_name), shareTitle, shareUrl
+                        getString(R.string.app_name), title, url
                     ))
                     type = Constants.CONTENT_SHARE_TYPE
                     startActivity(Intent.createChooser(this, getString(R.string.action_share)))
@@ -161,8 +196,12 @@ class ContentActivity : BaseActivity(){
             }
             R.id.action_like -> {
                 if (AppUtil.isLogin) {
-                    if (shareId == -1) return true
-                    collectService.collect(-1, position, shareId)
+                    if (id == "-1") return true
+                    if (isCollect.toBoolean()) {
+                        collectService.unCollect(-1, position.toInt(), id.toInt())
+                    } else {
+                        collectService.collect(-1, position.toInt(), id.toInt())
+                    }
                 } else {
                     ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
                     showToast(resources.getString(R.string.login_tint))
@@ -172,7 +211,7 @@ class ContentActivity : BaseActivity(){
             R.id.action_browser -> {
                 Intent().run {
                     action = "android.intent.action.VIEW"
-                    data = Uri.parse(shareUrl)
+                    data = Uri.parse(url)
                     startActivity(this)
                 }
                 return true

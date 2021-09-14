@@ -4,5 +4,8 @@
     <string name="action_share">分享</string>
     <string name="login_tint">请先登录</string>
     <string name="action_like">收藏</string>
+    <string name="action_un_like">取消收藏</string>
     <string name="action_browser">用浏览器打开</string>
+    <string name="collect_success">收藏成功</string>
+    <string name="cancel_collect_success">已取消收藏</string>
 </resources>

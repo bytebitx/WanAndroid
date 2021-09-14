@@ -46,7 +46,7 @@ class RegisterLoginRepository @Inject constructor(private val remoteRepository: 
         return remoteRepository.logout()
     }
 
-    fun insertLoginData(userName: String) {
-        localRepository.insertLoginData(userName)
+    fun insertLoginData(loginData: LoginData?) {
+        localRepository.insertLoginData(loginData)
     }
 }

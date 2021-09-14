@@ -8,6 +8,7 @@ package com.bbgo.common_base.constants
 object Constants {
     const val DB_INSTANCE = "DB_INSTANCE"
     const val TOKEN = "token"
+    const val USER_ID = "userid"
     const val USER_NAME = "username"
     const val PASSWORD = "password"
     const val APP_TAG = "WanAndroid"
@@ -33,7 +34,9 @@ object Constants {
      */
     const val CONTENT_SHARE_TYPE = "text/plain"
 
-    const val POSITION = "POSITION"
+    const val POSITION = "position"
+
+    const val COLLECT = "isCollect"
 
 
     object CollectType {

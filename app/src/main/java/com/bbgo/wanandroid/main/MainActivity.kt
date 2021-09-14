@@ -164,6 +164,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (userName.isEmpty()) {
             userName = getString(R.string.go_login)
         }
+        AppUtil.isLogin = true
+        val userId = Prefs.getString(Constants.USER_ID)
+        navHeaderBinding.userIdLayout.visibility = View.VISIBLE
+        navHeaderBinding.tvUserId.text = userId
         navHeaderBinding.tvUsername.text = userName
 
         navHeaderBinding.root.setOnClickListener {
