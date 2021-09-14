@@ -34,15 +34,9 @@ import com.bbgo.common_base.BuildConfig
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.ContextCompat.startActivity
-
-
-
-
-
-
-
-
-
+import androidx.core.content.FileProvider
+import com.bbgo.common_base.ext.logD
+import java.io.File
 
 
 /**
@@ -491,5 +485,26 @@ object AppUtil {
                 context.startActivity(intentDetail)
             }
         }
+    }
+
+    fun installApk(context: Context, downloadApk: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        val file = File(downloadApk)
+        logD("安装路径==$downloadApk")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val apkUri: Uri = FileProvider.getUriForFile(
+                context,
+                "$appPackage.fileprovider",
+                file
+            )
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive")
+        } else {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            val uri = Uri.fromFile(file)
+            intent.setDataAndType(uri, "application/vnd.android.package-archive")
+        }
+        context.startActivity(intent)
     }
 }

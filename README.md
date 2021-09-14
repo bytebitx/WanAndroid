@@ -22,12 +22,13 @@ android.useAndroidX=true
 android.enableJetifier=true   
 kotlin.code.style=official
 ```
-2. 通用依赖库在common文件夹下，子组件都在modules文件夹下面。
-3. 控制子组件单独运行的开关在根目录下的**config.gradle**文件里面。
-4. 整个项目结构清晰简单，将每个tab做成一个module，让你快速上手组件化知识。
-5. 那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。
-6. 该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。
-7. **login模块和content模块由于改动较小，所以将这两个模块已上传到maven上面；APP壳工程既可以源码依赖，也可以aar依赖。**
+2. 由于项目中使用了Hilt和Arouter，使用了大量的注解，因此当build项目失败之后，请clean之后再build。
+3. 通用依赖库在common文件夹下，子组件都在modules文件夹下面。
+4. 控制子组件单独运行的开关在根目录下的**config.gradle**文件里面。
+5. 整个项目结构清晰简单，将每个tab做成一个module，让你快速上手组件化知识。
+6. 那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。
+7. 该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。
+8. **login模块和content模块由于改动较小，所以将这两个模块已上传到maven上面；APP壳工程既可以源码依赖，也可以aar依赖。**
 
 ### 子组件独立运行
 *由于项目中使用到有**Hilt**注解，因此需要在子组件的Application添加@HiltAndroidApp注解；但是当子组件合并到APP主工程的时候，由于RootApplication也有@HiltAndroidApp注解，就会导致编译不通过；因此在将子组件合并到APP主工程的时候，需要移除子组件的@HiltAndroidApp注解*

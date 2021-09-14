@@ -3,10 +3,9 @@ package com.bbgo.common_base.util
 import android.os.Environment
 import android.os.Environment.MEDIA_MOUNTED
 import com.bbgo.common_base.BaseApplication
-import com.bbgo.common_base.listener.DowloadListener
-import com.liulishuo.filedownloader.FileDownloader
 import com.orhanobut.logger.Logger
 import java.io.File
+import java.math.BigDecimal
 
 
 class FileUtil {
@@ -15,6 +14,7 @@ class FileUtil {
 
         /**
          * 外置存储卡的路径
+         * /storage/emulated/0
          */
         fun getExternalStorePath(): String? {
             return if (isExistExternalStore()) {
@@ -23,38 +23,48 @@ class FileUtil {
         }
 
         /**
-         * 内置存储卡的路径
-         * /data/user/0/com.bbgo.wanandroid/files
+         * 外置存储卡文件路径
+         * /storage/emulated/0/Android/data/com.bbgo.wanandroid/files
          */
-        fun getInternalStorePath(): String {
-            return BaseApplication.getContext().filesDir.absolutePath
-        }
-
-        /**
-         * 优先使用外置存储卡，没有则使用内部存储卡
-         */
-        fun getStorePath(): String {
-            return if (isExistExternalStore()) {
-                Environment.getExternalStorageDirectory().absolutePath
-            } else {
-                getInternalStorePath()
-            }
+        fun getExternalFilePath(): String? {
+            return BaseApplication.getContext().getExternalFilesDir(null)?.absolutePath
         }
 
         /**
          * 外置存储卡缓存的路径
+         * /storage/emulated/0/Android/data/com.bbgo.wanandroid/cache
          */
-        fun getExternalStoreCachePath(): String? {
+        fun getExternalCachePath(): String? {
             return if (isExistExternalStore()) {
                 return BaseApplication.getContext().externalCacheDir?.absolutePath
             } else null
         }
 
         /**
-         * 内置存储卡的路径
+         * 内置存储卡文件的路径
+         * /data/user/0/com.bbgo.wanandroid/files
          */
-        fun getInternalStoreCachePath(): String {
+        fun getInternalFilePath(): String {
+            return BaseApplication.getContext().filesDir.absolutePath
+        }
+
+        /**
+         * 内置存储卡缓存的路径
+         * /data/user/0/com.bbgo.wanandroid/cache
+         */
+        fun getInternalCachePath(): String {
             return BaseApplication.getContext().cacheDir.absolutePath
+        }
+
+        /**
+         * 优先使用外置存储卡，没有则使用内部存储卡
+         */
+        fun getStoreFilePath(): String? {
+            return if (isExistExternalStore()) {
+                getExternalFilePath()
+            } else {
+                getInternalFilePath()
+            }
         }
 
         /**
@@ -62,9 +72,9 @@ class FileUtil {
          */
         fun getStoreCachePath(): String? {
             return if (isExistExternalStore()) {
-                BaseApplication.getContext().externalCacheDir?.absolutePath
+                getExternalCachePath()
             } else {
-                getInternalStoreCachePath()
+                getInternalCachePath()
             }
         }
 
@@ -77,9 +87,6 @@ class FileUtil {
             } else {
                 BaseApplication.getContext().filesDir.absolutePath + File.separator + dir
             }
-            Logger.d("filePath=${filePath}")
-            Logger.d("filePath2=${Environment.getExternalStorageDirectory().absolutePath}")
-
             val file = File(filePath)
             if (!file.exists()) {
                 file.mkdir()
@@ -94,11 +101,31 @@ class FileUtil {
             return Environment.getExternalStorageState() == MEDIA_MOUNTED
         }
 
-        fun downloadFile(url: String, localPath: String) {
-            FileDownloader.getImpl().create(url)
-                .setPath(localPath)
-                .setListener(DowloadListener())
-                .start()
+        /**
+         * 格式化单位
+         */
+        fun formatSize(size: Double): String {
+            val kiloByte = size / 1024
+            if (kiloByte < 1) {
+                return "0KB"
+            }
+            val megaByte = kiloByte / 1024
+            if (megaByte < 1) {
+                val result1 = BigDecimal(java.lang.Double.toString(kiloByte))
+                return result1.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "KB"
+            }
+            val gigaByte = megaByte / 1024
+            if (gigaByte < 1) {
+                val result2 = BigDecimal(java.lang.Double.toString(megaByte))
+                return result2.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "MB"
+            }
+            val teraBytes = gigaByte / 1024
+            if (teraBytes < 1) {
+                val result3 = BigDecimal(java.lang.Double.toString(gigaByte))
+                return result3.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "GB"
+            }
+            val result4 = BigDecimal(teraBytes)
+            return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB"
         }
     }
 }

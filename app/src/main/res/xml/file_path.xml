@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- 每个path代表的意思可参见FileProvider文件 -->
+    <!-- new File("/") -->
+    <root-path
+        name="root"
+        path="" />
+
+    <!-- context.getFilesDir() -->
+    <files-path
+        name="files"
+        path="." />
+
+    <!-- context.getCacheDir() -->
+    <cache-path
+        name="cache"
+        path="." />
+
+    <!-- Environment.getExternalStorageDirectory() -->
+    <external-path
+        name="external"
+        path="." />
+
+    <!-- ContextCompat.getExternalFilesDirs(context, null) -->
+    <external-files-path
+        name="name"
+        path="." />
+
+    <!-- ContextCompat.getExternalCacheDirs(context) -->
+    <external-cache-path
+        name="name"
+        path="." />
+</paths>
