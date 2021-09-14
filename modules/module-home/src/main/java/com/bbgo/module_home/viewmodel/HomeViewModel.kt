@@ -59,6 +59,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
         viewModelScope.launch(Dispatchers.IO){
             repository.getBanners()
                 .map {
+                    repository.insertBanners(it.data)
                     it
                 }
                 .catch {

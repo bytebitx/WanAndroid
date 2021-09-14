@@ -30,7 +30,7 @@ kotlin.code.style=official
 7. **login模块和content模块由于改动较小，所以将这两个模块已上传到maven上面；APP壳工程既可以源码依赖，也可以aar依赖。**
 
 ### 子组件独立运行
-*由于项目中使用到有Hilt注解，因此需要在子组件的Application添加@HiltAndroidApp注解；但是当子组件合并到APP主工程的时候，由于RootApplication也有@HiltAndroidApp注解，就会导致编译不通过；因此在将子组件合并到APP主工程的时候，需要移除子组件的@HiltAndroidApp注解*
+*由于项目中使用到有**Hilt**注解，因此需要在子组件的Application添加**@HiltAndroidApp**注解；但是当子组件合并到APP主工程的时候，由于**RootApplication**也有**@HiltAndroidApp**注解，就会导致编译不通过；因此在将子组件合并到APP主工程的时候，需要移除子组件的**@HiltAndroidApp**注解*
 
 ### 网络请求框架使用:
 1. Retrofit2 + 协程Coroutines + Flow技术搭建，因此每个模块都有涉及。

@@ -117,6 +117,7 @@ class SquareFragment : BaseFragment() {
                     .withString(Constants.CONTENT_ID_KEY, article.id.toString())
                     .withString(Constants.CONTENT_TITLE_KEY, article.title)
                     .withString(Constants.CONTENT_URL_KEY, article.link)
+                    .withString(Constants.COLLECT, article.collect.toString())
                     .navigation()
             }
             addChildClickViewIds(R.id.iv_like)

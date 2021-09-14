@@ -5,6 +5,7 @@ import com.bbgo.module_project.bean.ArticleDetailWithTag
 import com.bbgo.module_project.bean.ProjectBean
 import com.bbgo.module_project.bean.Tag
 import com.bbgo.module_project.local.AppDatabase
+import com.bbgo.module_project.local.DBUtil
 import com.bbgo.module_project.local.dao.ArticleDetailDao
 import com.bbgo.module_project.local.dao.ProjectTreeDao
 import com.bbgo.module_project.local.dao.TagDao
@@ -21,29 +22,24 @@ import javax.inject.Inject
  *  description: todo
  */
 @ActivityRetainedScoped
-class ProjectLocalRepository @Inject constructor(
-    private val db: AppDatabase,
-    private val articleDetailDao: ArticleDetailDao,
-    private val projectTreeDao: ProjectTreeDao,
-    private val tagDao: TagDao
-){
+class ProjectLocalRepository @Inject constructor() {
 
     fun insertProjectTree(projectBeans: List<ProjectBean>) {
-        db.runInTransaction {
+        DBUtil.getInstance().runInTransaction {
             projectBeans.forEach { projectBean ->
-                projectTreeDao.insert(projectBean)
+                DBUtil.getInstance().projectTreeDao().insert(projectBean)
             }
         }
     }
 
     fun getProjectTree() : Flow<List<ProjectBean>> {
-        return projectTreeDao.getProjectTree()
+        return DBUtil.getInstance().projectTreeDao().getProjectTree()
     }
 
     fun insertProjectArticles(articleDetails: List<ArticleDetail>) {
-        db.runInTransaction {
+        DBUtil.getInstance().runInTransaction {
             articleDetails.forEach { articleDetail ->
-                articleDetailDao.insert(articleDetail)
+                DBUtil.getInstance().articleDetailDao().insert(articleDetail)
                 articleDetail.tags?.forEach { tag ->
                     tag.artileId = articleDetail.id
                     insertTag(tag)
@@ -53,22 +49,22 @@ class ProjectLocalRepository @Inject constructor(
     }
 
     fun getProjectArticles() : Flow<MutableList<ArticleDetail>> {
-        return articleDetailDao.getArticleDetailList()
+        return DBUtil.getInstance().articleDetailDao().getArticleDetailList()
     }
 
     private fun insertTag(tag: Tag) {
-        tagDao.insert(tag)
+        DBUtil.getInstance().tagDao().insert(tag)
     }
 
     fun getTags() : Flow<List<Tag>> {
-        return tagDao.getTagList()
+        return DBUtil.getInstance().tagDao().getTagList()
     }
 
     fun getArticleDetailWithTag() : Flow<MutableList<ArticleDetailWithTag>> {
-        return articleDetailDao.getArticleDetailWithTag()
+        return DBUtil.getInstance().articleDetailDao().getArticleDetailWithTag()
     }
 
     fun deleteArticleById(articleId: String) {
-        articleDetailDao.deleteArticleById(articleId)
+        DBUtil.getInstance().articleDetailDao().deleteArticleById(articleId)
     }
 }
