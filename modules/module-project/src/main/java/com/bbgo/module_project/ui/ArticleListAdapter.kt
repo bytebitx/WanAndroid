@@ -10,9 +10,7 @@ import com.bbgo.module_project.bean.ArticleDetail
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
-/**
- * Created by chenxz on 2018/4/22.
- */
+
 class ArticleListAdapter(datas: MutableList<ArticleDetail>)
     : BaseQuickAdapter<ArticleDetail, BaseViewHolder>(R.layout.item_article_list, datas) {
 

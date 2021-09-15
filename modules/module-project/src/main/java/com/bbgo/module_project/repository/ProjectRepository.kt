@@ -50,4 +50,8 @@ class ProjectRepository @Inject constructor(private val remoteRepository: Projec
         localRepository.deleteArticleById(articleId)
     }
 
+    suspend fun downloadFile(url: String, path: String) {
+        localRepository.downloadFile(url, path)
+    }
+
 }

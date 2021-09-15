@@ -14,7 +14,7 @@ import com.bbgo.module_project.local.dao.TagDao
  *  date: 4/8/21 7:56 PM
  *  description: todo
  */
-@Database(entities = [ProjectBean::class, ArticleDetail::class, Tag::class], version = 1, exportSchema = false)
+@Database(entities = [ProjectBean::class, ArticleDetail::class, Tag::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun projectTreeDao(): ProjectTreeDao
     abstract fun articleDetailDao(): ArticleDetailDao

@@ -71,6 +71,4 @@ dependencies {
     api rootProject.ext.arouterLibs
 
     api rootProject.ext.otherLibs
-
-    api project(":common:library-statusbar")
 }

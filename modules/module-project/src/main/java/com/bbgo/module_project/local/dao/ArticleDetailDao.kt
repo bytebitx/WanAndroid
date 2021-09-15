@@ -38,4 +38,8 @@ interface ArticleDetailDao {
     @Delete
     fun deleteArticle(vararg articleDetail: ArticleDetail)
 
+    @Transaction
+    @Query("UPDATE ARTICLE_DETAIL SET local_path =:localPath WHERE envelope_pic=:url")
+    fun updatePathByUrl(localPath: String, url: String)
+
 }

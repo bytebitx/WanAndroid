@@ -1,5 +1,9 @@
 package com.bbgo.module_project.repository
 
+import android.util.Log
+import com.bbgo.common_base.ext.logD
+import com.bbgo.common_base.net.download.DownloadListener
+import com.bbgo.common_base.net.download.FileDownloader
 import com.bbgo.module_project.bean.ArticleDetail
 import com.bbgo.module_project.bean.ArticleDetailWithTag
 import com.bbgo.module_project.bean.ProjectBean
@@ -66,5 +70,26 @@ class ProjectLocalRepository @Inject constructor() {
 
     fun deleteArticleById(articleId: String) {
         DBUtil.getInstance().articleDetailDao().deleteArticleById(articleId)
+    }
+
+    suspend fun downloadFile(url: String, path: String) {
+        FileDownloader.create(url)
+            .setPath(path)
+            .setListener(object : DownloadListener {
+                override fun onStart() {
+                }
+
+                override fun onProgress(progress: Int, total: Float) {
+                }
+
+                override fun onFinish(path: String, url: String) {
+                    Log.d("ProjectLocalRepository", "path = $path , url = $url , thread = ${Thread.currentThread().name}")
+                    DBUtil.getInstance().articleDetailDao().updatePathByUrl(path, url)
+                }
+
+                override fun onError(msg: String?) {
+                }
+            })
+            .start()
     }
 }

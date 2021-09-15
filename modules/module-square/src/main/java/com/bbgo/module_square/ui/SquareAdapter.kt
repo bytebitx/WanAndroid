@@ -10,9 +10,7 @@ import com.bbgo.module_square.bean.ArticleDetail
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
-/**
- * Created by chenxz on 2018/4/22.
- */
+
 class SquareAdapter(datas: MutableList<ArticleDetail>)
     : BaseQuickAdapter<ArticleDetail, BaseViewHolder>(R.layout.square_item_home_list, datas) {
 
@@ -35,18 +33,18 @@ class SquareAdapter(datas: MutableList<ArticleDetail>)
         if (item.envelopePic.isNotEmpty()) {
             holder.getView<ImageView>(R.id.iv_article_thumbnail)
                     .visibility = View.VISIBLE
-            context?.let {
+            context.let {
                 ImageLoader.load(it, item.envelopePic, holder.getView(R.id.iv_article_thumbnail))
             }
         } else {
             holder.getView<ImageView>(R.id.iv_article_thumbnail)
                     .visibility = View.GONE
         }
-        val tv_fresh = holder.getView<TextView>(R.id.tv_article_fresh)
+        val tvFresh = holder.getView<TextView>(R.id.tv_article_fresh)
         if (item.fresh) {
-            tv_fresh.visibility = View.VISIBLE
+            tvFresh.visibility = View.VISIBLE
         } else {
-            tv_fresh.visibility = View.GONE
+            tvFresh.visibility = View.GONE
         }
         val tv_top = holder.getView<TextView>(R.id.tv_article_top)
         if (item.top == "1") {
@@ -54,12 +52,12 @@ class SquareAdapter(datas: MutableList<ArticleDetail>)
         } else {
             tv_top.visibility = View.GONE
         }
-        val tv_article_tag = holder.getView<TextView>(R.id.tv_article_tag)
-        if (item.tags.size > 0) {
-            tv_article_tag.visibility = View.VISIBLE
-            tv_article_tag.text = item.tags[0].name
+        val tvArticleTag = holder.getView<TextView>(R.id.tv_article_tag)
+        if (item.tags.isNotEmpty()) {
+            tvArticleTag.visibility = View.VISIBLE
+            tvArticleTag.text = item.tags[0].name
         } else {
-            tv_article_tag.visibility = View.GONE
+            tvArticleTag.visibility = View.GONE
         }
     }
 

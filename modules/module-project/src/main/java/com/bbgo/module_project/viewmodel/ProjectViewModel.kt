@@ -5,6 +5,8 @@ import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.logE
+import com.bbgo.common_base.util.FileUtil
+import com.bbgo.common_base.util.MD5Utils
 import com.bbgo.common_base.util.NetWorkUtil
 import com.bbgo.module_project.bean.ArticleDetail
 import com.bbgo.module_project.bean.ProjectBean
@@ -13,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -97,6 +100,8 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
                         articlesLiveData.value = it
 
                         insertProjectArticle()
+
+                        downloadImage()
                     }
                 return@launch
             }
@@ -123,6 +128,20 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
         articlesLiveData.value?.data?.let {
             viewModelScope.launch(Dispatchers.IO) {
                 repository.insertProjectArticles(it)
+            }
+        }
+    }
+
+    private fun downloadImage() {
+        articlesLiveData.value?.data?.let {
+            viewModelScope.launch {
+                it.forEach { articleDetail ->
+                    repository.downloadFile(
+                        articleDetail.envelopePic,
+                        FileUtil.getExternalFilePath() + File.separator +
+                                MD5Utils.getMD5(articleDetail.envelopePic) + ".jpg"
+                    )
+                }
             }
         }
     }

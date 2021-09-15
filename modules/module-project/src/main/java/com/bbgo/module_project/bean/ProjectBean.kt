@@ -61,6 +61,7 @@ data class ArticleDetail(
     var visible: Int = 0,
     var zan: Int = 0,
     var top: String = "",
+    @ColumnInfo(name = "local_path") var localPath: String = ""
 )
 
 @Entity(tableName = "tag",
