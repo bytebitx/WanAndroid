@@ -185,7 +185,7 @@ class ProjectListFragment : BaseFragment() {
     }
 
     override fun lazyLoad() {
-        projectViewModel.getProjectList(cid, 1)
+        projectViewModel.getProjectList(cid, 0)
     }
 
     override fun observeViewModel() {

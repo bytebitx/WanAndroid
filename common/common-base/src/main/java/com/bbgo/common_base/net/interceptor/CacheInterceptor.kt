@@ -6,11 +6,7 @@ import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response
 
-/**
- * @author chenxz
- * @date 2018/9/26
- * @desc CacheInterceptor: 设置缓存
- */
+
 class CacheInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {

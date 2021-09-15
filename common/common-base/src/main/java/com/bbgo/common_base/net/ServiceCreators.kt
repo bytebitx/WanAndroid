@@ -1,8 +1,13 @@
 package com.bbgo.common_base.net
 
 import com.bbgo.common_base.BaseApplication
-import com.bbgo.common_base.constants.HttpConstant
-import com.bbgo.common_base.net.interceptor.*
+import com.bbgo.common_base.net.interceptor.BasicParamsInterceptor
+import com.bbgo.common_base.net.interceptor.CacheInterceptor
+import com.bbgo.common_base.net.interceptor.LoggingInterceptor
+import com.bbgo.common_base.net.interceptor.MultiBaseUrlInterceptor
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import com.google.gson.GsonBuilder
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -19,16 +24,21 @@ object ServiceCreators {
 
     private const val BASE_URL = "https://wanandroid.com/"
 
+    private const val MAX_CACHE_SIZE: Long = 1024 * 1024 * 50 // 50M 的缓存大小
     //设置 请求的缓存的大小跟位置
     private val cacheFile = File(BaseApplication.getContext().cacheDir, "cache")
-    private val cache = Cache(cacheFile, HttpConstant.MAX_CACHE_SIZE)
+    private val cache = Cache(cacheFile, MAX_CACHE_SIZE)
+    private val cookieJar = PersistentCookieJar(
+        SetCookieCache(),
+        SharedPrefsCookiePersistor(BaseApplication.getContext())
+    )
 
     val httpClient = OkHttpClient.Builder()
+        .retryOnConnectionFailure(true)
         .addInterceptor(MultiBaseUrlInterceptor())
         .addInterceptor(LoggingInterceptor())
-        .addInterceptor(HeaderInterceptor())
-        .addInterceptor(SaveCookieInterceptor())
         .addInterceptor(CacheInterceptor())
+        .cookieJar(cookieJar)
         .cache(cache)
         .addInterceptor(BasicParamsInterceptor())
         .build()

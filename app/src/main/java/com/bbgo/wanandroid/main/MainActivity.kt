@@ -153,6 +153,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 return@setOnClickListener
             }
             ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
+            binding.drawerLayout.closeDrawers()
         }
 
         binding.floatingBtn.setOnClickListener(onFABClickListener)
@@ -163,19 +164,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         var userName = Prefs.getString(Constants.USER_NAME)
         if (userName.isEmpty()) {
             userName = getString(R.string.go_login)
+            navHeaderBinding.tvUsername.text = userName
+            return
         }
         AppUtil.isLogin = true
         val userId = Prefs.getString(Constants.USER_ID)
         navHeaderBinding.userIdLayout.visibility = View.VISIBLE
         navHeaderBinding.tvUserId.text = userId
         navHeaderBinding.tvUsername.text = userName
-
-        navHeaderBinding.root.setOnClickListener {
-            if (userName.isEmpty()) {
-                ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
-                binding.drawerLayout.closeDrawers()
-            }
-        }
     }
 
     private fun switchFragment(position: Int) {
