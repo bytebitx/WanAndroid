@@ -85,7 +85,7 @@ ext {
             // key-value
             mmkv        : "com.tencent:mmkv-static:1.2.7",
             // permission
-            permission  : "com.github.getActivity:XXPermissions:11.6",
+            permission  : "com.github.getActivity:XXPermissions:12.2",
             // logger
             logger      : "com.orhanobut:logger:2.2.0",
             // arouter

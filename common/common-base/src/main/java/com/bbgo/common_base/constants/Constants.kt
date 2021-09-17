@@ -38,6 +38,8 @@ object Constants {
 
     const val COLLECT = "isCollect"
 
+    const val ROUTER_PATH = "routerPath"
+
 
     object CollectType {
         const val COLLECT = "COLLECT"

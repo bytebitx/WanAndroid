@@ -4,11 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
+import com.bbgo.common_base.bus.BusKey
+import com.bbgo.common_base.bus.LiveDataBus
+import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.util.AppUtil
 import com.bbgo.module_login.R
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.databinding.ActivityRegisterBinding
@@ -58,7 +63,11 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
                 resource.errorMsg?.let { showToast(it) }
             }
             is Resource.Success -> {
-//                startActivity(Intent(this, MainActivity::class.java))
+                AppUtil.isLogin = true
+                ARouter.getInstance().build(intent.getStringExtra(Constants.ROUTER_PATH))
+                    .navigation()
+                LiveDataBus.get().with(BusKey.LOGIN_SUCCESS).value = Any()
+                finish()
             }
         }
     }

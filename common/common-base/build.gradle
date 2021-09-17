@@ -69,6 +69,7 @@ dependencies {
 
     // arouter
     api rootProject.ext.arouterLibs
+    kapt rootProject.ext.compiler["arouterCompiler"]
 
     api rootProject.ext.otherLibs
 }

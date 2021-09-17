@@ -88,6 +88,31 @@ kapt {
 ```class
 ARouter.getInstance().inject(this)
 ```
+#### 10. 拦截器的使用
+在跳转到某个页面的时候，如果目标页面是需要已经登录了才能跳转的页面，那么可以使用Arouter的拦截器实现；如果登录了就直接跳转到目标页面，如果没有登录就跳转到登录页面。拦截器实现如下：
+```class
+@Interceptor(name = "login", priority = 1)
+class LoginInterceptor : IInterceptor {
+    override fun init(context: Context?) {
+    }
+
+    override fun process(postcard: Postcard, callback: InterceptorCallback) {
+        if (AppUtil.isLogin) { // 如果已经登录了，则默认不做任何处理
+            callback.onContinue(postcard)
+        } else {
+            // 判断哪些页面需要登录 (在整个应用中，有些页面需要登录，有些是不需要登录的)
+            if (postcard.path == RouterPath.Compose.PAGE_COMPOSE) {
+                callback.onInterrupt(null)
+            } else { // 不是需要登录的页面，不做任何处理
+                callback.onContinue(postcard)
+            }
+        }
+    }
+}
+```
+从上面代码中可以看出，只需要统计已经登录了才能跳转的页面，将其存入一个List集合中，然后在拦截器里面做判断就好了。
+
+但是使用Arouter只能解决跳转页面的时候判断是否已经登录，在项目中，有些功能是不需要跳转页面就要判断是否登录，登录才执行某个操作，没登录就跳转到登录页面，这个时候Arouter就不适用了；例如本项目中的收藏功能。
 
 ## 疑问？
 1. 如果新增一个module，或者新增一个功能，需要用到某个常量，然后主app也要用到某个该常量，那么该常量应该定义在哪里？base里面？如果定义在base里面，那么就会经常动base；如果不定义在base里面，那么该定义在哪里？

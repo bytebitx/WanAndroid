@@ -3,14 +3,18 @@ package com.bbgo.module_login.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
+import com.bbgo.common_base.bus.BusKey
+import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.DialogUtil
 import com.bbgo.module_login.R
 import com.bbgo.module_login.bean.LoginData
@@ -36,6 +40,9 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private val mDialog by lazy {
         DialogUtil.getWaitDialog(this, getString(R.string.login_ing))
     }
+    @Autowired
+    lateinit var routerPath: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +57,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         binding.btnLogin.setOnClickListener(this)
         binding.tvSignUp.setOnClickListener(this)
+
+        ARouter.getInstance().inject(this)
     }
 
     override fun observeViewModel() {
@@ -68,10 +77,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             is Resource.Success -> {
                 mDialog.dismiss()
                 if (resource.data == null) return
-                ARouter.getInstance().build(RouterPath.Main.PAGE_MAIN)
-                    .withString("userId", resource.data!!.id.toString())
-                    .withString("userName", resource.data!!.username)
-                    .navigation()
+                AppUtil.isLogin = true
+                ARouter.getInstance().build(routerPath).navigation()
+                LiveDataBus.get().with(BusKey.LOGIN_SUCCESS).value = Any()
+                finish()
             }
         }
     }
@@ -94,7 +103,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 )
             }
             binding.tvSignUp.id -> {
-                startActivity(Intent(this, RegisterActivity::class.java))
+                Intent(this, RegisterActivity::class.java).apply {
+                    putExtra(Constants.ROUTER_PATH, routerPath)
+                    startActivity(this)
+                }
             }
             else -> {
 
