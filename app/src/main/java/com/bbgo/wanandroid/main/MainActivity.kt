@@ -14,6 +14,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
+import com.bbgo.apt_annotation.RequireLogin
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.bus.BusKey
@@ -36,6 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @Route(path = RouterPath.Main.PAGE_MAIN)
 @AndroidEntryPoint
+@RequireLogin
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
