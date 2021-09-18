@@ -21,7 +21,6 @@ import com.bbgo.common_base.bus.BusKey
 import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
-import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.*
 import com.bbgo.common_base.util.AppUtil
@@ -258,7 +257,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val transaction = supportFragmentManager.beginTransaction()
         when(item.itemId) {
             R.id.nav_collect -> {
                 ARouter.getInstance().build(RouterPath.Compose.PAGE_COMPOSE)
@@ -308,8 +306,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
             }
         }
-        binding.drawerLayout.closeDrawers()
-        transaction.commitAllowingStateLoss()
         return false
     }
 

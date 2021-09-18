@@ -15,15 +15,29 @@ import com.bbgo.common_base.util.AppUtil
  */
 @Interceptor(name = "login", priority = 1)
 class LoginInterceptor : IInterceptor {
+
+    /**
+     * 该集合保存的是需要登录成功之后才跳转的页面，也就是有@RequireLogin注解的页面
+     */
+    private lateinit var pageList: List<String>
+
+    private var isLogin: Boolean = false
+
     override fun init(context: Context?) {
+        pageList = RefletionUtils.getRequireLoginPages()
+        isLogin = RefletionUtils.getLoginField()
     }
 
     override fun process(postcard: Postcard, callback: InterceptorCallback) {
-        if (AppUtil.isLogin) { // 如果已经登录了，则默认不做任何处理
+        if (RefletionUtils.getLoginField()) { // 如果已经登录了，则默认不做任何处理
             callback.onContinue(postcard)
         } else {
+            if (pageList.isEmpty()) {
+                callback.onContinue(postcard)
+                return
+            }
             // 判断哪些页面需要登录 (在整个应用中，有些页面需要登录，有些是不需要登录的)
-            if (postcard.path == RouterPath.Compose.PAGE_COMPOSE) {
+            if (pageList.contains(postcard.destination.canonicalName)) {
                 callback.onInterrupt(null)
             } else { // 不是需要登录的页面，不做任何处理
                 callback.onContinue(postcard)

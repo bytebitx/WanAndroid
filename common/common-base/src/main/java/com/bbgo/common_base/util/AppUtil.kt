@@ -2,41 +2,28 @@
 package com.bbgo.common_base.util
 
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.provider.Settings
 import android.text.TextUtils
+import androidx.annotation.RequiresApi
+import androidx.core.content.FileProvider
+import com.bbgo.apt_annotation.InjectLogin
 import com.bbgo.common_base.BaseApplication
-import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.ext.Prefs
+import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.logE
 import com.bbgo.common_base.ext.logW
-import java.util.*
-import androidx.core.content.ContextCompat.getSystemService
-
-import android.os.PowerManager
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
-
-import android.content.Intent
-import android.net.Uri
-import java.lang.Exception
-import androidx.core.content.ContextCompat.startActivity
-
-import android.content.ComponentName
-import androidx.annotation.NonNull
-import android.R
-import com.bbgo.common_base.BuildConfig
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.content.FileProvider
-import com.bbgo.common_base.ext.logD
 import java.io.File
+import java.util.*
 
 
 /**
@@ -256,6 +243,7 @@ object AppUtil {
      * */
     fun isWeiboInstalled() = isInstalled("com.sina.weibo")
 
+    @InjectLogin
     var isLogin = false
 
     @RequiresApi(Build.VERSION_CODES.M)

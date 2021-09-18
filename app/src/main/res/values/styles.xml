@@ -87,14 +87,6 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <!-- animation 样式 -->
-    <style name="activityAnimation" parent="@android:style/Animation">
-        <item name="android:activityOpenEnterAnimation">@anim/right_in</item>
-        <item name="android:activityOpenExitAnimation">@anim/left_out</item>
-        <item name="android:activityCloseEnterAnimation">@anim/left_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/right_out</item>
-    </style>
-
     <style name="RecyclerViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

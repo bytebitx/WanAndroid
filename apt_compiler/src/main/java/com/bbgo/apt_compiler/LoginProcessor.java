@@ -1,5 +1,6 @@
 package com.bbgo.apt_compiler;
 
+import com.bbgo.apt_annotation.InjectLogin;
 import com.bbgo.apt_annotation.RequireLogin;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
@@ -36,11 +37,13 @@ import javax.tools.Diagnostic;
 @AutoService(Processor.class)
 public class LoginProcessor extends AbstractProcessor {
 
-    private String pkName = "com.android.processor.apt";
-
     private Messager mMessager;
 
     private List<String> pageList;
+
+    private String loginFieldClass;
+
+    private final String clzNamePrefix = ProcConsts.PROJECT + ProcConsts.SEPARATOR;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -53,6 +56,7 @@ public class LoginProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         HashSet<String> supportTypes = new LinkedHashSet<>();
         supportTypes.add(RequireLogin.class.getCanonicalName());
+        supportTypes.add(InjectLogin.class.getCanonicalName());
         return supportTypes;
     }
 
@@ -70,20 +74,47 @@ public class LoginProcessor extends AbstractProcessor {
         // 1，获取所有添加了注解的Activity，保存到List中
         parseAnnotation(roundEnv);
 
-        // 2，创建名为NeedLogin的类
-        TypeSpec typeSpec = TypeSpec.classBuilder("AndLogin")
-                .addModifiers(Modifier.PUBLIC)
-                // 3，添加获取类的list的方法
-                .addMethod(createRequireLoginFun())
-                .build();
+        if (pageList.isEmpty()) {
+            String clzName = loginFieldClass.substring(loginFieldClass.lastIndexOf(".") + 1);
 
-        // 4，设置包路径：per.wsj.gitstar.apt
-        JavaFile javaFile = JavaFile.builder(pkName, typeSpec).build();
-        try {
-            // 5，生成文件
-            javaFile.writeTo(processingEnv.getFiler());
-        } catch (IOException e) {
-            e.printStackTrace();
+            // 2，创建名为 Login$$类名 的类
+            TypeSpec typeSpec = TypeSpec.classBuilder(clzNamePrefix + clzName)
+                    .addModifiers(Modifier.PUBLIC)
+                    .addMethod(createRequireLoginFun())
+                    .addMethod(createLoginFieldFun())
+                    .build();
+
+            // 4，设置包路径：ProcConsts.PKG_NAME
+            JavaFile javaFile = JavaFile.builder(ProcConsts.PKG_NAME, typeSpec).build();
+            try {
+                // 5，生成文件
+                javaFile.writeTo(processingEnv.getFiler());
+            } catch (IOException e) {
+                e.printStackTrace();
+                mMessager.printMessage(Diagnostic.Kind.WARNING,
+                        "IOException = " + e.getMessage());
+            }
+        } else {
+            for(String page: pageList) {
+                String clzName = page.substring(page.lastIndexOf(".") + 1);
+
+                // 2，创建名为 Login$$类名 的类
+                TypeSpec typeSpec = TypeSpec.classBuilder(clzNamePrefix + clzName)
+                        .addModifiers(Modifier.PUBLIC)
+                        // 3，添加获取类的list的方法
+                        .addMethod(createRequireLoginFun())
+                        .addMethod(createLoginFieldFun())
+                        .build();
+
+                // 4，设置包路径：ProcConsts.PKG_NAME
+                JavaFile javaFile = JavaFile.builder(ProcConsts.PKG_NAME, typeSpec).build();
+                try {
+                    // 5，生成文件
+                    javaFile.writeTo(processingEnv.getFiler());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         mMessager.printMessage(Diagnostic.Kind.WARNING, "\nprocess finish ...\n");
@@ -96,7 +127,8 @@ public class LoginProcessor extends AbstractProcessor {
      */
     private void parseAnnotation(RoundEnvironment roundEnv) {
         pageList.clear();
-        // 得到所有注解为NeedLogin的元素
+        mMessager.printMessage(Diagnostic.Kind.WARNING,"开始处理RequireLogin注解");
+        // 得到所有注解为RequireLogin的元素
         Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(RequireLogin.class);
         for (Element element : elements) {
             // 检查元素是否是一个class.  注意：不能用instanceof TypeElement来判断，因为接口类型也是TypeElement.
@@ -107,9 +139,29 @@ public class LoginProcessor extends AbstractProcessor {
             }
             // 放心大胆地强转成TypeElement
             TypeElement classElement = (TypeElement) element;
-            // 包名+类型:per.wsj.gitstar.ui.activity.EventActivity
+            // 包名+类型
             String fullClassName = classElement.getQualifiedName().toString();
             pageList.add(fullClassName);
+        }
+
+        mMessager.printMessage(Diagnostic.Kind.WARNING,"开始处理InjectLogin注解");
+
+
+        // 得到所有注解为CheckLogin的元素
+        Set<? extends Element> checkElements = roundEnv.getElementsAnnotatedWith(InjectLogin.class);
+        for (Element element : checkElements) {
+            // 检查元素是否是一个class.  注意：不能用instanceof TypeElement来判断，因为接口类型也是TypeElement.
+            if (element.getKind() != ElementKind.FIELD) {
+                mMessager.printMessage(Diagnostic.Kind.WARNING,
+                        element.getSimpleName().toString() + "不是变量，不予处理");
+                continue;
+            }
+            // 放心大胆地强转成TypeElement
+            TypeElement classElement = (TypeElement) element.getEnclosingElement();
+            // 包名+类型
+            loginFieldClass = classElement.getQualifiedName().toString();
+            mMessager.printMessage(Diagnostic.Kind.WARNING,
+                    "loginFieldClass = " + loginFieldClass);
         }
     }
 
@@ -121,7 +173,7 @@ public class LoginProcessor extends AbstractProcessor {
         // 返回值类型 List<String>
         TypeName listOfView = ParameterizedTypeName.get(List.class, String.class);
 
-        // 创建名为getViewAnno的方法
+        // 创建名为getRequireLoginList的方法
         MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("getRequireLoginList")
                 .addModifiers(Modifier.PUBLIC)
                 .addModifiers(Modifier.STATIC)
@@ -129,11 +181,24 @@ public class LoginProcessor extends AbstractProcessor {
         // List<String> result = new ArrayList<>();
         methodBuilder.addStatement("$T result = new $T<>()", listOfView, arrayList);
         for (String s : pageList) {
-            // result.add("per.wsj.gitstar.ui.activity.EventActivity");
             methodBuilder.addStatement("result.add(\"" + s + "\")");
         }
         // return result;
         methodBuilder.addStatement("return result");
+        return methodBuilder.build();
+    }
+
+    /**
+     * 创建获取注解名的方法
+     */
+    private MethodSpec createLoginFieldFun() {
+        TypeName returnType = ParameterizedTypeName.get(String.class);
+        // 创建名为getLoginFieldClass的方法
+        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("getLoginFieldClass")
+                .addModifiers(Modifier.PUBLIC)
+                .addModifiers(Modifier.STATIC)
+                .returns(returnType);
+        methodBuilder.addStatement("return \"" + loginFieldClass + "\"");
         return methodBuilder.build();
     }
 }

@@ -97,6 +97,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-compose:2.4.0-alpha06'
 
     kapt rootProject.ext.compiler["arouterCompiler"]
+
+    implementation project(":apt_annotation")
+
+    kapt project(":apt_compiler")
 }
 
 //  发布module到maven仓库
