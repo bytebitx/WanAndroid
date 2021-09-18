@@ -14,6 +14,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
+import com.bbgo.apt_annotation.CheckLogin
 import com.bbgo.apt_annotation.RequireLogin
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.base.BaseFragment
@@ -152,15 +153,21 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setUserInfo()
 
         navHeaderBinding.root.setOnClickListener {
-            if (AppUtil.isLogin) {
-                return@setOnClickListener
-            }
-            ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
-            binding.drawerLayout.closeDrawers()
+            jude2()
         }
 
         binding.floatingBtn.setOnClickListener(onFABClickListener)
 
+    }
+
+    @CheckLogin
+    private fun jude2() {
+
+        if (AppUtil.isLogin) {
+            return
+        }
+        ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
+        binding.drawerLayout.closeDrawers()
     }
 
     private fun setUserInfo() {
@@ -297,16 +304,27 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             R.id.nav_logout -> {
-                if (AppUtil.isLogin) {
+                /*if (AppUtil.isLogin) {
                     mainViewModel.logOut(loginOutService)
                 } else {
                     ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
                     binding.drawerLayout.closeDrawers()
-                }
+                }*/
+                judge()
 
             }
         }
         return false
+    }
+
+    @CheckLogin
+    private fun judge() {
+        if (AppUtil.isLogin) {
+            mainViewModel.logOut(loginOutService)
+        } else {
+            ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
+            binding.drawerLayout.closeDrawers()
+        }
     }
 
     override fun recreate() {

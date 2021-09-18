@@ -9,6 +9,7 @@ class ProcConsts {
     companion object {
         const val PROJECT = "Login"
         const val SEPARATOR = "$$"
+        const val MODULE_CHECK = "Check"
         const val PKG_NAME = "com.android.processor.apt"
     }
 }
