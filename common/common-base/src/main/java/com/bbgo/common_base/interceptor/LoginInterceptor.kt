@@ -28,6 +28,12 @@ class LoginInterceptor : IInterceptor {
         isLogin = RefletionUtils.getLoginField()
     }
 
+    /**
+     * 在该项目中，也可以使用AppUtils.isLogin来直接判断是否登录，但是这样就耦合了AppUtils
+     * 如果不想耦合，就可以使用RefletionUtils.getLoginField()来判断是否登录，不过
+     * 前提是需要为AppUtils的isLogin变量增加@InjectLogin。这样做的好处就是：
+     * 可以将LoginInterceptor和RefletionUtils单独拿出来作为一个lib。
+     */
     override fun process(postcard: Postcard, callback: InterceptorCallback) {
         if (RefletionUtils.getLoginField()) { // 如果已经登录了，则默认不做任何处理
             callback.onContinue(postcard)

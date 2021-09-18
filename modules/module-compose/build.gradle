@@ -98,8 +98,6 @@ dependencies {
 
     kapt rootProject.ext.compiler["arouterCompiler"]
 
-    implementation project(":apt_annotation")
-
     kapt project(":apt_compiler")
 }
 

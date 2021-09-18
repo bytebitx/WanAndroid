@@ -95,7 +95,7 @@ public class LoginProcessor extends AbstractProcessor {
                         "IOException = " + e.getMessage());
             }
         } else {
-            for(String page: pageList) {
+            for(String page: pageList) { // 由于使用组件化，所以需要为每个组件都生成对应的文件
                 String clzName = page.substring(page.lastIndexOf(".") + 1);
 
                 // 2，创建名为 Login$$类名 的类

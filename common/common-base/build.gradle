@@ -72,6 +72,6 @@ dependencies {
 
     api rootProject.ext.otherLibs
 
-    implementation project(":apt_annotation")
+    api project(":apt_annotation")
     kapt project(":apt_compiler")
 }
