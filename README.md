@@ -15,20 +15,24 @@
 ## 项目说明
 
 ### 项目目录及架构
-1. 将该项目clone到本地的时候，需要在项目根目录下面添加**gradle.properties**文件，文件内容如下：
+- 将该项目clone到本地的时候，需要在项目根目录下面添加**gradle.properties**文件，文件内容如下：
 ```class
 org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8   
 android.useAndroidX=true   
 android.enableJetifier=true   
 kotlin.code.style=official
 ```
-2. 由于项目中使用了Hilt和Arouter，使用了大量的注解，因此当build项目失败之后，请clean之后再build。
-3. 通用依赖库在common文件夹下，子组件都在modules文件夹下面。
-4. 控制子组件单独运行的开关在根目录下的**config.gradle**文件里面。
-5. 整个项目结构清晰简单，将每个tab做成一个module，让你快速上手组件化知识。
-6. 那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。
-7. 该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。
-8. **login模块和content模块由于改动较小，所以将这两个模块已上传到maven上面；APP壳工程既可以源码依赖，也可以aar依赖。**
+
+- 由于项目中使用了Hilt和Arouter，使用了大量的注解，因此当build项目失败之后，请clean之后再build。
+
+> Login-Plugin、apt_annotation、ap_compiler文件夹涉及到使用***APT+ASM+自定义Gradle插***件技术，和项目其他功能相关性不大，如果对这几个技术不感兴趣，可暂时不管这几个文件夹的code。
+
+- 通用依赖库在common文件夹下，子组件都在modules文件夹下面。
+- 控制子组件单独运行的开关在根目录下的**config.gradle**文件里面。
+- 整个项目结构清晰简单，将每个tab做成一个module，让你快速上手组件化知识。
+- 那如何将一个tab当成一个module的呢？具体是怎么实现的呢？具体代码可以查看MainActivity里面的写法。
+- 该项目主要是学习如何将项目拆分module，是为了拆分module而拆分，实际项目中需要根据业务去拆分module。
+- **login模块和content模块由于改动较小，所以将这两个模块已上传到maven上面；APP壳工程既可以源码依赖，也可以aar依赖。**
 
 ### 子组件独立运行
 *由于项目中使用到有**Hilt**注解，因此需要在子组件的Application添加@HiltAndroidApp注解；但是当子组件合并到APP主工程的时候，由于RootApplication也有@HiltAndroidApp注解，就会导致编译不通过；因此在将子组件合并到APP主工程的时候，需要移除子组件的@HiltAndroidApp注解*
@@ -91,21 +95,44 @@ ARouter.getInstance().inject(this)
 #### 10. 拦截器的使用
 在跳转到某个页面的时候，如果目标页面是需要已经登录了才能跳转的页面，那么可以使用Arouter的拦截器实现；如果登录了就直接跳转到目标页面，如果没有登录就跳转到登录页面。拦截器实现如下：
 ```class
+/**
+ * @Description:
+ * 该拦截器的作用是：统一页面跳转时，判断用户是否已经登录，
+ * 将业务层判断用户是否登录的逻辑统一到这里，业务层就不需要做if else判断了
+ * @Author: wangyuebin
+ * @Date: 2021/9/17 2:25 下午
+ */
 @Interceptor(name = "login", priority = 1)
 class LoginInterceptor : IInterceptor {
+
+    /**
+     * 该集合保存的是需要登录成功之后才跳转的页面，也就是有@RequireLogin注解的页面
+     */
+    private lateinit var pageList: List<String>
+
+    private var isLogin: Boolean = false
+
     override fun init(context: Context?) {
+        pageList = RefletionUtils.getRequireLoginPages()
+        isLogin = RefletionUtils.getLoginStatus()
     }
 
+    /**
+     * 在该项目中，也可以使用AppUtils.isLogin来直接判断是否登录，但是这样就耦合了AppUtils
+     * 如果不想耦合，就可以使用RefletionUtils.getLoginStatus()来判断是否登录，不过
+     * 前提是需要为AppUtils的isLogin变量增加@InjectLogin。这样做的好处就是：
+     * 可以将LoginInterceptor和RefletionUtils单独拿出来作为一个lib。
+     */
     override fun process(postcard: Postcard, callback: InterceptorCallback) {
-        if (AppUtil.isLogin) { // 如果已经登录了，则默认不做任何处理
-            callback.onContinue(postcard)
-        } else {
-            // 判断哪些页面需要登录 (在整个应用中，有些页面需要登录，有些是不需要登录的)
-            if (postcard.path == RouterPath.Compose.PAGE_COMPOSE) {
-                callback.onInterrupt(null)
-            } else { // 不是需要登录的页面，不做任何处理
+        // 判断哪些页面需要登录 (在整个应用中，有些页面需要登录，有些是不需要登录的)
+        if (pageList.contains(postcard.destination.canonicalName)) {
+            if (RefletionUtils.getLoginStatus()) { // 如果已经登录了，则默认不做任何处理
                 callback.onContinue(postcard)
+            } else { // 未登录，拦截
+                callback.onInterrupt(null)
             }
+        } else {
+            callback.onContinue(postcard)
         }
     }
 }
@@ -113,6 +140,10 @@ class LoginInterceptor : IInterceptor {
 从上面代码中可以看出，只需要统计已经登录了才能跳转的页面，将其存入一个List集合中，然后在拦截器里面做判断就好了。
 
 但是使用Arouter只能解决跳转页面的时候判断是否已经登录，在项目中，有些功能是不需要跳转页面就要判断是否登录，登录才执行某个操作，没登录就跳转到登录页面，这个时候Arouter就不适用了；例如本项目中的收藏功能。
+
+## APT+ASM+自定义Gradle插件
+- 在进入**我的收藏**页面的时候，使用了注解**@RequireLogin**和**@InjectLogin**两个注解判断该页面是否是需要登录才能进的页面以及是否已经登录了；因此涉及到***APT***技术
+- ASM+自定义Gradle插件部分目前只是做了基本的尝试，目的是学习如何自定义Gradle插件以及字节码插装。
 
 ## 疑问？
 1. 如果新增一个module，或者新增一个功能，需要用到某个常量，然后主app也要用到某个该常量，那么该常量应该定义在哪里？base里面？如果定义在base里面，那么就会经常动base；如果不定义在base里面，那么该定义在哪里？
