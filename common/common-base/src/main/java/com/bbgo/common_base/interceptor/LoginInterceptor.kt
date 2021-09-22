@@ -10,6 +10,8 @@ import com.bbgo.common_base.util.AppUtil
 
 /**
  * @Description:
+ * 该拦截器的作用是：统一页面跳转时，判断用户是否已经登录，
+ * 将业务层判断用户是否登录的逻辑统一到这里，业务层就不需要做if else判断了
  * @Author: wangyuebin
  * @Date: 2021/9/17 2:25 下午
  */
@@ -25,19 +27,19 @@ class LoginInterceptor : IInterceptor {
 
     override fun init(context: Context?) {
         pageList = RefletionUtils.getRequireLoginPages()
-        isLogin = RefletionUtils.getLoginField()
+        isLogin = RefletionUtils.getLoginStatus()
     }
 
     /**
      * 在该项目中，也可以使用AppUtils.isLogin来直接判断是否登录，但是这样就耦合了AppUtils
-     * 如果不想耦合，就可以使用RefletionUtils.getLoginField()来判断是否登录，不过
+     * 如果不想耦合，就可以使用RefletionUtils.getLoginStatus()来判断是否登录，不过
      * 前提是需要为AppUtils的isLogin变量增加@InjectLogin。这样做的好处就是：
      * 可以将LoginInterceptor和RefletionUtils单独拿出来作为一个lib。
      */
     override fun process(postcard: Postcard, callback: InterceptorCallback) {
         // 判断哪些页面需要登录 (在整个应用中，有些页面需要登录，有些是不需要登录的)
         if (pageList.contains(postcard.destination.canonicalName)) {
-            if (RefletionUtils.getLoginField()) { // 如果已经登录了，则默认不做任何处理
+            if (RefletionUtils.getLoginStatus()) { // 如果已经登录了，则默认不做任何处理
                 callback.onContinue(postcard)
             } else { // 未登录，拦截
                 callback.onInterrupt(null)

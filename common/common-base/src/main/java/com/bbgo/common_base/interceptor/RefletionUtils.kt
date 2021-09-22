@@ -36,7 +36,7 @@ class RefletionUtils {
             return emptyList()
         }
 
-        fun getLoginField(): Boolean {
+        fun getLoginStatus(): Boolean {
             kotlin.runCatching {
                 val clzList = ClassUtils.getFileNameByPackageName(BaseApplication.getContext(), "com.android.processor.apt")
                 for(name in clzList) {
