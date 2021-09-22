@@ -15,7 +15,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.apt_annotation.CheckLogin
-import com.bbgo.apt_annotation.RequireLogin
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.bus.BusKey
@@ -37,7 +36,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @Route(path = RouterPath.Main.PAGE_MAIN)
 @AndroidEntryPoint
-@RequireLogin
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
@@ -304,27 +302,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
             }
             R.id.nav_logout -> {
-                /*if (AppUtil.isLogin) {
+                if (AppUtil.isLogin) {
                     mainViewModel.logOut(loginOutService)
                 } else {
                     ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
                     binding.drawerLayout.closeDrawers()
-                }*/
-                judge()
+                }
 
             }
         }
         return false
-    }
-
-    @CheckLogin
-    private fun judge() {
-        if (AppUtil.isLogin) {
-            mainViewModel.logOut(loginOutService)
-        } else {
-            ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
-            binding.drawerLayout.closeDrawers()
-        }
     }
 
     override fun recreate() {

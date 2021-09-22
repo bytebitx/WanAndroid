@@ -13,14 +13,15 @@ class RefletionUtils {
 
     companion object {
 
-        private val classPath = "com.android.processor.apt.Login$\$AppUtil"
-
         private val classList = mutableListOf<String>()
 
         fun getRequireLoginPages(): List<String> {
             kotlin.runCatching {
                 val clzList = ClassUtils.getFileNameByPackageName(BaseApplication.getContext(), "com.android.processor.apt")
                 for(name in clzList) {
+                    if (!name.endsWith("RequireLogin")) {
+                        continue
+                    }
                     val clz = Class.forName(name)
                     val method = clz.getDeclaredMethod("getRequireLoginList")
                     method.isAccessible = true
@@ -37,29 +38,21 @@ class RefletionUtils {
 
         fun getLoginField(): Boolean {
             kotlin.runCatching {
-                val clz = Class.forName(classPath)
-                val method = clz.getDeclaredMethod("getLoginFieldClass")
-                method.isAccessible = true
-                val targetClzString = method.invoke(null) as String
-                val targetClz = Class.forName(targetClzString)
-                val field = targetClz.getDeclaredField("isLogin")
-                field.isAccessible = true
-                return field.getBoolean(targetClz)
-                /*val clzList = ClassUtils.getFileNameByPackageName(BaseApplication.getContext(), "com.android.processor.apt")
+                val clzList = ClassUtils.getFileNameByPackageName(BaseApplication.getContext(), "com.android.processor.apt")
                 for(name in clzList) {
-                    val clz = Class.forName(name)
-                    val method = clz.getDeclaredMethod("getLoginFieldClass")
-                    method.isAccessible = true
-                    val targetClzString = method.invoke(null) as String
-                    if (targetClzString == "null") {
+                    if (!name.endsWith("InjectLogin")) {
                         continue
                     }
+                    val clz = Class.forName(name)
+                    val method = clz.getDeclaredMethod("getInjectLoginClass")
+                    method.isAccessible = true
+                    val targetClzString = method.invoke(null) as String
                     val targetClz = Class.forName(targetClzString)
                     val field = targetClz.getDeclaredField("isLogin")
                     field.isAccessible = true
                     return field.getBoolean(targetClz)
                 }
-                return false*/
+                return false
             }.onFailure {
                 return false
             }

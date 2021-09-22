@@ -35,7 +35,7 @@ import javax.tools.Diagnostic;
  * @Date: 2021/9/17 7:21 下午
  */
 @AutoService(Processor.class)
-public class LoginProcessor extends AbstractProcessor {
+public class RequireLoginProcessor extends AbstractProcessor {
 
     private Messager mMessager;
 
@@ -56,7 +56,6 @@ public class LoginProcessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         HashSet<String> supportTypes = new LinkedHashSet<>();
         supportTypes.add(RequireLogin.class.getCanonicalName());
-        supportTypes.add(InjectLogin.class.getCanonicalName());
         return supportTypes;
     }
 
@@ -74,14 +73,15 @@ public class LoginProcessor extends AbstractProcessor {
         // 1，获取所有添加了注解的Activity，保存到List中
         parseAnnotation(roundEnv);
 
-        if (pageList.isEmpty()) {
-            String clzName = loginFieldClass.substring(loginFieldClass.lastIndexOf(".") + 1);
+        for(String page: pageList) { // 由于使用组件化，所以需要为每个组件都生成对应的文件
+            String clzName = page.substring(page.lastIndexOf(".") + 1);
 
             // 2，创建名为 Login$$类名 的类
-            TypeSpec typeSpec = TypeSpec.classBuilder(clzNamePrefix + clzName)
+            String name = clzNamePrefix + clzName + ProcConsts.SEPARATOR + "RequireLogin";
+            TypeSpec typeSpec = TypeSpec.classBuilder(name)
                     .addModifiers(Modifier.PUBLIC)
+                    // 3，添加获取类的list的方法
                     .addMethod(createRequireLoginFun())
-                    .addMethod(createLoginFieldFun())
                     .build();
 
             // 4，设置包路径：ProcConsts.PKG_NAME
@@ -91,29 +91,6 @@ public class LoginProcessor extends AbstractProcessor {
                 javaFile.writeTo(processingEnv.getFiler());
             } catch (IOException e) {
                 e.printStackTrace();
-                mMessager.printMessage(Diagnostic.Kind.WARNING,
-                        "IOException = " + e.getMessage());
-            }
-        } else {
-            for(String page: pageList) { // 由于使用组件化，所以需要为每个组件都生成对应的文件
-                String clzName = page.substring(page.lastIndexOf(".") + 1);
-
-                // 2，创建名为 Login$$类名 的类
-                TypeSpec typeSpec = TypeSpec.classBuilder(clzNamePrefix + clzName)
-                        .addModifiers(Modifier.PUBLIC)
-                        // 3，添加获取类的list的方法
-                        .addMethod(createRequireLoginFun())
-                        .addMethod(createLoginFieldFun())
-                        .build();
-
-                // 4，设置包路径：ProcConsts.PKG_NAME
-                JavaFile javaFile = JavaFile.builder(ProcConsts.PKG_NAME, typeSpec).build();
-                try {
-                    // 5，生成文件
-                    javaFile.writeTo(processingEnv.getFiler());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
 
@@ -185,20 +162,6 @@ public class LoginProcessor extends AbstractProcessor {
         }
         // return result;
         methodBuilder.addStatement("return result");
-        return methodBuilder.build();
-    }
-
-    /**
-     * 创建获取注解名的方法
-     */
-    private MethodSpec createLoginFieldFun() {
-        TypeName returnType = ParameterizedTypeName.get(String.class);
-        // 创建名为getLoginFieldClass的方法
-        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("getLoginFieldClass")
-                .addModifiers(Modifier.PUBLIC)
-                .addModifiers(Modifier.STATIC)
-                .returns(returnType);
-        methodBuilder.addStatement("return \"" + loginFieldClass + "\"");
         return methodBuilder.build();
     }
 }

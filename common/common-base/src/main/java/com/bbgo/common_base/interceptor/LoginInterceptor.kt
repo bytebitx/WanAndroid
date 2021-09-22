@@ -35,19 +35,15 @@ class LoginInterceptor : IInterceptor {
      * 可以将LoginInterceptor和RefletionUtils单独拿出来作为一个lib。
      */
     override fun process(postcard: Postcard, callback: InterceptorCallback) {
-        if (RefletionUtils.getLoginField()) { // 如果已经登录了，则默认不做任何处理
-            callback.onContinue(postcard)
-        } else {
-            if (pageList.isEmpty()) {
+        // 判断哪些页面需要登录 (在整个应用中，有些页面需要登录，有些是不需要登录的)
+        if (pageList.contains(postcard.destination.canonicalName)) {
+            if (RefletionUtils.getLoginField()) { // 如果已经登录了，则默认不做任何处理
                 callback.onContinue(postcard)
-                return
-            }
-            // 判断哪些页面需要登录 (在整个应用中，有些页面需要登录，有些是不需要登录的)
-            if (pageList.contains(postcard.destination.canonicalName)) {
+            } else { // 未登录，拦截
                 callback.onInterrupt(null)
-            } else { // 不是需要登录的页面，不做任何处理
-                callback.onContinue(postcard)
             }
+        } else {
+            callback.onContinue(postcard)
         }
     }
 }

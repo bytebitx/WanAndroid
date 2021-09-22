@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
-    id 'com.bbgo.login_plugin'
+//    id 'com.bbgo.login_plugin'
 }
 
 
