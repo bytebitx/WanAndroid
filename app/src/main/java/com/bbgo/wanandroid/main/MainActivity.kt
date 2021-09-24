@@ -7,14 +7,12 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
-import com.bbgo.apt_annotation.CheckLogin
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.bus.BusKey
@@ -25,7 +23,6 @@ import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.*
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.DialogUtil
-import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_service.login.LoginOutService
 import com.bbgo.wanandroid.R
 import com.bbgo.wanandroid.databinding.ActivityMainBinding
@@ -151,21 +148,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setUserInfo()
 
         navHeaderBinding.root.setOnClickListener {
-            jude2()
+            if (AppUtil.isLogin) {
+                return@setOnClickListener
+            }
+            ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
         }
 
         binding.floatingBtn.setOnClickListener(onFABClickListener)
 
-    }
-
-    @CheckLogin
-    private fun jude2() {
-
-        if (AppUtil.isLogin) {
-            return
-        }
-        ARouter.getInstance().build(RouterPath.LoginRegister.PAGE_LOGIN).navigation()
-        binding.drawerLayout.closeDrawers()
     }
 
     private fun setUserInfo() {
@@ -285,7 +275,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         }
                     })
             }
-            R.id.nav_night_mode -> {
+            /*R.id.nav_night_mode -> {
                 if (SettingUtil.getIsNightMode()) {
                     SettingUtil.setIsNightMode(false)
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -295,7 +285,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 }
                 window.setWindowAnimations(R.style.WindowAnimationFadeInOut)
                 recreate()
-            }
+            }*/
             R.id.nav_setting -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     AppUtil.requestIgnoreBatteryOptimizations(this)

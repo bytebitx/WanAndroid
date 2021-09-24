@@ -3,7 +3,9 @@ package com.bbgo.common_base
 import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
+import com.alibaba.android.arouter.thread.DefaultPoolExecutor
 import com.bbgo.common_base.constants.Constants
+import com.bbgo.common_base.pool.AppThreadPoolExecutor
 import com.hjq.permissions.XXPermissions
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
@@ -15,15 +17,17 @@ open class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
-        MMKV.initialize(this)
-        initLogConfig()
-        if (BuildConfig.DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
-            ARouter.openLog()     // 打印日志
-            ARouter.openDebug()   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+        AppThreadPoolExecutor.instance?.execute {
+            MMKV.initialize(this)
+            if (BuildConfig.DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
+                ARouter.openLog()     // 打印日志
+                ARouter.openDebug()   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
+            }
+            ARouter.init(this)
+            initLogConfig()
+            // 当前项目是否已经适配了分区存储的特性
+            XXPermissions.setScopedStorage(true)
         }
-        ARouter.init(this)
-        // 当前项目是否已经适配了分区存储的特性
-        XXPermissions.setScopedStorage(true);
     }
 
     private fun initLogConfig() {
