@@ -1,62 +1,6 @@
 def isBuildModule = rootProject.ext.module.isBuildModule
-if (Boolean.valueOf(isBuildModule)) {
-    apply plugin: 'com.android.application'
-} else {
-    apply plugin: 'com.android.library'
-}
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
-apply plugin: 'dagger.hilt.android.plugin'
+apply from: "../../module_build.gradle"
 
-android {
-    compileSdk rootProject.ext.android.compileSdkVersion
-
-    defaultConfig {
-        minSdk rootProject.ext.android.minSdkVersion
-        targetSdk rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    buildFeatures {
-        viewBinding true
-    }
-
-    sourceSets {
-        main {
-            if (Boolean.valueOf(isBuildModule)) {
-                manifest.srcFile 'src/main/module/AndroidManifest.xml'
-            } else {
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-                java {
-                    //排除java/debug文件夹下的所有文件
-                    exclude '*module'
-                }
-            }
-        }
-    }
-}
-
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-    generateStubs = true
-}
 
 dependencies {
 
@@ -72,10 +16,8 @@ dependencies {
     }
     if (Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-content")
-//        implementation 'io.github.bbggo:module-content:1.0.1'
     }
     if (Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-login")
-//        implementation 'io.github.bbggo:module-login:0.0.3'
     }
 }

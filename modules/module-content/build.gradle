@@ -1,77 +1,5 @@
-def isContentModule = rootProject.ext.module.isContentModule
-if (Boolean.valueOf(isContentModule)) {
-    apply plugin: 'com.android.application'
-} else {
-    apply plugin: 'com.android.library'
-}
-
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
-apply plugin: "com.vanniktech.maven.publish"
-
-
-android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
-
-    defaultConfig {
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true",
-                        "room.expandProjection":"true"]
-            }
-        }
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    buildFeatures {
-        viewBinding true
-    }
-
-    sourceSets {
-        main {
-            if (Boolean.valueOf(isContentModule)) {
-                manifest.srcFile 'src/main/module/AndroidManifest.xml'
-            } else {
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-                java {
-                    //排除java/debug文件夹下的所有文件
-                    exclude '*module'
-                }
-            }
-        }
-    }
-}
-
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-    generateStubs = true
-}
+def isBuildModule = rootProject.ext.module.isBuildModule
+apply from: "../../module_build.gradle"
 
 dependencies {
 
@@ -80,13 +8,15 @@ dependencies {
 
     kapt rootProject.ext.compiler["arouterCompiler"]
 
-    if (Boolean.valueOf(isContentModule)) {
+    if (Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-collect")
     }
+
+    compileOnly(rootProject.ext.jetpack["hilt"])
+    kapt rootProject.ext.compiler["hiltAndroidCompiler"]
 }
 
 //  发布module到maven仓库
-
 buildscript {
     repositories {
         mavenCentral()

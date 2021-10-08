@@ -1,0 +1,24 @@
+def isBuildModule = rootProject.ext.module.isBuildModule
+if (Boolean.valueOf(isBuildModule)) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+apply from: "../../basic_build.gradle"
+
+android {
+
+    sourceSets {
+        main {
+            if (Boolean.valueOf(isBuildModule)) {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                java {
+                    //排除java/debug文件夹下的所有文件
+                    exclude '*module'
+                }
+            }
+        }
+    }
+}

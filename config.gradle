@@ -7,19 +7,10 @@ ext {
              * 修改之后需要Sync方可生效
              */
             isBuildModule: false,
-
-            /**
-             * 内容模块
-             */
-            isContentModule: false,
-
-            /**
-             * 登录模块
-             */
-            isLoginModule: false,
     ]
 
     android = [
+            applicationId    : "com.bbgo.wanandroid",
             compileSdkVersion: 30,
             buildToolsVersion: "30.0.3",
             minSdkVersion    : 21,

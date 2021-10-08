@@ -25,7 +25,6 @@ object ImageLoader {
      */
     fun load(context: Context, url: String?, iv: ImageView) {
         if (isLoadImage) {
-            Glide.with(context).clear(iv)
             val options = RequestOptions()
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .placeholder(R.drawable.bg_placeholder)

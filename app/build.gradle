@@ -1,70 +1,13 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
-    id 'dagger.hilt.android.plugin'
-//    id 'com.bbgo.login_plugin'
-}
 
+apply plugin: 'com.android.application'
+apply from: "../basic_build.gradle"
 
 def isBuildModule = rootProject.ext.module.isBuildModule
 
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.bbgo.wanandroid"
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
-        multiDexEnabled true
-        // 实现毛玻璃那种透明的效果需要添加的库
-        renderscriptTargetApi 19
-        renderscriptSupportModeEnabled true
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true",
-                        "room.expandProjection":"true",
-                        AROUTER_MODULE_NAME: project.getName()
-                ]
-            }
-        }
-
-
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    buildFeatures {
-        viewBinding true
-    }
-}
-
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-    generateStubs = true
-    useBuildCache = true
-    javacOptions {
-        option("-Xmaxerrs", 500)
+        applicationId rootProject.ext.android.applicationId
     }
 }
 
@@ -74,11 +17,9 @@ dependencies {
     implementation project(":common:common-service")
     if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-content")
-//        implementation 'io.github.bbggo:module-content:1.0.1'
     }
     if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-login")
-//        implementation 'io.github.bbggo:module-login:0.0.3'
     }
     if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-home")
