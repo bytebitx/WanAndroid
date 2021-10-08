@@ -17,17 +17,15 @@ open class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
-        AppThreadPoolExecutor.instance?.execute {
-            MMKV.initialize(this)
-            if (BuildConfig.DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
-                ARouter.openLog()     // 打印日志
-                ARouter.openDebug()   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
-            }
-            ARouter.init(this)
-            initLogConfig()
-            // 当前项目是否已经适配了分区存储的特性
-            XXPermissions.setScopedStorage(true)
+        MMKV.initialize(this)
+        if (BuildConfig.DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
+            ARouter.openLog()     // 打印日志
+            ARouter.openDebug()   // 开启调试模式(如果在InstantRun模式下运行，必须开启调试模式！线上版本需要关闭,否则有安全风险)
         }
+        ARouter.init(this)
+        initLogConfig()
+        // 当前项目是否已经适配了分区存储的特性
+        XXPermissions.setScopedStorage(true)
     }
 
     private fun initLogConfig() {

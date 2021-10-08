@@ -1,5 +1,6 @@
 def isBuildModule = rootProject.ext.module.isBuildModule
-apply from: "../../module_build.gradle"
+apply plugin: 'com.android.library'
+apply from: "../../basic_build.gradle"
 
 dependencies {
 
