@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 /**
  *  author: wangyb
@@ -26,7 +27,7 @@ object ServiceCreators {
 
     private const val MAX_CACHE_SIZE: Long = 1024 * 1024 * 50 // 50M 的缓存大小
     //设置 请求的缓存的大小跟位置
-    private val cacheFile = File(BaseApplication.getContext().cacheDir, "cache")
+    private val cacheFile = File(BaseApplication.getContext().cacheDir, "httpCache")
     private val cache = Cache(cacheFile, MAX_CACHE_SIZE)
     private val cookieJar = PersistentCookieJar(
         SetCookieCache(),
@@ -34,6 +35,9 @@ object ServiceCreators {
     )
 
     val httpClient = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(20, TimeUnit.SECONDS)
         .retryOnConnectionFailure(true)
         .addInterceptor(MultiBaseUrlInterceptor())
         .addInterceptor(LoggingInterceptor())
