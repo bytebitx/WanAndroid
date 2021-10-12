@@ -22,5 +22,4 @@ dependencies {
     if (Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-login")
     }
-
 }

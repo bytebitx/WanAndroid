@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,6 +21,7 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
+import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.widget.SpaceItemDecoration
@@ -27,6 +31,8 @@ import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.databinding.FragmentHomeBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * Created by wangyb
@@ -166,7 +172,14 @@ class ArticleListFragment : BaseFragment() {
     }
 
     override fun observeViewModel() {
-        observe(weChatViewModel.wxArticlesLiveData, ::handleInfo)
+//        observe(weChatViewModel.wxArticlesLiveData, ::handleInfo)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                weChatViewModel.wxArticlesUiState.collectLatest {
+                    handleInfo(it)
+                }
+            }
+        }
     }
 
     /**

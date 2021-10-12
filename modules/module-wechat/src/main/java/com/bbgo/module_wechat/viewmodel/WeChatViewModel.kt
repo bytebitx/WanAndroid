@@ -1,6 +1,5 @@
 package com.bbgo.module_wechat.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
@@ -10,6 +9,7 @@ import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.repository.WxRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
@@ -24,8 +24,12 @@ import javax.inject.Inject
 @HiltViewModel
 class WeChatViewModel @Inject constructor(private val repository: WxRepository) : ViewModel() {
 
-    val wxChapterLiveData = MutableLiveData<Resource<List<WXArticle>>>()
-    val wxArticlesLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()
+//    val wxChapterLiveData = MutableLiveData<Resource<List<WXArticle>>>()
+//    val wxArticlesLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()
+
+    val wxChapterUiState = MutableStateFlow<Resource<List<WXArticle>>>(Resource.Loading())
+
+    val wxArticlesUiState = MutableStateFlow<Resource<MutableList<ArticleDetail>>>(Resource.Loading())
 
     fun getWXChapters() {
         viewModelScope.launch {
@@ -44,7 +48,7 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
                 .catch {
                 }
                 .collectLatest {
-                    wxChapterLiveData.value = it
+                    wxChapterUiState.value = it
                 }
         }
     }
@@ -67,29 +71,7 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
                     logE(TAG, it.message, it)
                 }
                 .collectLatest {
-                    wxArticlesLiveData.value = it
-                }
-        }
-    }
-
-    fun getKnowledgeList(id: Int, page: Int) {
-        viewModelScope.launch {
-            /**
-             * 1.必须要有异常处理
-             * 2.必须要有collect，否则map里面的代码不执行
-             */
-            repository.getKnowledgeList(id, page)
-                .map {
-                    if (it.errorCode == HTTP_REQUEST_ERROR) {
-                        Resource.DataError(it.errorCode, it.errorMsg)
-                    } else {
-                        Resource.Success(it.data.datas)
-                    }
-                }
-                .catch {
-                }
-                .collectLatest {
-                    wxArticlesLiveData.value = it
+                    wxArticlesUiState.value = it
                 }
         }
     }
