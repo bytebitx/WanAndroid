@@ -1,14 +1,13 @@
 package com.bbgo.module_project.repository
 
 import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.common_base.ext.lazyInit
+import com.bbgo.common_base.net.ServiceCreators
 import com.bbgo.module_project.bean.ArticleData
 import com.bbgo.module_project.bean.ProjectBean
-import com.bbgo.module_project.net.HttpProjectService
+import com.bbgo.module_project.net.api.HttpProjectApiService
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -19,11 +18,13 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class ProjectRemoteRepository @Inject constructor(){
 
+    private val service = ServiceCreators.create(HttpProjectApiService::class.java)
+
     fun getProjectTree() : Flow<HttpResult<List<ProjectBean>>> {
-        return HttpProjectService.service.getProjectTree()
+        return service.getProjectTree()
     }
 
     fun getProjectList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
-        return HttpProjectService.service.getProjectList(page, id)
+        return service.getProjectList(page, id)
     }
 }

@@ -1,8 +1,9 @@
 package com.bbgo.module_collect.repository
 
 import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.common_base.net.ServiceCreators
 import com.bbgo.module_collect.bean.CollectBean
-import com.bbgo.module_collect.network.HttpService
+import com.bbgo.module_collect.net.api.HttpApiService
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.Flow
 class CollectRepository private constructor() {
 
     companion object {
+        @Volatile
         private var repository: CollectRepository? = null
 
         fun getInstance(): CollectRepository {
@@ -27,11 +29,13 @@ class CollectRepository private constructor() {
         }
     }
 
+    private val service = ServiceCreators.create(HttpApiService::class.java)
+
     fun collectArticle(id: Int) : Flow<HttpResult<CollectBean>> {
-        return HttpService.service.addCollectArticle(id)
+        return service.addCollectArticle(id)
     }
 
     fun unCollectArticle(id: Int) : Flow<HttpResult<CollectBean>> {
-        return HttpService.service.cancelCollectArticle(id)
+        return service.cancelCollectArticle(id)
     }
 }

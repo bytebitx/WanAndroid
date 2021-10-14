@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 class ComposeRepository private constructor(private val remoteRepository: ComposeRemoteRepository, private val localRepository: ComposeLocalRepository) {
 
     companion object {
+        @Volatile
         private var repository: ComposeRepository? = null
 
         fun getInstance(remoteRepository: ComposeRemoteRepository, localRepository: ComposeLocalRepository): ComposeRepository {

@@ -1,15 +1,13 @@
 package com.bbgo.module_sys.repository
 
 import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.common_base.net.ServiceCreators
 import com.bbgo.module_sys.bean.ArticleData
 import com.bbgo.module_sys.bean.KnowledgeTree
 import com.bbgo.module_sys.bean.NaviData
-import com.bbgo.module_sys.net.HttpSysService
+import com.bbgo.module_sys.net.api.HttpSysApiService
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -20,16 +18,18 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class SysRemoteRepository @Inject constructor(){
 
+    private val service = ServiceCreators.create(HttpSysApiService::class.java)
+
     fun getKnowledgeTree() : Flow<HttpResult<List<KnowledgeTree>>> {
-        return HttpSysService.service.getKnowledgeTree()
+        return service.getKnowledgeTree()
     }
 
     fun getKnowledgeList(id: Int, page: Int) : Flow<HttpResult<ArticleData>> {
-        return HttpSysService.service.getKnowledgeList(id, page)
+        return service.getKnowledgeList(id, page)
     }
 
     fun getNavigationList() : Flow<HttpResult<List<NaviData>>> {
-        return HttpSysService.service.getNavigationList()
+        return service.getNavigationList()
     }
 
 }

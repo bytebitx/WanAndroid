@@ -2,13 +2,11 @@ package com.bbgo.module_login.repository
 
 import com.bbgo.common_base.bean.BaseBean
 import com.bbgo.common_base.bean.HttpResult
+import com.bbgo.common_base.net.ServiceCreators
 import com.bbgo.module_login.bean.LoginData
-import com.bbgo.module_login.net.HttpLoginService
+import com.bbgo.module_login.net.api.HttpLoginApiService
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 /**
@@ -19,19 +17,21 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class RegisterLoginRemoteRepository @Inject constructor(){
 
+    private val service = ServiceCreators.create(HttpLoginApiService::class.java)
+
     fun registerWanAndroid(username: String,
                               password: String,
                               repassword: String) : Flow<HttpResult<LoginData>> {
-        return HttpLoginService.service.registerWanAndroid(username, password, repassword)
+        return service.registerWanAndroid(username, password, repassword)
     }
 
     fun loginWanAndroid(username: String,
                                 password: String) : Flow<HttpResult<LoginData>> {
-        return HttpLoginService.service.loginWanAndroid(username, password)
+        return service.loginWanAndroid(username, password)
     }
 
     fun logout() : Flow<BaseBean> {
-        return HttpLoginService.service.logout()
+        return service.logout()
     }
 
     /********************静态内部类单例***************************/

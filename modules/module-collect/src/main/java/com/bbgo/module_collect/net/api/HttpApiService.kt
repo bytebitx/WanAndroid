@@ -1,4 +1,4 @@
-package com.bbgo.module_collect.network.api
+package com.bbgo.module_collect.net.api
 
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.module_collect.bean.CollectBean
