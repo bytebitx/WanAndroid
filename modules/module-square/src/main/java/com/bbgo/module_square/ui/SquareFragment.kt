@@ -15,6 +15,7 @@ import com.bbgo.common_base.bus.BusKey
 import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
+import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
@@ -24,7 +25,7 @@ import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_square.R
 import com.bbgo.module_square.bean.ArticleDetail
-import com.bbgo.module_square.databinding.SquareFragmentHomeBinding
+import com.bbgo.module_square.databinding.FragmentSquareBinding
 import com.bbgo.module_square.viewmodel.SquareViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -38,8 +39,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SquareFragment : BaseFragment() {
 
-    private var _binding: SquareFragmentHomeBinding? = null
+    private var _binding: FragmentSquareBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var loadingBinding: LayoutLoadingBinding
 
     @Autowired
     lateinit var collectService: CollectService
@@ -93,7 +96,8 @@ class SquareFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = SquareFragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentSquareBinding.inflate(inflater, container, false)
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         return _binding?.root
     }
 
@@ -190,9 +194,10 @@ class SquareFragment : BaseFragment() {
     private fun handleInfo(articles: Resource<List<ArticleDetail>>) {
         when(articles) {
             is Resource.Loading -> {
-
+                loadingBinding.progressBar.visibility = View.VISIBLE
             }
             else -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 articles.data?.let {
                     articleList.addAll(it)
                     if (isRefresh) {

@@ -31,44 +31,40 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
     val articleLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()
     val bannerLiveData = MutableLiveData<Resource<List<Banner>>>()
 
-    fun getArticles(pageNum: Int) {
+    fun getArticles(pageNum: Int) = viewModelScope.launch {
         articleLiveData.value = Resource.Loading()
-        viewModelScope.launch {
-            repository.getTopArticles()
-                .zip(repository.getArticles(pageNum)) { topArticles, articles ->
-                    {
-                        val allArticles = mutableListOf<ArticleDetail>()
-                        topArticles.data.forEach {
-                            it.top = "1"
-                        }
-                        allArticles.addAll(topArticles.data)
-                        allArticles.addAll(articles.data.datas)
-                        allArticles
+        repository.getTopArticles()
+            .zip(repository.getArticles(pageNum)) { topArticles, articles ->
+                {
+                    val allArticles = mutableListOf<ArticleDetail>()
+                    topArticles.data.forEach {
+                        it.top = "1"
                     }
+                    allArticles.addAll(topArticles.data)
+                    allArticles.addAll(articles.data.datas)
+                    allArticles
                 }
-                .catch {
-                    logE(TAG, it.message, it)
-                }
-                .collectLatest {
-                    articleLiveData.value = Resource.Success(it.invoke())
-                }
-        }
+            }
+            .catch {
+                logE(TAG, it.message, it)
+            }
+            .collectLatest {
+                articleLiveData.value = Resource.Success(it.invoke())
+            }
     }
 
-    fun getBanner() {
-        viewModelScope.launch(Dispatchers.IO){
-            repository.getBanners()
-                .map {
-                    repository.insertBanners(it.data)
-                    it
-                }
-                .catch {
-                    logD(TAG, "${it.message}")
-                }
-                .collectLatest {
-                    bannerLiveData.postValue(Resource.Success(it.data))
-                }
-        }
+    fun getBanner() = viewModelScope.launch(Dispatchers.IO){
+        repository.getBanners()
+            .map {
+                repository.insertBanners(it.data)
+                it
+            }
+            .catch {
+                logD(TAG, "${it.message}")
+            }
+            .collectLatest {
+                bannerLiveData.postValue(Resource.Success(it.data))
+            }
     }
 
     companion object {

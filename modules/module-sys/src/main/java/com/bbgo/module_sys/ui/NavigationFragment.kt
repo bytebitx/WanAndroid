@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bbgo.common_base.base.BaseFragment
+import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.module_sys.bean.NaviData
@@ -30,6 +31,7 @@ class NavigationFragment : BaseFragment() {
 
     private var _binding: FragmentNavigationBinding? = null
     private val binding get() = _binding!!
+    private lateinit var loadingBinding: LayoutLoadingBinding
 
     @Inject
     lateinit var sysViewModel: SysViewModel
@@ -58,6 +60,7 @@ class NavigationFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentNavigationBinding.inflate(inflater, container, false)
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         return _binding?.root
     }
 
@@ -111,9 +114,10 @@ class NavigationFragment : BaseFragment() {
     private fun handleInfo(status: Resource<List<NaviData>>) {
         when(status) {
             is Resource.Loading -> {
-
+                loadingBinding.progressBar.visibility = View.VISIBLE
             }
             else -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 status.data?.let {
                     naviList.clear()
                     naviList.addAll(it)

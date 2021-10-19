@@ -17,6 +17,7 @@ import com.bbgo.common_base.bus.BusKey
 import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
+import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
@@ -56,6 +57,7 @@ class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var bannerBinding: ItemHomeBannerBinding
+    private lateinit var loadingBinding: LayoutLoadingBinding
 
     @Inject
     lateinit var homeViewModel: HomeViewModel
@@ -118,7 +120,8 @@ class HomeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        bannerBinding = ItemHomeBannerBinding.inflate(inflater)
+        bannerBinding = ItemHomeBannerBinding.inflate(inflater, container, false)
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         return _binding?.root
     }
 
@@ -227,12 +230,14 @@ class HomeFragment : BaseFragment() {
     private fun handleInfo(articles: Resource<MutableList<ArticleDetail>>) {
         when(articles) {
             is Resource.Loading -> {
-
+                loadingBinding.progressBar.visibility = View.VISIBLE
             }
             is Resource.DataError -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 binding.swipeRefreshLayout.isRefreshing = false
             }
             else -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 binding.swipeRefreshLayout.isRefreshing = false
                 articles.data?.let {
                     if (isRefresh) {

@@ -1,7 +1,6 @@
 package com.bbgo.module_project.repository
 
 import com.bbgo.common_base.bean.HttpResult
-import com.bbgo.common_base.ext.lazyInit
 import com.bbgo.common_base.net.ServiceCreators
 import com.bbgo.module_project.bean.ArticleData
 import com.bbgo.module_project.bean.ProjectBean

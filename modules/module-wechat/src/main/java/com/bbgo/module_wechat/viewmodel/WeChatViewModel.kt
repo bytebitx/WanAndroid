@@ -31,49 +31,45 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
 
     val wxArticlesUiState = MutableStateFlow<Resource<MutableList<ArticleDetail>>>(Resource.Loading())
 
-    fun getWXChapters() {
-        viewModelScope.launch {
-            /**
-             * 1.必须要有异常处理
-             * 2.必须要有collect，否则map里面的代码不执行
-             */
-            repository.getWXChapters()
-                .map {
-                    if (it.errorCode == HTTP_REQUEST_ERROR) {
-                        Resource.DataError(it.errorCode, it.errorMsg)
-                    } else {
-                        Resource.Success(it.data)
-                    }
+    fun getWXChapters() = viewModelScope.launch {
+        /**
+         * 1.必须要有异常处理
+         * 2.必须要有collect，否则map里面的代码不执行
+         */
+        repository.getWXChapters()
+            .map {
+                if (it.errorCode == HTTP_REQUEST_ERROR) {
+                    Resource.DataError(it.errorCode, it.errorMsg)
+                } else {
+                    Resource.Success(it.data)
                 }
-                .catch {
-                }
-                .collectLatest {
-                    wxChapterUiState.value = it
-                }
-        }
+            }
+            .catch {
+            }
+            .collectLatest {
+                wxChapterUiState.value = it
+            }
     }
 
-    fun getWXArticles(id: Int, page: Int) {
-        viewModelScope.launch {
-            /**
-             * 1.必须要有异常处理
-             * 2.必须要有collect，否则map里面的代码不执行
-             */
-            repository.getWXArticles(id, page)
-                .map {
-                    if (it.errorCode == HTTP_REQUEST_ERROR) {
-                        Resource.DataError(it.errorCode, it.errorMsg)
-                    } else {
-                        Resource.Success(it.data.datas)
-                    }
+    fun getWXArticles(id: Int, page: Int) = viewModelScope.launch {
+        /**
+         * 1.必须要有异常处理
+         * 2.必须要有collect，否则map里面的代码不执行
+         */
+        repository.getWXArticles(id, page)
+            .map {
+                if (it.errorCode == HTTP_REQUEST_ERROR) {
+                    Resource.DataError(it.errorCode, it.errorMsg)
+                } else {
+                    Resource.Success(it.data.datas)
                 }
-                .catch {
-                    logE(TAG, it.message, it)
-                }
-                .collectLatest {
-                    wxArticlesUiState.value = it
-                }
-        }
+            }
+            .catch {
+                logE(TAG, it.message, it)
+            }
+            .collectLatest {
+                wxArticlesUiState.value = it
+            }
     }
 
     private val TAG = "WeChatViewModel"

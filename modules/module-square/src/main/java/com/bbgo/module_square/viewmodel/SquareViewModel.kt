@@ -24,17 +24,15 @@ class SquareViewModel @Inject constructor(private val repository: SquareReposito
 
     val articleLiveData = MutableLiveData<Resource<List<ArticleDetail>>>()
 
-    fun getSquareList(pageNum: Int) {
+    fun getSquareList(pageNum: Int) = viewModelScope.launch {
         articleLiveData.value = Resource.Loading()
-        viewModelScope.launch {
-            repository.getSquareList(pageNum)
-                .catch {
-                    logE(TAG, it.message, it)
-                }
-                .collectLatest {
-                    articleLiveData.value = Resource.Success(it.data.datas)
-                }
-        }
+        repository.getSquareList(pageNum)
+            .catch {
+                logE(TAG, it.message, it)
+            }
+            .collectLatest {
+                articleLiveData.value = Resource.Success(it.data.datas)
+            }
     }
 
     companion object {

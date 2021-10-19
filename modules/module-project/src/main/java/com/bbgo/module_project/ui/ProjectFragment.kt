@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.RouterPath
+import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
@@ -28,6 +29,9 @@ class ProjectFragment : BaseFragment() {
 
     private var _binding: FragmentProjectBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var loadingBinding: LayoutLoadingBinding
+
     private val projectViewModel: ProjectViewModel by activityViewModels()
 
     /**
@@ -48,6 +52,7 @@ class ProjectFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentProjectBinding.inflate(inflater, container, false)
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         return _binding?.root
     }
 
@@ -68,10 +73,15 @@ class ProjectFragment : BaseFragment() {
 
     private fun handleWxChapter(status: Resource<List<ProjectBean>>) {
         when(status) {
+            is Resource.Loading -> {
+                loadingBinding.progressBar.visibility = View.VISIBLE
+            }
             is Resource.DataError -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 showToast(status.errorMsg!!)
             }
             else -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 status.data?.let {
                     projectDatas.addAll(it)
                     viewPagerAdapter.setList(projectDatas)

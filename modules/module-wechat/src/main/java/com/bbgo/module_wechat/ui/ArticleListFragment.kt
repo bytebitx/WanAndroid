@@ -21,14 +21,12 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logD
-import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_wechat.R
 import com.bbgo.module_wechat.bean.ArticleDetail
-import com.bbgo.module_wechat.databinding.FragmentHomeBinding
+import com.bbgo.module_wechat.databinding.FragmentArticleListBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -50,7 +48,7 @@ class ArticleListFragment : BaseFragment() {
         }
     }
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentArticleListBinding? = null
     private val binding get() = _binding!!
 
     @Autowired
@@ -113,7 +111,7 @@ class ArticleListFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentArticleListBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
@@ -172,7 +170,6 @@ class ArticleListFragment : BaseFragment() {
     }
 
     override fun observeViewModel() {
-//        observe(weChatViewModel.wxArticlesLiveData, ::handleInfo)
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 weChatViewModel.wxArticlesUiState.collectLatest {
@@ -223,7 +220,6 @@ class ArticleListFragment : BaseFragment() {
     private fun handleInfo(status: Resource<MutableList<ArticleDetail>>) {
         when(status) {
             is Resource.Loading -> {
-
             }
             else -> {
                 status.data?.let {

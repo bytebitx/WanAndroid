@@ -27,77 +27,49 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
 
     private val TAG = "SysViewModel"
 
-    private val wxArticlesLiveData =  MutableLiveData<Resource<MutableList<ArticleDetail>>>()
-
     val treeLiveData = MutableLiveData<Resource<List<KnowledgeTree>>>()
 
     val naviLiveData = MutableLiveData<Resource<List<NaviData>>>()
 
-    fun getKnowledgeTree() {
-        viewModelScope.launch {
-            /**
-             * 1.必须要有异常处理
-             * 2.必须要有collect，否则map里面的代码不执行
-             */
-            repository.getKnowledgeTree()
-                .map {
-                    if (it.errorCode == HTTP_REQUEST_ERROR) {
-                        Resource.DataError(it.errorCode, it.errorMsg)
-                    } else {
-                        Resource.Success(it.data)
-                    }
+    fun getKnowledgeTree() = viewModelScope.launch {
+        /**
+         * 1.必须要有异常处理
+         * 2.必须要有collect，否则map里面的代码不执行
+         */
+        repository.getKnowledgeTree()
+            .map {
+                if (it.errorCode == HTTP_REQUEST_ERROR) {
+                    Resource.DataError(it.errorCode, it.errorMsg)
+                } else {
+                    Resource.Success(it.data)
                 }
-                .catch {
-                    logE(TAG, it.message, it)
-                }
-                .collectLatest {
-                    treeLiveData.value = it
-                }
-        }
+            }
+            .catch {
+                logE(TAG, it.message, it)
+            }
+            .collectLatest {
+                treeLiveData.value = it
+            }
     }
 
-    fun getKnowledgeList(id: Int, page: Int) {
-        viewModelScope.launch {
-            /**
-             * 1.必须要有异常处理
-             * 2.必须要有collect，否则map里面的代码不执行
-             */
-            repository.getKnowledgeList(id, page)
-                .map {
-                    if (it.errorCode == HTTP_REQUEST_ERROR) {
-                        Resource.DataError(it.errorCode, it.errorMsg)
-                    } else {
-                        Resource.Success(it.data.datas)
-                    }
+    fun getNavigationList() = viewModelScope.launch {
+        /**
+         * 1.必须要有异常处理
+         * 2.必须要有collect，否则map里面的代码不执行
+         */
+        repository.getNavigationList()
+            .map {
+                if (it.errorCode == HTTP_REQUEST_ERROR) {
+                    Resource.DataError(it.errorCode, it.errorMsg)
+                } else {
+                    Resource.Success(it.data)
                 }
-                .catch {
-                }
-                .collectLatest {
-                    wxArticlesLiveData.value = it
-                }
-        }
-    }
-
-    fun getNavigationList() {
-        viewModelScope.launch {
-            /**
-             * 1.必须要有异常处理
-             * 2.必须要有collect，否则map里面的代码不执行
-             */
-            repository.getNavigationList()
-                .map {
-                    if (it.errorCode == HTTP_REQUEST_ERROR) {
-                        Resource.DataError(it.errorCode, it.errorMsg)
-                    } else {
-                        Resource.Success(it.data)
-                    }
-                }
-                .catch {
-                    logE(TAG, it.message, it)
-                }
-                .collectLatest {
-                    naviLiveData.value = it
-                }
-        }
+            }
+            .catch {
+                logE(TAG, it.message, it)
+            }
+            .collectLatest {
+                naviLiveData.value = it
+            }
     }
 }

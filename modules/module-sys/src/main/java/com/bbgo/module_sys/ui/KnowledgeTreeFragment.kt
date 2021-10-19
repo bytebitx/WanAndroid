@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bbgo.common_base.base.BaseFragment
+import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.widget.SpaceItemDecoration
@@ -30,6 +31,7 @@ class KnowledgeTreeFragment : BaseFragment() {
 
     private var _binding: FragmentRefreshLayoutBinding? = null
     private val binding get() = _binding!!
+    private lateinit var loadingBinding: LayoutLoadingBinding
 
     @Inject
     lateinit var sysViewModel: SysViewModel
@@ -68,6 +70,7 @@ class KnowledgeTreeFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRefreshLayoutBinding.inflate(inflater, container, false)
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         return _binding?.root
     }
 
@@ -101,9 +104,10 @@ class KnowledgeTreeFragment : BaseFragment() {
     private fun handleInfo(status: Resource<List<KnowledgeTree>>) {
         when(status) {
             is Resource.Loading -> {
-
+                loadingBinding.progressBar.visibility = View.VISIBLE
             }
             else -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 binding.swipeRefreshLayout.isRefreshing = false
                 status.data?.let {
                     knowledgeTreeList.clear()

@@ -11,16 +11,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.RouterPath
+import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logD
-import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.databinding.FragmentWechatBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -35,6 +33,8 @@ class WeChatFragment : BaseFragment() {
 
     private var _binding: FragmentWechatBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var loadingBinding: LayoutLoadingBinding
 
     private val weChatViewModel: WeChatViewModel by activityViewModels()
 
@@ -56,6 +56,7 @@ class WeChatFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWechatBinding.inflate(inflater, container, false)
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         return _binding?.root
     }
 
@@ -90,10 +91,15 @@ class WeChatFragment : BaseFragment() {
 
     private fun handleWxChapter(status: Resource<List<WXArticle>>) {
         when(status) {
+            is Resource.Loading -> {
+                loadingBinding.progressBar.visibility = View.VISIBLE
+            }
             is Resource.DataError -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 showToast(status.errorMsg!!)
             }
             else -> {
+                loadingBinding.progressBar.visibility = View.GONE
                 status.data?.let {
                     weChatDatas.addAll(it)
                     viewPagerAdapter.setList(weChatDatas)

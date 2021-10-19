@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
 
 class SquareAdapter(datas: MutableList<ArticleDetail>)
-    : BaseQuickAdapter<ArticleDetail, BaseViewHolder>(R.layout.square_item_home_list, datas) {
+    : BaseQuickAdapter<ArticleDetail, BaseViewHolder>(R.layout.item_square_list, datas) {
 
     override fun convert(holder: BaseViewHolder, item: ArticleDetail) {
         val authorStr = if (item.author.isNotEmpty()) item.author else item.shareUser

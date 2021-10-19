@@ -22,38 +22,34 @@ import kotlinx.coroutines.launch
  */
 class CollectViewModel(private val repository: CollectRepository) : ViewModel() {
 
-    fun collectArticle(indexPage: Int, position: Int, id: Int) {
-        viewModelScope.launch {
-            repository.collectArticle(id)
-                .catch {
-                    logE(TAG, it.message, it)
+    fun collectArticle(indexPage: Int, position: Int, id: Int) = viewModelScope.launch {
+        repository.collectArticle(id)
+            .catch {
+                logE(TAG, it.message, it)
+            }
+            .collectLatest {
+                val event = if (it.errorCode == USER_NOT_LOGIN) {
+                    MessageEvent(indexPage, UNKNOWN, position, id)
+                } else {
+                    MessageEvent(indexPage, COLLECT, position, id)
                 }
-                .collectLatest {
-                    val event = if (it.errorCode == USER_NOT_LOGIN) {
-                        MessageEvent(indexPage, UNKNOWN, position, id)
-                    } else {
-                        MessageEvent(indexPage, COLLECT, position, id)
-                    }
-                    LiveDataBus.get().with(BusKey.COLLECT).value = event
-                }
-        }
+                LiveDataBus.get().with(BusKey.COLLECT).value = event
+            }
     }
 
-    fun unCollectArticle(indexPage: Int, position: Int, id: Int) {
-        viewModelScope.launch {
-            repository.unCollectArticle(id)
-                .catch {
-                    logE(TAG, it.message, it)
+    fun unCollectArticle(indexPage: Int, position: Int, id: Int) = viewModelScope.launch {
+        repository.unCollectArticle(id)
+            .catch {
+                logE(TAG, it.message, it)
+            }
+            .collectLatest {
+                val event = if (it.errorCode == USER_NOT_LOGIN) {
+                    MessageEvent(indexPage, UNKNOWN, position, id)
+                } else {
+                    MessageEvent(indexPage, UNCOLLECT, position, id)
                 }
-                .collectLatest {
-                    val event = if (it.errorCode == USER_NOT_LOGIN) {
-                        MessageEvent(indexPage, UNKNOWN, position, id)
-                    } else {
-                        MessageEvent(indexPage, UNCOLLECT, position, id)
-                    }
-                    LiveDataBus.get().with(BusKey.COLLECT).value = event
-                }
-        }
+                LiveDataBus.get().with(BusKey.COLLECT).value = event
+            }
     }
 
     companion object {
