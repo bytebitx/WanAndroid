@@ -1,15 +1,89 @@
-
 apply plugin: 'com.android.application'
-apply from: "../basic_build.gradle"
-
-def isBuildModule = rootProject.ext.module.isBuildModule
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    signingConfigs {
+        wanandroid {
+            keyAlias 'wanandroid.keystore'
+            keyPassword 'wanandroid'
+            storeFile file('wanandroid.keystore')
+            storePassword 'wanandroid'
+        }
+    }
 
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        multiDexEnabled true
+
+        consumerProguardFiles "consumer-rules.pro"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true",
+                        AROUTER_MODULE_NAME: project.getName()
+                ]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true // 移除无用的resource文件
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.wanandroid
+        }
+        debug {//开发自己的debug包
+            initWith release
+            debuggable true
+            minifyEnabled false
+            shrinkResources false // 移除无用的resource文件
+            proguardFiles.clear() // 不混淆
+            signingConfig signingConfigs.wanandroid
+        }
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
+
+}
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+    generateStubs = true
+    useBuildCache = true
+    javacOptions {
+        option("-Xmaxerrs", 500)
     }
 }
+
+def isBuildModule = rootProject.ext.module.isBuildModule
 
 dependencies {
 

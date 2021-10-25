@@ -2,7 +2,7 @@ package com.bbgo.module_home.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.bbgo.common_service.banner.bean.Banner
+import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.local.dao.BannerDao
 
 /**

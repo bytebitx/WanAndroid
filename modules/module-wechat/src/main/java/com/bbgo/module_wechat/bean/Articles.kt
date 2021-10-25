@@ -1,5 +1,8 @@
 package com.bbgo.module_wechat.bean
 
+import androidx.annotation.Keep
+
+@Keep
 data class ArticleData(
         val curPage: Int,
         val datas: MutableList<ArticleDetail>,
@@ -10,7 +13,7 @@ data class ArticleData(
         val total: Int
 )
 
-
+@Keep
 data class ArticleDetail(
         val apkLink: String,
         val audit: Int,
@@ -48,11 +51,13 @@ data class ArticleDetail(
         var top: String,
 )
 
+@Keep
 data class Tag(
         val name: String,
         val url: String
 )
 
+@Keep
 data class WXArticle (
         val courseId: Int,
         val id: Int,

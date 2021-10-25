@@ -1,6 +1,8 @@
 package com.bbgo.module_sys.bean
 
+import androidx.annotation.Keep
 
+@Keep
 data class KnowledgeTree(
     val children: List<KnowledgeDetail>,
     val courseId: Int,
@@ -12,6 +14,7 @@ data class KnowledgeTree(
     val visible: Int
 )
 
+@Keep
 data class KnowledgeDetail(
     val children: List<Any>,
     val courseId: Int,

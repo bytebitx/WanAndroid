@@ -62,6 +62,11 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
 
 ## 一些知识点
 1. 使用Flow，不管是请求网络返回数据还是从DB中返回数据的时候，已经处于main线程了；网络请求和从DB中查询数据操作是在子线程。
+2. 开启混淆的时候，所有的实体bean都必须加上**@Keep**注解，让其不混淆
+3. 组件化混淆的时候，可以将通用的和第三方库的混淆配置规则放在base里面，然后每个组件如果有单独的库或不需要混淆的地方，单独配置规则
+4. proguard-rules.pro文件是给Library模块自己使用的混淆规则；  
+   consumer-rules.pro文件则是会合并到app的混淆规则中，是给包括app在内的其他模块调用时使用的混淆规则；
+   详细说明可见该[文档](https://www.freesion.com/article/38811202153/)
 
 ## Arouter使用
 

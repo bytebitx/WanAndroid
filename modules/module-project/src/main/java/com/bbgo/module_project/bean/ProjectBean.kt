@@ -1,8 +1,10 @@
 package com.bbgo.module_project.bean
 
+import androidx.annotation.Keep
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 
+@Keep
 @Entity(tableName = "project_tree")
 data class ProjectBean(
     @PrimaryKey var id: Int = 0,
@@ -15,6 +17,7 @@ data class ProjectBean(
     var visible: Int = 0
 )
 
+@Keep
 data class ArticleData(
     var curPage: Int,
     var datas: MutableList<ArticleDetail>,
@@ -25,6 +28,7 @@ data class ArticleData(
     var total: Int
 )
 
+@Keep
 @Entity(tableName = "article_detail")
 data class ArticleDetail(
     @PrimaryKey var id: Int = 0,
@@ -64,6 +68,7 @@ data class ArticleDetail(
     @ColumnInfo(name = "local_path") var localPath: String = ""
 )
 
+@Keep
 @Entity(tableName = "tag",
     foreignKeys = [
         ForeignKey(
@@ -84,6 +89,7 @@ data class Tag(
  * 连表查询，需要定义一个中间bean，具体用法详见
  * https://developer.android.google.cn/training/data-storage/room/relationships?hl=zh-cn
  */
+@Keep
 data class ArticleDetailWithTag(
     @Embedded var articleDetail: ArticleDetail,
     @Relation(

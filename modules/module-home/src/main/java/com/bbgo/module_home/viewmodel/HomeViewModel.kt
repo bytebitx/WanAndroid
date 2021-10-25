@@ -6,13 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.logE
-import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.module_home.bean.ArticleDetail
+import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.repository.HomeRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map

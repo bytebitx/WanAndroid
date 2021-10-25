@@ -1,7 +1,9 @@
 package com.bbgo.module_sys.bean
 
+import androidx.annotation.Keep
 
 
+@Keep
 data class ArticleData(
         val curPage: Int,
         val datas: MutableList<ArticleDetail>,
@@ -12,6 +14,7 @@ data class ArticleData(
         val total: Int
 )
 
+@Keep
 data class NaviData(
         val articles: ArrayList<ArticleDetail>,
         val cid: Int,
@@ -19,7 +22,7 @@ data class NaviData(
         var isSelected: Boolean
 )
 
-
+@Keep
 data class ArticleDetail(
         val apkLink: String,
         val audit: Int,
@@ -57,6 +60,7 @@ data class ArticleDetail(
         var top: String,
 )
 
+@Keep
 data class Tag(
         val name: String,
         val url: String

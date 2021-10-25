@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -30,7 +28,6 @@ import com.bbgo.module_wechat.databinding.FragmentArticleListBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * Created by wangyb
@@ -170,11 +167,9 @@ class ArticleListFragment : BaseFragment() {
     }
 
     override fun observeViewModel() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                weChatViewModel.wxArticlesUiState.collectLatest {
-                    handleInfo(it)
-                }
+        lifecycleScope.launchWhenStarted {
+            weChatViewModel.wxArticlesUiState.collectLatest {
+                handleInfo(it)
             }
         }
     }

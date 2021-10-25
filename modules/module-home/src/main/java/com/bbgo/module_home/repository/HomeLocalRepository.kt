@@ -1,6 +1,6 @@
 package com.bbgo.module_home.repository
 
-import com.bbgo.common_service.banner.bean.Banner
+import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.local.DBUtil
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject

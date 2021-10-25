@@ -1,9 +1,9 @@
 package com.bbgo.module_home.net.api
 
 import com.bbgo.common_base.bean.HttpResult
-import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.module_home.bean.ArticleData
 import com.bbgo.module_home.bean.ArticleDetail
+import com.bbgo.module_home.bean.Banner
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.GET
 import retrofit2.http.Path

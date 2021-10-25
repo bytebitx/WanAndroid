@@ -25,10 +25,10 @@ import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.util.ImageLoader
 import com.bbgo.common_base.widget.SpaceItemDecoration
-import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_home.R
 import com.bbgo.module_home.bean.ArticleDetail
+import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.databinding.FragmentHomeBinding
 import com.bbgo.module_home.databinding.ItemHomeBannerBinding
 import com.bbgo.module_home.viewmodel.HomeViewModel

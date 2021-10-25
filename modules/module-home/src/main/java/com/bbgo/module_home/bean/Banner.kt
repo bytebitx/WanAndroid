@@ -1,9 +1,10 @@
-package com.bbgo.common_service.banner.bean
+package com.bbgo.module_home.bean
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
+@Keep
 @Entity
 data class Banner(
     val desc: String,

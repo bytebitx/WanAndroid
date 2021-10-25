@@ -3,7 +3,7 @@ package com.bbgo.module_home.local.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.bbgo.common_service.banner.bean.Banner
+import com.bbgo.module_home.bean.Banner
 
 /**
  *  author: wangyb

@@ -2,9 +2,9 @@ package com.bbgo.module_home.repository
 
 import com.bbgo.common_base.bean.HttpResult
 import com.bbgo.common_base.net.ServiceCreators
-import com.bbgo.common_service.banner.bean.Banner
 import com.bbgo.module_home.bean.ArticleData
 import com.bbgo.module_home.bean.ArticleDetail
+import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.net.api.HttpHomeApiService
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.Flow
