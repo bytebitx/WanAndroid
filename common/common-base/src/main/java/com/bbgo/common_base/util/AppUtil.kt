@@ -16,7 +16,6 @@ import android.provider.Settings
 import android.text.TextUtils
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
-import com.bbgo.apt_annotation.InjectLogin
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.Prefs
 import com.bbgo.common_base.ext.logD
@@ -243,7 +242,6 @@ object AppUtil {
      * */
     fun isWeiboInstalled() = isInstalled("com.sina.weibo")
 
-    @InjectLogin
     var isLogin = false
 
     @RequiresApi(Build.VERSION_CODES.M)

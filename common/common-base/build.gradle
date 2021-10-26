@@ -85,7 +85,4 @@ dependencies {
     kapt rootProject.ext.compiler["hiltAndroidCompiler"]
 
     api rootProject.ext.otherLibs
-
-    api project(":apt_annotation")
-    kapt project(":apt_compiler")
 }
