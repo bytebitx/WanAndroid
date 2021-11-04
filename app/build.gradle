@@ -91,29 +91,13 @@ dependencies {
     implementation project(":common:common-service")
     if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-content")
-    }
-    if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-login")
-    }
-    if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-home")
-    }
-    if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-wechat")
-    }
-    if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-sys")
-    }
-    if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-square")
-    }
-    if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-project")
-    }
-    if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-compose")
-    }
-    if (!Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-collect")
     }
 

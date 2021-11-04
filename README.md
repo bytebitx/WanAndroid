@@ -58,7 +58,6 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
 ### Flow StateFlow
 1. 使用Flow替代LiveData可以参考module-wechat模块
 2. 对于项目中是否有必要将LiveData替换为Flow，可以参考这篇[文章](https://juejin.cn/post/7007602776502960165) 和这个[视频](https://www.youtube.com/watch?v=7VDf-W82ZYE)
-3. 疑问❓使用Flow替代LiveData之后，当APP置于后台，然后又恢复到前台，会重复订阅数据，就会导致UI再次刷新，不知道有什么方式可以解决？
 
 ## 一些知识点
 1. 使用Flow，不管是请求网络返回数据还是从DB中返回数据的时候，已经处于main线程了；网络请求和从DB中查询数据操作是在子线程。

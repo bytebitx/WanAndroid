@@ -91,11 +91,7 @@ dependencies {
 
     if (Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-collect")
-    }
-    if (Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-content")
-    }
-    if (Boolean.valueOf(isBuildModule)) {
         implementation project(":modules:module-login")
     }
 }
