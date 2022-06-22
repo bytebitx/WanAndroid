@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.RouterPath
@@ -19,6 +21,7 @@ import com.bbgo.module_wechat.viewmodel.WeChatViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  *  author: wangyb
@@ -76,12 +79,13 @@ class WeChatFragment : BaseFragment() {
          * 和livedata一样的效果
          *
          */
-        lifecycleScope.launchWhenStarted {
-            weChatViewModel.wxChapterUiState.collectLatest {
-                handleWxChapter(it)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                weChatViewModel.wxChapterUiState.collectLatest {
+                    handleWxChapter(it)
+                }
             }
         }
-//        observe(weChatViewModel.wxChapterLiveData, ::handleWxChapter)
     }
 
     private fun handleWxChapter(status: Resource<List<WXArticle>>) {

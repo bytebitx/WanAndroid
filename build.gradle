@@ -18,7 +18,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.3"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.37'
 //        classpath 'com.bbgo.login_plugin:loginplugin:1.0.0'
         // NOTE: Do not place your application dependencies here; they belong

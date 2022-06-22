@@ -24,9 +24,6 @@ import javax.inject.Inject
 @HiltViewModel
 class WeChatViewModel @Inject constructor(private val repository: WxRepository) : ViewModel() {
 
-//    val wxChapterLiveData = MutableLiveData<Resource<List<WXArticle>>>()
-//    val wxArticlesLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()
-
     val wxChapterUiState = MutableStateFlow<Resource<List<WXArticle>>>(Resource.Loading())
 
     val wxArticlesUiState = MutableStateFlow<Resource<MutableList<ArticleDetail>>>(Resource.Loading())
