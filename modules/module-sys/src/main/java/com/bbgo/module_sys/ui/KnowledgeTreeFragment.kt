@@ -1,9 +1,6 @@
 package com.bbgo.module_sys.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bbgo.common_base.base.BaseFragment
@@ -21,7 +18,7 @@ import javax.inject.Inject
  * Created by wangyb
  */
 @AndroidEntryPoint
-class KnowledgeTreeFragment : BaseFragment() {
+class KnowledgeTreeFragment : BaseFragment<FragmentRefreshLayoutBinding>() {
 
     companion object {
         fun getInstance(): KnowledgeTreeFragment {
@@ -29,8 +26,6 @@ class KnowledgeTreeFragment : BaseFragment() {
         }
     }
 
-    private var _binding: FragmentRefreshLayoutBinding? = null
-    private val binding get() = _binding!!
     private lateinit var loadingBinding: LayoutLoadingBinding
 
     @Inject
@@ -64,18 +59,8 @@ class KnowledgeTreeFragment : BaseFragment() {
         KnowledgeTreeAdapter()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentRefreshLayoutBinding.inflate(inflater, container, false)
-        loadingBinding = LayoutLoadingBinding.bind(binding.root)
-        return _binding?.root
-    }
-
-
     override fun initView() {
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         binding.swipeRefreshLayout.setColorSchemeResources(
             android.R.color.holo_blue_bright,
             android.R.color.holo_green_light,
@@ -97,7 +82,7 @@ class KnowledgeTreeFragment : BaseFragment() {
         sysViewModel.getKnowledgeTree()
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         observe(sysViewModel.treeLiveData, ::handleInfo)
     }
 
@@ -116,10 +101,5 @@ class KnowledgeTreeFragment : BaseFragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

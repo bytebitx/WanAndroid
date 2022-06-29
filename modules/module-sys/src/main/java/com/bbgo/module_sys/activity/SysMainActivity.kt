@@ -1,14 +1,18 @@
 package com.bbgo.module_sys.activity
 
-import android.os.Bundle
 import com.bbgo.common_base.base.BaseActivity
-import com.bbgo.module_sys.R
+import com.bbgo.module_sys.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SysMainActivity : BaseActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class SysMainActivity : BaseActivity<ActivityMainBinding>() {
+
+    override fun initView() {
+    }
+
+    override fun observe() {
+    }
+
+    override fun initData() {
     }
 }

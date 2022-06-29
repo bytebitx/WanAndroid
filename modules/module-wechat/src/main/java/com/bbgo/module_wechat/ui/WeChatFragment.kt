@@ -1,9 +1,6 @@
 package com.bbgo.module_wechat.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -30,10 +27,8 @@ import kotlinx.coroutines.launch
  */
 @Route(path = RouterPath.WeChat.PAGE_WECHAT)
 @AndroidEntryPoint
-class WeChatFragment : BaseFragment() {
+class WeChatFragment : BaseFragment<FragmentWechatBinding>() {
 
-    private var _binding: FragmentWechatBinding? = null
-    private val binding get() = _binding!!
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 
@@ -51,28 +46,19 @@ class WeChatFragment : BaseFragment() {
         WeChatPagerAdapter(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentWechatBinding.inflate(inflater, container, false)
-        loadingBinding = LayoutLoadingBinding.bind(binding.root)
-        return _binding?.root
-    }
-
     override fun lazyLoad() {
         weChatViewModel.getWXChapters()
     }
 
     override fun initView() {
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         binding.viewPager.adapter = viewPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager, true, true) { tab, position ->
             tab.text = weChatDatas[position].name
         }.attach()
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         /**
          * flow默认情况下是不管页面处于哪个生命周期都会订阅数据，不会像livedata一样，
          * 在生命周期处于DESTROYED时，移除观察者。因此需要在start生命周期启动协程达到
@@ -107,11 +93,6 @@ class WeChatFragment : BaseFragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

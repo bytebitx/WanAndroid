@@ -1,9 +1,8 @@
 package com.bbgo.module_wechat.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +27,7 @@ import com.bbgo.module_wechat.R
 import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.databinding.FragmentArticleListBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
  * Created by wangyb
  */
 @AndroidEntryPoint
-class ArticleListFragment : BaseFragment() {
+class ArticleListFragment : BaseFragment<FragmentArticleListBinding>() {
 
     companion object {
         fun getInstance(cid: Int): ArticleListFragment {
@@ -47,9 +47,6 @@ class ArticleListFragment : BaseFragment() {
             return fragment
         }
     }
-
-    private var _binding: FragmentArticleListBinding? = null
-    private val binding get() = _binding!!
 
     @Autowired
     lateinit var collectService: CollectService
@@ -106,17 +103,16 @@ class ArticleListFragment : BaseFragment() {
         isRefresh = true
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentArticleListBinding.inflate(inflater, container, false)
-        return _binding?.root
-    }
-
 
     override fun initView() {
+        binding.recyclerView.post {
+            Logger.d("width = ${binding.recyclerView.width}")
+            Logger.d("height = ${binding.recyclerView.height}")
+        }
+        Handler(Looper.getMainLooper()).post {
+            Logger.d("width handler = ${binding.recyclerView.width}")
+            Logger.d("height handler = ${binding.recyclerView.height}")
+        }
         ARouter.getInstance().inject(this)
 
         cid = arguments?.getInt(Constants.CONTENT_CID_KEY) ?: 0
@@ -169,7 +165,7 @@ class ArticleListFragment : BaseFragment() {
         weChatViewModel.getWXArticles(cid, 0)
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 weChatViewModel.wxArticlesUiState.collectLatest {
@@ -245,10 +241,5 @@ class ArticleListFragment : BaseFragment() {
                 smoothScrollToPosition(0)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

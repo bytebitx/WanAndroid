@@ -1,7 +1,6 @@
 package com.bbgo.module_login.ui
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -30,9 +29,8 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.LoginRegister.PAGE_LOGIN)
 @AndroidEntryPoint
-class LoginActivity : BaseActivity(), View.OnClickListener {
+class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener {
 
-    private lateinit var binding: ActivityLoginBinding
 
     @Inject
     lateinit var registerLoginViewModel: RegisterLoginViewModel
@@ -43,12 +41,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     @Autowired
     lateinit var routerPath: String
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun initView() {
         binding.actionBar.apply {
             tvTitle.text = getString(R.string.login)
             setSupportActionBar(binding.actionBar.toolbar)
@@ -61,8 +54,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         ARouter.getInstance().inject(this)
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         observe(registerLoginViewModel.registerLoginLiveData, ::handleRegister)
+    }
+
+    override fun initData() {
     }
 
     private fun handleRegister(resource: Resource<LoginData>) {
@@ -113,4 +109,5 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
+
 }

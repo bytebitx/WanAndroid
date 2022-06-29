@@ -1,20 +1,45 @@
 package com.bbgo.common_base.base
 
+import android.app.Activity
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
 import com.bbgo.common_base.R
+import com.bbgo.common_base.util.ActivityCollector
 import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_base.util.StatusBarUtil
 import com.bbgo.library_statusbar.NotchScreenManager
+import com.orhanobut.logger.Logger
+import java.lang.ref.WeakReference
+import java.lang.reflect.ParameterizedType
 
 /**
  *  author: wangyb
  *  date: 2021/5/20 10:03 上午
  *  description: todo
  */
-open class BaseActivity : AppCompatActivity() {
+
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
+
+    /**
+     * 日志输出标志
+     */
+    protected val TAG: String = this.javaClass.simpleName
+
+    protected lateinit var binding: VB
+
+    private val inflate = "inflate"
+
+    /**
+     * 当前Activity的实例。
+     */
+    private var activity: Activity? = null
+
+    /** 当前Activity的弱引用，防止内存泄露  */
+    private var activityWR: WeakReference<Activity>? = null
 
     /**
      * theme color
@@ -25,7 +50,17 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         NotchScreenManager.getInstance().setDisplayInNotch(this)
         initColor()
-        observeViewModel()
+
+        activity = this
+        activityWR = WeakReference(activity!!)
+        ActivityCollector.pushTask(activityWR)
+        initVb()
+        if (this::binding.isInitialized) {
+            setContentView(binding.root)
+            initView()
+            observe()
+            initData()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -35,8 +70,31 @@ open class BaseActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    open fun observeViewModel() {
+
+    private fun initVb() {
+        kotlin.runCatching {
+            val type = javaClass.genericSuperclass
+            if (type is ParameterizedType) {
+                val vbCls = type.actualTypeArguments[0] as Class<VB>
+                when {
+                    // 当页面中填写的是ViewBinding则表示不需要使用ViewBinding功能
+                    ViewBinding::class.java.isAssignableFrom(vbCls) && vbCls != ViewBinding::class.java -> {
+                        vbCls.getDeclaredMethod(inflate, LayoutInflater::class.java).let {
+                            binding = it.invoke(null, layoutInflater) as VB
+                        }
+                    }
+                }
+            } else {
+                throw IllegalArgumentException("Parameter err! Generic ViewBinding fail!")
+            }
+        }.onFailure {
+            Logger.e("$this initVb error, ${it.message} ")
+        }
     }
+
+    abstract fun initView()
+    abstract fun observe()
+    abstract fun initData()
 
     open fun initColor() {
         themeColor = if (!SettingUtil.getIsNightMode()) {
@@ -50,4 +108,9 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        activity = null
+        ActivityCollector.removeTask(activityWR)
+    }
 }

@@ -1,9 +1,6 @@
 package com.bbgo.module_project.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by wangyb
  */
 @AndroidEntryPoint
-class ProjectListFragment : BaseFragment() {
+class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
 
     companion object {
         fun getInstance(cid: Int): ProjectListFragment {
@@ -44,9 +41,6 @@ class ProjectListFragment : BaseFragment() {
             return fragment
         }
     }
-
-    private var _binding: FragmentProjectListBinding? = null
-    private val binding get() = _binding!!
 
     @Autowired
     lateinit var collectService: CollectService
@@ -98,16 +92,6 @@ class ProjectListFragment : BaseFragment() {
         binding.swipeRefreshLayout.isRefreshing = false
         isRefresh = true
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentProjectListBinding.inflate(inflater, container, false)
-        return _binding?.root
-    }
-
 
     override fun initView() {
         ARouter.getInstance().inject(this)
@@ -188,7 +172,7 @@ class ProjectListFragment : BaseFragment() {
         projectViewModel.getProjectList(cid, 0)
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         observe(projectViewModel.articlesLiveData, ::handleInfo)
     }
 
@@ -244,10 +228,5 @@ class ProjectListFragment : BaseFragment() {
                 smoothScrollToPosition(0)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

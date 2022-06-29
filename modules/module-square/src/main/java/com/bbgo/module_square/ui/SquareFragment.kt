@@ -1,9 +1,6 @@
 package com.bbgo.module_square.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -37,10 +34,7 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.Square.PAGE_SQUARE)
 @AndroidEntryPoint
-class SquareFragment : BaseFragment() {
-
-    private var _binding: FragmentSquareBinding? = null
-    private val binding get() = _binding!!
+class SquareFragment : BaseFragment<FragmentSquareBinding>() {
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 
@@ -90,20 +84,10 @@ class SquareFragment : BaseFragment() {
         squareViewModel.getSquareList(0)
     }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentSquareBinding.inflate(inflater, container, false)
-        loadingBinding = LayoutLoadingBinding.bind(binding.root)
-        return _binding?.root
-    }
-
     override fun initView() {
         ARouter.getInstance().inject(this)
 
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         binding.swipeRefreshLayout.run {
             setOnRefreshListener(onRefreshListener)
         }
@@ -168,7 +152,7 @@ class SquareFragment : BaseFragment() {
         squareViewModel.getSquareList(0)
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         observe(squareViewModel.articleLiveData, ::handleInfo)
     }
 
@@ -219,10 +203,5 @@ class SquareFragment : BaseFragment() {
                 smoothScrollToPosition(0)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

@@ -23,7 +23,7 @@ android.enableJetifier=true
 kotlin.code.style=official
 ```
 
-- 由于项目中使用了Hilt和Arouter，使用了大量的注解，因此当build项目失败之后，请clean之后再build。
+- #### 由于项目中使用了Hilt和Arouter，有大量的注解，因此当build项目失败之后，请clean之后再build。
 
 > Login-Plugin、apt_annotation、ap_compiler文件夹涉及到使用***APT+ASM+自定义Gradle插***件技术，和项目其他功能相关性不大，如果对这几个技术不感兴趣，可暂时不管这几个文件夹的code。
 

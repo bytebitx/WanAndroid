@@ -1,9 +1,6 @@
 package com.bbgo.module_project.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
@@ -25,10 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @Route(path = RouterPath.Project.PAGE_PROJECT)
 @AndroidEntryPoint
-class ProjectFragment : BaseFragment() {
-
-    private var _binding: FragmentProjectBinding? = null
-    private val binding get() = _binding!!
+class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 
@@ -46,28 +40,19 @@ class ProjectFragment : BaseFragment() {
         ProjectPagerAdapter(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentProjectBinding.inflate(inflater, container, false)
-        loadingBinding = LayoutLoadingBinding.bind(binding.root)
-        return _binding?.root
-    }
-
     override fun lazyLoad() {
         projectViewModel.getProjectTree()
     }
 
     override fun initView() {
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         binding.viewPager.adapter = viewPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager, true, true) { tab, position ->
             tab.text = projectDatas[position].name
         }.attach()
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         observe(projectViewModel.projectTreeLiveData, ::handleWxChapter)
     }
 
@@ -89,11 +74,6 @@ class ProjectFragment : BaseFragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

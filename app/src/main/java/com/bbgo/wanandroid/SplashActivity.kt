@@ -8,15 +8,12 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.base.BaseActivity
-import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.library_statusbar.NotchScreenManager
 import com.bbgo.wanandroid.databinding.ActivitySplashBinding
 import com.bbgo.wanandroid.main.MainActivity
 
-class SplashActivity : BaseActivity() {
-
-    private lateinit var binding: ActivitySplashBinding
+class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     private var textTypeface: Typeface?=null
 
@@ -32,9 +29,6 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         NotchScreenManager.getInstance().setDisplayInNotch(this)
-        binding = ActivitySplashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        initView()
 
         /*lifecycleScope.launch {
             val time = System.currentTimeMillis()
@@ -73,7 +67,7 @@ class SplashActivity : BaseActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initView() {
+    override fun initView() {
         binding.tvAppName.typeface = textTypeface
         binding.tvSplashDesc.typeface = descTypeFace
         binding.tvVersionName.text = "v${AppUtil.appVersionName}"
@@ -99,6 +93,12 @@ class SplashActivity : BaseActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun observe() {
+    }
+
+    override fun initData() {
     }
 
 }

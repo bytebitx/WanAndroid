@@ -35,7 +35,7 @@ import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 
 @Route(path = RouterPath.Content.PAGE_CONTENT)
-class ContentActivity : BaseActivity(){
+class ContentActivity : BaseActivity<ActivityContentBinding>(){
 
     private var mAgentWeb: AgentWeb? = null
 
@@ -54,8 +54,6 @@ class ContentActivity : BaseActivity(){
     @Autowired
     lateinit var collectService: CollectService
 
-    private lateinit var binding: ActivityContentBinding
-
     private lateinit var menu: Menu
 
     companion object {
@@ -71,16 +69,10 @@ class ContentActivity : BaseActivity(){
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        ARouter.getInstance().inject(this)
-        binding = ActivityContentBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        initView()
-        initBus()
-    }
 
-    private fun initView() {
+    override fun initView() {
+        ARouter.getInstance().inject(this)
+        initBus()
         binding.actionBar.apply {
             title = ""//getString(R.string.loading)
             setSupportActionBar(binding.actionBar.toolbar)
@@ -248,6 +240,12 @@ class ContentActivity : BaseActivity(){
     override fun onDestroy() {
         mAgentWeb?.webLifeCycle?.onDestroy()
         super.onDestroy()
+    }
+
+    override fun observe() {
+    }
+
+    override fun initData() {
     }
 
 }

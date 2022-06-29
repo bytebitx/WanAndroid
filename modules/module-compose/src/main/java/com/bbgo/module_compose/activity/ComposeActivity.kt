@@ -50,7 +50,8 @@ class ComposeActivity : AppCompatActivity() {
     @ExperimentalFoundationApi
     lateinit var context: Activity
 
-    @ExperimentalFoundationApi
+    @Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
+    @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = this

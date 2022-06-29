@@ -1,9 +1,5 @@
 package com.bbgo.module_sys.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.RouterPath
@@ -19,27 +15,15 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @Route(path = RouterPath.Sys.PAGE_SYS)
 @AndroidEntryPoint
-class SysFragment : BaseFragment() {
+class SysFragment : BaseFragment<FragmentSysBinding>() {
 
     private val titleList = mutableListOf<String>()
-
-    private var _binding: FragmentSysBinding? = null
-    private val binding get() = _binding!!
 
     /**
      * ViewPagerAdapter
      */
     private val viewPagerAdapter: SysPagerAdapter by lazy {
         SysPagerAdapter(this)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentSysBinding.inflate(inflater, container, false)
-        return _binding?.root
     }
 
     override fun lazyLoad() {
@@ -52,14 +36,6 @@ class SysFragment : BaseFragment() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager, true, true) { tab, position ->
             tab.text = titleList[position]
         }.attach()
-    }
-
-    override fun observeViewModel() {
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

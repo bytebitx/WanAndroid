@@ -1,7 +1,6 @@
 package com.bbgo.module_login.ui
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -28,18 +27,12 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.LoginRegister.PAGE_REGISTER)
 @AndroidEntryPoint
-class RegisterActivity : BaseActivity(), View.OnClickListener {
-
-    private lateinit var binding: ActivityRegisterBinding
+class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickListener {
 
     @Inject
     lateinit var registerLoginViewModel: RegisterLoginViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun initView() {
         binding.actionBar.apply {
             tvTitle.text = getString(R.string.register)
             setSupportActionBar(binding.actionBar.toolbar)
@@ -50,8 +43,11 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
         binding.tvSignIn.setOnClickListener(this)
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         observe(registerLoginViewModel.registerLoginLiveData, ::handleRegister)
+    }
+
+    override fun initData() {
     }
 
     private fun handleRegister(resource: Resource<LoginData>) {

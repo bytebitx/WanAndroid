@@ -1,9 +1,6 @@
 package com.bbgo.module_home.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +40,7 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.Home.PAGE_HOME)
 @AndroidEntryPoint
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     companion object {
         private const val TAG = "HomeFragment"
@@ -54,8 +51,6 @@ class HomeFragment : BaseFragment() {
     }
 
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
     private lateinit var bannerBinding: ItemHomeBannerBinding
     private lateinit var loadingBinding: LayoutLoadingBinding
 
@@ -114,18 +109,10 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        bannerBinding = ItemHomeBannerBinding.inflate(inflater, container, false)
-        loadingBinding = LayoutLoadingBinding.bind(binding.root)
-        return _binding?.root
-    }
-
     override fun initView() {
+        bannerBinding = ItemHomeBannerBinding.inflate(layoutInflater)
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
+
         ARouter.getInstance().inject(this)
         initBus()
         binding.swipeRefreshLayout.run {
@@ -193,7 +180,7 @@ class HomeFragment : BaseFragment() {
         homeViewModel.getBanner()
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         observe(homeViewModel.articleLiveData, ::handleInfo)
         observe(homeViewModel.bannerLiveData, ::handleBanner)
     }
@@ -281,12 +268,4 @@ class HomeFragment : BaseFragment() {
             }
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-
-
 }

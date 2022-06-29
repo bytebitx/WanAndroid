@@ -21,7 +21,7 @@ import javax.inject.Inject
  * Created by wangyb
  */
 @AndroidEntryPoint
-class NavigationFragment : BaseFragment() {
+class NavigationFragment : BaseFragment<FragmentNavigationBinding>() {
 
     companion object {
         fun getInstance(): NavigationFragment {
@@ -29,8 +29,6 @@ class NavigationFragment : BaseFragment() {
         }
     }
 
-    private var _binding: FragmentNavigationBinding? = null
-    private val binding get() = _binding!!
     private lateinit var loadingBinding: LayoutLoadingBinding
 
     @Inject
@@ -54,19 +52,10 @@ class NavigationFragment : BaseFragment() {
         RightNaviAdapter(naviList)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentNavigationBinding.inflate(inflater, container, false)
-        loadingBinding = LayoutLoadingBinding.bind(binding.root)
-        return _binding?.root
-    }
-
 
     @SuppressLint("NotifyDataSetChanged")
     override fun initView() {
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
         binding.refreshLayout.setColorSchemeResources(
             android.R.color.holo_blue_bright,
             android.R.color.holo_green_light,
@@ -107,7 +96,7 @@ class NavigationFragment : BaseFragment() {
         sysViewModel.getNavigationList()
     }
 
-    override fun observeViewModel() {
+    override fun observe() {
         observe(sysViewModel.naviLiveData, ::handleInfo)
     }
 
@@ -147,10 +136,5 @@ class NavigationFragment : BaseFragment() {
             val y = viewAt.top - binding.rvNavi.height / 2
             binding.rvNavi.smoothScrollBy(0, y)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
