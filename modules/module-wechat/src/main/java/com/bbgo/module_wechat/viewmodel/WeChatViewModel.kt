@@ -9,10 +9,7 @@ import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.repository.WxRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
