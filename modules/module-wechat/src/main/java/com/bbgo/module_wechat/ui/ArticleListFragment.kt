@@ -3,10 +3,7 @@ package com.bbgo.module_wechat.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -167,11 +164,16 @@ class ArticleListFragment : BaseFragment<FragmentArticleListBinding>() {
 
     override fun observe() {
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                weChatViewModel.wxArticlesUiState.collectLatest {
+            /**
+             * 如果只收集一个stateFlow的数据，则可以使用flowWithLifecycle
+             * 操作符决定生命周期
+             *
+             */
+            weChatViewModel.wxArticlesUiState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
                     handleInfo(it)
                 }
-            }
         }
     }
 

@@ -1,6 +1,5 @@
 package com.bbgo.module_home.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
@@ -11,10 +10,7 @@ import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.repository.HomeRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,11 +22,11 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class HomeViewModel @Inject constructor(private val repository: HomeRepository) : ViewModel() {
 
-    val articleLiveData = MutableLiveData<Resource<MutableList<ArticleDetail>>>()
-    val bannerLiveData = MutableLiveData<Resource<List<Banner>>>()
+    val articleUiState = MutableStateFlow<Resource<List<ArticleDetail>>>(Resource.Loading())
+    val bannerUiState = MutableStateFlow<Resource<List<Banner>>>(Resource.Loading())
+
 
     fun getArticles(pageNum: Int) = viewModelScope.launch {
-        articleLiveData.value = Resource.Loading()
         repository.getTopArticles()
             .zip(repository.getArticles(pageNum)) { topArticles, articles ->
                 {
@@ -47,7 +43,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
                 logE(TAG, it.message, it)
             }
             .collectLatest {
-                articleLiveData.value = Resource.Success(it.invoke())
+                articleUiState.value = Resource.Success(it.invoke())
             }
     }
 
@@ -61,7 +57,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
                 logD(TAG, "${it.message}")
             }
             .collectLatest {
-                bannerLiveData.postValue(Resource.Success(it.data))
+                bannerUiState.value = Resource.Success(it.data)
             }
     }
 

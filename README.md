@@ -66,6 +66,7 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
 4. proguard-rules.pro文件是给Library模块自己使用的混淆规则；  
    consumer-rules.pro文件则是会合并到app的混淆规则中，是给包括app在内的其他模块调用时使用的混淆规则；
    详细说明可见该[文档](https://www.freesion.com/article/38811202153/)
+5. [LiveData粘性事件](https://tech.meituan.com/2018/07/26/android-livedatabus.html)的解决方式有两种，一种是hook LiveData，将Observer的mLastVersion变量设置成和LiveData的mVersion变量一致；另一种是使用SingleLiveData；具体实现方式参见代码里面的LiveDataBus和SingleLiveData；注意如果使用SingleLiveData的话，如果多个页面使用同一个SingleLiveData对象注册observer，那么只有第一个页面能收到订阅数据；原因是在定义的原子变量身上。
 
 ## Arouter使用
 

@@ -3,6 +3,7 @@ package com.bbgo.module_wechat.ui
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -60,17 +61,15 @@ class WeChatFragment : BaseFragment<FragmentWechatBinding>() {
 
     override fun observe() {
         /**
-         * flow默认情况下是不管页面处于哪个生命周期都会订阅数据，不会像livedata一样，
-         * 在生命周期处于DESTROYED时，移除观察者。因此需要在start生命周期启动协程达到
-         * 和livedata一样的效果
+         * 如果只收集一个stateFlow的数据，则可以使用flowWithLifecycle
+         * 操作符决定生命周期
          *
          */
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                weChatViewModel.wxChapterUiState.collectLatest {
+            weChatViewModel.wxChapterUiState.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
                     handleWxChapter(it)
                 }
-            }
         }
     }
 

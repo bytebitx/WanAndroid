@@ -2,6 +2,9 @@ package com.bbgo.module_home.ui
 
 import android.view.View
 import android.widget.ImageView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -30,6 +33,8 @@ import com.bbgo.module_home.databinding.FragmentHomeBinding
 import com.bbgo.module_home.databinding.ItemHomeBannerBinding
 import com.bbgo.module_home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -181,8 +186,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun observe() {
-        observe(homeViewModel.articleLiveData, ::handleInfo)
-        observe(homeViewModel.bannerLiveData, ::handleBanner)
+        lifecycleScope.launch {
+            /**
+             * flow默认情况下是不管页面处于哪个生命周期都会订阅数据，不会像livedata一样，
+             * 在生命周期处于DESTROYED时，移除观察者。因此需要在start生命周期启动协程达到
+             * 和livedata一样的效果
+             *
+             * 收集多个stateflow，需要launch多次
+             */
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    homeViewModel.articleUiState.collectLatest {
+                        handleInfo(it)
+                    }
+                }
+                launch {
+                    homeViewModel.bannerUiState.collectLatest {
+                        handleBanner(it)
+                    }
+                }
+            }
+        }
     }
 
     private fun handleBanner(status: Resource<List<Banner>>) {
@@ -214,7 +238,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun handleInfo(articles: Resource<MutableList<ArticleDetail>>) {
+    private fun handleInfo(articles: Resource<List<ArticleDetail>>) {
         when(articles) {
             is Resource.Loading -> {
                 loadingBinding.progressBar.visibility = View.VISIBLE
