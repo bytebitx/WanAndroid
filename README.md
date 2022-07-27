@@ -14,15 +14,6 @@
 
 ## 项目说明
 
-### 项目目录及架构
-- 将该项目clone到本地的时候，需要在项目根目录下面添加**gradle.properties**文件，文件内容如下：
-```class
-org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8   
-android.useAndroidX=true   
-android.enableJetifier=true   
-kotlin.code.style=official
-```
-
 - #### 由于项目中使用了Hilt和Arouter，有大量的注解，因此当build项目失败之后，请clean之后再build。
 
 > Login-Plugin、apt_annotation、ap_compiler文件夹涉及到使用***APT+ASM+自定义Gradle插***件技术，和项目其他功能相关性不大，如果对这几个技术不感兴趣，可暂时不管这几个文件夹的code。
@@ -67,6 +58,31 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
    consumer-rules.pro文件则是会合并到app的混淆规则中，是给包括app在内的其他模块调用时使用的混淆规则；
    详细说明可见该[文档](https://www.freesion.com/article/38811202153/)
 5. [LiveData粘性事件](https://tech.meituan.com/2018/07/26/android-livedatabus.html)的解决方式有两种，一种是hook LiveData，将Observer的mLastVersion变量设置成和LiveData的mVersion变量一致；另一种是使用SingleLiveData；具体实现方式参见代码里面的LiveDataBus和SingleLiveData；注意如果使用SingleLiveData的话，如果多个页面使用同一个SingleLiveData对象注册observer，那么只有第一个页面能收到订阅数据；原因是在定义的原子变量身上。
+6. [MVC、MVP、MVVM真正区别](https://www.bilibili.com/read/cv6670642)
+		MVC：view直接model进行交互
+				MVC缺点：
+				1.Activity管理了过多的数据处理逻辑
+				2.业务逻辑无法复用
+				3.异步任务会出现很多嵌套回调
+				4.业务逻辑很多的情况下，Manager也会很臃肿
+				
+		MVP：出现它就是为了取代Activity的地位
+		缺点：
+		1.接口文件过多
+		2.如果页面逻辑复杂，Activity需要实现非常多的接口，并且这些接口和具体页面绑定，无法复用
+		3.p层直接持有view层的引用，或者会用到Context，会很容易导致内存泄漏
+		4.有时候p层需要明确使用Activity的时候，需要做强制转换
+		5.多个页面无法复用同一个接口
+		6.总的来说，p层和view层是高度绑定的，p层和定义的那些接口无法高效的复用
+		
+		MVVM：view通过ViewModel订阅所需数据，ViewModel向View提供数据改变的接口，当view改变引起数据改变或者数据源发生改变时，ViewModel通过订阅告诉view，view进行视图更新。
+		优点：
+		1. ViewModel只提供数据订阅和数据接口，真正做到了和UI分离；
+		2. ViewModel伴随View生命周期，不会出现内存泄漏问题
+		3. 多个页面有相同数据来源，ViewModel可以复用相同接口并直接获取数据不会重复请求
+		4. 可以实现多个页面数据共享问题，并在Activity销毁重建的时候，数据不会丢失
+	
+
 
 ## Arouter使用
 
