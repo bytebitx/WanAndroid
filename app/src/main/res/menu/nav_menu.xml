@@ -15,10 +15,10 @@
             android:icon="@drawable/ic_like_not"
             android:title="@string/nav_my_collect" />
 
-        <!--<item
-            android:id="@+id/nav_share"
+        <item
+            android:id="@+id/nav_video"
             android:icon="@drawable/ic_share_white_24dp"
-            android:title="@string/my_share" />-->
+            android:title="@string/my_share" />
 
         <!--<item
             android:id="@+id/nav_todo"

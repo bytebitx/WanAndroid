@@ -135,6 +135,7 @@ dependencies {
         implementation project(":modules:module-project")
 //        implementation project(":modules:module-compose")
         implementation project(":modules:module-collect")
+        implementation project(":modules:module-media")
     }
 
     implementation rootProject.ext.roomLibs

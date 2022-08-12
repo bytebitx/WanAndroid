@@ -14,10 +14,9 @@ class RouterPath {
      */
     object LoginRegister {
         private const val LOGIN_REGISTER = "module_login"
-        const val PAGE_LOGIN = "/login/$LOGIN_REGISTER"
-        const val PAGE_REGISTER = "/register/$LOGIN_REGISTER"
-
-        const val SERVICE_LOGOUT = "/logout/$LOGIN_REGISTER"
+        const val PAGE_LOGIN = "/$LOGIN_REGISTER/login"
+        const val PAGE_REGISTER = "/$LOGIN_REGISTER/register"
+        const val SERVICE_LOGOUT = "/$LOGIN_REGISTER/logout"
     }
 
     /**
@@ -25,10 +24,8 @@ class RouterPath {
      */
     object Main {
         private const val MAIN = "main"
-        const val PAGE_MAIN = "/main/$MAIN"
-
-        const val SERVICE_BANNER = "/banner/$MAIN"
-        const val SERVICE_COLLECT = "/collect/$MAIN"
+        const val PAGE_MAIN = "/$MAIN/main"
+        const val SERVICE_COLLECT = "/$MAIN/collect"
     }
 
     /**
@@ -36,7 +33,7 @@ class RouterPath {
      */
     object Content {
         private const val CONTENT = "module_content"
-        const val PAGE_CONTENT = "/content/$CONTENT"
+        const val PAGE_CONTENT = "/$CONTENT/content"
     }
 
 
@@ -45,7 +42,7 @@ class RouterPath {
      */
     object Home {
         private const val HOME = "module_home"
-        const val PAGE_HOME = "/home/$HOME"
+        const val PAGE_HOME = "/$HOME/home"
     }
 
     /**
@@ -53,7 +50,7 @@ class RouterPath {
      */
     object WeChat {
         private const val WECHAT = "module_wechat"
-        const val PAGE_WECHAT = "/wechat/$WECHAT"
+        const val PAGE_WECHAT = "/$WECHAT/wechat"
     }
 
     /**
@@ -61,7 +58,7 @@ class RouterPath {
      */
     object Sys {
         private const val SYS = "module_sys"
-        const val PAGE_SYS = "/sys/$SYS"
+        const val PAGE_SYS = "/$SYS/sys"
     }
 
     /**
@@ -69,7 +66,7 @@ class RouterPath {
      */
     object Square {
         private const val SQUARE = "module_square"
-        const val PAGE_SQUARE = "/square/$SQUARE"
+        const val PAGE_SQUARE = "/$SQUARE/square"
     }
 
     /**
@@ -77,7 +74,7 @@ class RouterPath {
      */
     object Project {
         private const val PROJECT = "module_project"
-        const val PAGE_PROJECT = "/project/$PROJECT"
+        const val PAGE_PROJECT = "/$PROJECT/project"
     }
 
     /**
@@ -85,7 +82,12 @@ class RouterPath {
      */
     object Compose {
         private const val COMPOSE = "module_compose"
-        const val PAGE_COMPOSE = "/compose/$COMPOSE"
+        const val PAGE_COMPOSE = "/$COMPOSE/compose"
+    }
+
+    object Media {
+        private const val MEDIA = "module_media"
+        const val PAGE_VIDEO = "/$MEDIA/video"
     }
 
 }

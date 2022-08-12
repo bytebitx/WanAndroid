@@ -1,5 +1,6 @@
 package com.bbgo.wanandroid.main
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -280,17 +281,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
                         }
                     })
             }
-            /*R.id.nav_night_mode -> {
-                if (SettingUtil.getIsNightMode()) {
-                    SettingUtil.setIsNightMode(false)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                } else {
-                    SettingUtil.setIsNightMode(true)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
-                window.setWindowAnimations(R.style.WindowAnimationFadeInOut)
-                recreate()
-            }*/
+            R.id.nav_video -> {
+                ARouter.getInstance().build(RouterPath.Media.PAGE_VIDEO).navigation()
+            }
             R.id.nav_setting -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     AppUtil.requestIgnoreBatteryOptimizations(this)
