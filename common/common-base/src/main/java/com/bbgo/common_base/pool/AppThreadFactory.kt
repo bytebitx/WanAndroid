@@ -2,6 +2,7 @@ package com.bbgo.common_base.pool
 
 import android.util.Log
 import androidx.annotation.NonNull
+import com.bbgo.common_base.util.Logs
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -17,7 +18,7 @@ class AppThreadFactory : ThreadFactory {
     private val namePrefix: String
     override fun newThread(@NonNull runnable: Runnable?): Thread {
         val threadName = namePrefix + threadNumber.getAndIncrement()
-        Log.i(TAG,"Thread production, name is [$threadName]")
+        Logs.i("Thread production, name is [$threadName]")
         val thread = Thread(group, runnable, threadName, 0)
         if (thread.isDaemon) {   //设为非后台线程
             thread.isDaemon = false
@@ -28,8 +29,7 @@ class AppThreadFactory : ThreadFactory {
 
         // 捕获多线程处理中的异常
         thread.uncaughtExceptionHandler = Thread.UncaughtExceptionHandler { thread, ex ->
-            Log.i(TAG,
-                "Running task appeared exception! Thread [" + thread.name + "], because [" + ex.message + "]")
+            Logs.i("Running task appeared exception! Thread [" + thread.name + "], because [" + ex.message + "]")
         }
         return thread
     }

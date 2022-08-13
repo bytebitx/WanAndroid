@@ -18,9 +18,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.Prefs
-import com.bbgo.common_base.ext.logD
-import com.bbgo.common_base.ext.logE
-import com.bbgo.common_base.ext.logW
 import java.io.File
 import java.util.*
 
@@ -133,7 +130,7 @@ object AppUtil {
                 }
 
             }.onFailure {
-                logE(TAG, "get android_id with error", it)
+                Logs.e(TAG, "get android_id with error", it)
             }
 
             var uuid = Prefs.getString("uuid", "")
@@ -197,7 +194,7 @@ object AppUtil {
             applicationInfo = BaseApplication.getContext().packageManager.getApplicationInfo(
                 appPackage, PackageManager.GET_META_DATA)
         } catch (e: PackageManager.NameNotFoundException) {
-            logW(TAG, e.message, e)
+            Logs.e(e, e.message)
         }
         if (applicationInfo == null) return ""
         return applicationInfo.metaData.getString(key)
@@ -476,7 +473,7 @@ object AppUtil {
     fun installApk(context: Context, downloadApk: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         val file = File(downloadApk)
-        logD("安装路径==$downloadApk")
+        Logs.d("安装路径==$downloadApk")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val apkUri: Uri = FileProvider.getUriForFile(
                 context,

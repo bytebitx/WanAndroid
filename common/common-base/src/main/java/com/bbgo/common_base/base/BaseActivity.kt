@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.bbgo.common_base.R
 import com.bbgo.common_base.util.ActivityCollector
+import com.bbgo.common_base.util.Logs
 import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_base.util.StatusBarUtil
 import com.bbgo.library_statusbar.NotchScreenManager
-import com.orhanobut.logger.Logger
 import java.lang.ref.WeakReference
 import java.lang.reflect.ParameterizedType
 
@@ -88,7 +88,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 throw IllegalArgumentException("Parameter err! Generic ViewBinding fail!")
             }
         }.onFailure {
-            Logger.e("$this initVb error, ${it.message} ")
+            Logs.e(it, "$this initVb error, ${it.message} ")
         }
     }
 

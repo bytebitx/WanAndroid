@@ -5,14 +5,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.util.Logs
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.databinding.FragmentWechatBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
@@ -76,7 +75,7 @@ class WeChatFragment : BaseFragment<FragmentWechatBinding>() {
     private fun handleWxChapter(status: Resource<List<WXArticle>>) {
         when(status) {
             is Resource.Loading -> {
-                logD("Resource.Loading")
+                Logs.d("Resource.Loading")
                 loadingBinding.progressBar.visibility = View.VISIBLE
             }
             is Resource.DataError -> {

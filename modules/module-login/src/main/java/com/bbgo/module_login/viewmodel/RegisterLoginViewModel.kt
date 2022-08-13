@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.*
+import com.bbgo.common_base.util.Logs
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.repository.RegisterLoginRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -42,7 +43,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
                 }
             }
             .catch {
-                logD(TAG, "catch $it")
+                Logs.e(it, "catch $it")
             }
             .collectLatest {
                 registerLoginLiveData.value = it
@@ -69,7 +70,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
             }
             .flowOn(Dispatchers.IO)
             .catch {
-                logE(TAG, "catch ${it.stackTrace}", it)
+                Logs.e(TAG, "catch ${it.stackTrace}", it)
                 registerLoginLiveData.value = Resource.DataError(NETWORK_ERROR, it.message)
             }
             .collectLatest {

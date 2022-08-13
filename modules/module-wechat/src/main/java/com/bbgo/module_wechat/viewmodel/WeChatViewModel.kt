@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logE
+import com.bbgo.common_base.util.Logs
 import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.repository.WxRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -59,7 +62,7 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
                 }
             }
             .catch {
-                logE(TAG, it.message, it)
+                Logs.e(it, it.message)
             }
             .collectLatest {
                 wxArticlesUiState.value = it

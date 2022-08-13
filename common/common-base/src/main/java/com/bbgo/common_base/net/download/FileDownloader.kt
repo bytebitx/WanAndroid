@@ -1,8 +1,8 @@
 package com.bbgo.common_base.net.download
 
-import com.bbgo.common_base.ext.logE
 import com.bbgo.common_base.net.ServiceCreators
 import com.bbgo.common_base.net.download.api.DownloadApiService
+import com.bbgo.common_base.util.Logs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -45,7 +45,7 @@ object FileDownloader {
             listener?.onFinish(path, url)
         }.onFailure {
             listener?.onError(it.message)
-            logE("download file fail, it's reason is ${it.message}", it.message, it)
+            Logs.e(it, "download file fail, it's reason is ${it.message}")
         }
     }
 

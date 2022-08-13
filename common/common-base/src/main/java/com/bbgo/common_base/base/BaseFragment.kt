@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.orhanobut.logger.Logger
+import com.bbgo.common_base.util.Logs
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -46,7 +46,7 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
                 _binding = method.invoke(null, layoutInflater) as VB
                 rootView = _binding?.root
             }.onFailure {
-                Logger.e("init root view error = ${it.message}")
+                Logs.e(it, "init root view error = ${it.message}")
             }
         }
         return rootView

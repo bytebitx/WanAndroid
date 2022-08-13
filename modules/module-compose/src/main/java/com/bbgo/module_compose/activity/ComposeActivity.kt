@@ -95,8 +95,8 @@ fun RenderTopAppBar(composeViewModel: ComposeViewModel) {
 @Composable
 fun Request(composeViewModel: ComposeViewModel) {
     val liveData by composeViewModel.articleLiveData.observeAsState()
-    logD("======================")
-    logD(liveData?.data)
+    Logs.d("======================")
+    Logs.d(liveData?.data)
     liveData?.data?.let {
         RenderArticleList(it)
     }

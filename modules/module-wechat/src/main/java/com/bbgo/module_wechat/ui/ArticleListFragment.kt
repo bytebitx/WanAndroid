@@ -18,13 +18,13 @@ import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.util.Logs
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_wechat.R
 import com.bbgo.module_wechat.bean.ArticleDetail
 import com.bbgo.module_wechat.databinding.FragmentArticleListBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -103,12 +103,12 @@ class ArticleListFragment : BaseFragment<FragmentArticleListBinding>() {
 
     override fun initView() {
         binding.recyclerView.post {
-            Logger.d("width = ${binding.recyclerView.width}")
-            Logger.d("height = ${binding.recyclerView.height}")
+            Logs.d("width = ${binding.recyclerView.width}")
+            Logs.d("height = ${binding.recyclerView.height}")
         }
         Handler(Looper.getMainLooper()).post {
-            Logger.d("width handler = ${binding.recyclerView.width}")
-            Logger.d("height handler = ${binding.recyclerView.height}")
+            Logs.d("width handler = ${binding.recyclerView.width}")
+            Logs.d("height handler = ${binding.recyclerView.height}")
         }
         ARouter.getInstance().inject(this)
 

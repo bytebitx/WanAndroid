@@ -3,7 +3,6 @@ package com.bbgo.common_base.util
 import android.os.Environment
 import android.os.Environment.MEDIA_MOUNTED
 import com.bbgo.common_base.BaseApplication
-import com.orhanobut.logger.Logger
 import java.io.File
 import java.math.BigDecimal
 
@@ -26,6 +25,7 @@ class FileUtil {
          * 外置存储卡文件路径
          * /storage/emulated/0/Android/data/com.bbgo.wanandroid/files
          */
+        @JvmStatic
         fun getExternalFilePath(): String? {
             return BaseApplication.getContext().getExternalFilesDir(null)?.absolutePath
         }

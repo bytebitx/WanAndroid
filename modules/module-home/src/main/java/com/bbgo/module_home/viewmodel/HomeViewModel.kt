@@ -3,8 +3,7 @@ package com.bbgo.module_home.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logD
-import com.bbgo.common_base.ext.logE
+import com.bbgo.common_base.util.Logs
 import com.bbgo.module_home.bean.ArticleDetail
 import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.repository.HomeRepository
@@ -40,7 +39,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
                 }
             }
             .catch {
-                logE(TAG, it.message, it)
+                Logs.e(it, it.message)
             }
             .collectLatest {
                 articleUiState.value = Resource.Success(it.invoke())
@@ -54,7 +53,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
                 it
             }
             .catch {
-                logD(TAG, "${it.message}")
+                Logs.e("${it.message}")
             }
             .collectLatest {
                 bannerUiState.value = Resource.Success(it.data)

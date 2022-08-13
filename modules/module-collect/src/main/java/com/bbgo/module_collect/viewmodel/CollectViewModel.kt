@@ -9,7 +9,7 @@ import com.bbgo.common_base.constants.Constants.CollectType.UNCOLLECT
 import com.bbgo.common_base.constants.Constants.CollectType.UNKNOWN
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.ext.USER_NOT_LOGIN
-import com.bbgo.common_base.ext.logE
+import com.bbgo.common_base.util.Logs
 import com.bbgo.module_collect.repository.CollectRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +25,7 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
     fun collectArticle(indexPage: Int, position: Int, id: Int) = viewModelScope.launch {
         repository.collectArticle(id)
             .catch {
-                logE(TAG, it.message, it)
+                Logs.e(TAG, it.message, it)
             }
             .collectLatest {
                 val event = if (it.errorCode == USER_NOT_LOGIN) {
@@ -40,7 +40,7 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
     fun unCollectArticle(indexPage: Int, position: Int, id: Int) = viewModelScope.launch {
         repository.unCollectArticle(id)
             .catch {
-                logE(TAG, it.message, it)
+                Logs.e(TAG, it.message, it)
             }
             .collectLatest {
                 val event = if (it.errorCode == USER_NOT_LOGIN) {

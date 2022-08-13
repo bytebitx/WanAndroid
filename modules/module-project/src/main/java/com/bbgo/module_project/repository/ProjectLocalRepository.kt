@@ -1,22 +1,15 @@
 package com.bbgo.module_project.repository
 
 import android.util.Log
-import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.net.download.DownloadListener
 import com.bbgo.common_base.net.download.FileDownloader
 import com.bbgo.module_project.bean.ArticleDetail
 import com.bbgo.module_project.bean.ArticleDetailWithTag
 import com.bbgo.module_project.bean.ProjectBean
 import com.bbgo.module_project.bean.Tag
-import com.bbgo.module_project.local.AppDatabase
 import com.bbgo.module_project.local.DBUtil
-import com.bbgo.module_project.local.dao.ArticleDetailDao
-import com.bbgo.module_project.local.dao.ProjectTreeDao
-import com.bbgo.module_project.local.dao.TagDao
 import dagger.hilt.android.scopes.ActivityRetainedScoped
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 

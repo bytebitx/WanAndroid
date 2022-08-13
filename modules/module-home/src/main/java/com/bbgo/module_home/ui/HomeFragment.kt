@@ -24,6 +24,7 @@ import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.util.ImageLoader
+import com.bbgo.common_base.util.Logs
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_home.R
@@ -35,6 +36,7 @@ import com.bbgo.module_home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 import javax.inject.Inject
 
 
@@ -129,6 +131,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             itemAnimator = DefaultItemAnimator()
             recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
+
+        Logs.e(NumberFormatException())
 
         homeAdapter.run {
             addHeaderView(bannerBinding.root)

@@ -37,7 +37,7 @@ class ComposeViewModel(private val repository: ComposeRepository) : ViewModel() 
                     }
                 }
                 .catch {
-                    logE(TAG, it.message, it)
+                    Logs.e(TAG, it.message, it)
                 }
                 .collectLatest {
                     articleLiveData.value = Resource.Success(it.invoke())

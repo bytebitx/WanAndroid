@@ -34,15 +34,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
             val time = System.currentTimeMillis()
             val task1 = withContext(Dispatchers.IO) {
                 delay(2000)
-                logD("1.执行task1.... [当前线程为：${Thread.currentThread().name}]")
+                Logs.d("1.执行task1.... [当前线程为：${Thread.currentThread().name}]")
                 "one"
             }
             val task2 = withContext(Dispatchers.IO) {
                 delay(1000)
-                logD("2.执行task2.... [当前线程为：${Thread.currentThread().name}]")
+                Logs.d("2.执行task2.... [当前线程为：${Thread.currentThread().name}]")
                 "two"
             }
-            logD("task1 = $task1  , task2 = $task2 , 耗时 ${System.currentTimeMillis()-time} ms  [当前线程为：${Thread.currentThread().name}]")
+            Logs.d("task1 = $task1  , task2 = $task2 , 耗时 ${System.currentTimeMillis()-time} ms  [当前线程为：${Thread.currentThread().name}]")
 
         }*/
 
@@ -51,15 +51,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
             val task1 = async(Dispatchers.IO) {
                 delay(2000)
-                logD("1.执行task1.... [当前线程为：${Thread.currentThread().name}]")
+                Logs.d("1.执行task1.... [当前线程为：${Thread.currentThread().name}]")
                 "async task one"
             }
             val task2 = async(Dispatchers.IO) {
                 delay(1000)
-                logD("2.执行task2.... [当前线程为：${Thread.currentThread().name}]")
+                Logs.d("2.执行task2.... [当前线程为：${Thread.currentThread().name}]")
                 "async task two"
             }
-            logD("task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis()-time} ms  [当前线程为：${Thread.currentThread().name}]")
+            Logs.d("task1 = ${task1.await()}  , task2 = ${task2.await()} , 耗时 ${System.currentTimeMillis()-time} ms  [当前线程为：${Thread.currentThread().name}]")
 
         }*/
 

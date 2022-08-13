@@ -15,7 +15,6 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logD
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.widget.SpaceItemDecoration
@@ -185,7 +184,6 @@ class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
                 status.data?.let {
                     articleList.clear()
                     articleList.addAll(it)
-                    logD(mAdapter)
                     mAdapter.run {
                         if (isRefresh) {
                             setList(articleList)

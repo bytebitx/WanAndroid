@@ -17,9 +17,9 @@ class VideoActivity : BaseActivity<ActivityVideoBinding>() {
         ARouter.getInstance().inject(this)
         mMediaController = AndroidMediaController(this, false)
         binding.videoView.setMediaController(mMediaController)
-        binding.videoView.setVideoPath("http://vfx.mtime.cn/Video/2019/03/09/mp4/190309153658147087.mp4")
+//        binding.videoView.setVideoPath("http://vfx.mtime.cn/Video/2019/03/09/mp4/190309153658147087.mp4")
 //        binding.videoView.setVideoPath("https://media.w3.org/2010/05/sintel/trailer.mp4")
-//        binding.videoView.setVideoPath("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4")
+        binding.videoView.setVideoPath("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4")
         binding.videoView.start()
     }
 

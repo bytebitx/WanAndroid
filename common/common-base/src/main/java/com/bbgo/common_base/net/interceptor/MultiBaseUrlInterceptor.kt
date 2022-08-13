@@ -1,7 +1,7 @@
 package com.bbgo.common_base.net.interceptor
 
 import android.text.TextUtils
-import com.bbgo.common_base.ext.logD
+import com.bbgo.common_base.util.Logs
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,8 +18,8 @@ class MultiBaseUrlInterceptor : Interceptor {
         //获取原始的headers
         val headers = originalRequest.headers
         val baseUrl = headers["baseUrl"]//获取请求头里面设置的baseurl
-        logD("originalUrl=$originalUrl")
-        logD("baseUrl=$baseUrl")
+        Logs.d("originalUrl=$originalUrl")
+        Logs.d("baseUrl=$baseUrl")
         return if (!TextUtils.isEmpty(baseUrl)) {
             val baseHttpUrl = baseUrl?.toHttpUrlOrNull()//将其解析成httpurl
             //重建新的HttpUrl，需要重新设置的url部分
@@ -30,7 +30,7 @@ class MultiBaseUrlInterceptor : Interceptor {
                 .build()
             //获取处理后的新newRequest
             val newRequest = builder.url(newHttpUrl).build()
-            logD("newHttpUrl=${newRequest.url}")
+            Logs.d("newHttpUrl=${newRequest.url}")
             chain.proceed(newRequest)
         } else {
             chain.proceed(originalRequest)
