@@ -171,6 +171,10 @@ class LoginInterceptor : IInterceptor {
 - 在进入**我的收藏**页面的时候，使用了注解`@RequireLogin`和`@InjectLogin`两个注解判断该页面是否是需要登录才能进的页面以及是否已经登录了；因此涉及到***APT***技术
 - ASM+自定义Gradle插件部分目前只是做了基本的尝试，目的是学习如何自定义Gradle插件以及字节码插装。
 
+## 编译ijkPlayer，使其支持rtsp及https
+- 编译的步骤如下：https://juejin.cn/post/7131343514742292511/
+- 编译生成的so已集成至module-media模块中
+
 ## 疑问？
 1. 如果新增一个module，或者新增一个功能，需要用到某个常量，然后主app也要用到某个该常量，那么该常量应该定义在哪里？base里面？如果定义在base里面，那么就会经常动base；如果不定义在base里面，那么该定义在哪里？
 
