@@ -7,7 +7,9 @@ import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.widget.SpaceItemDecoration
+import com.bbgo.module_sys.R
 import com.bbgo.module_sys.bean.KnowledgeTree
 import com.bbgo.module_sys.databinding.FragmentRefreshLayoutBinding
 import com.bbgo.module_sys.viewmodel.SysViewModel
@@ -18,13 +20,15 @@ import javax.inject.Inject
  * Created by wangyb
  */
 @AndroidEntryPoint
-class KnowledgeTreeFragment : BaseFragment<FragmentRefreshLayoutBinding>() {
+class KnowledgeTreeFragment : BaseFragment(R.layout.fragment_refresh_layout) {
 
     companion object {
         fun getInstance(): KnowledgeTreeFragment {
             return KnowledgeTreeFragment()
         }
     }
+
+    private val binding by viewBinding(FragmentRefreshLayoutBinding::bind)
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 

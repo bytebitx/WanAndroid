@@ -21,8 +21,8 @@ import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.ImageLoader
 import com.bbgo.common_base.util.Logs
 import com.bbgo.common_base.widget.SpaceItemDecoration
@@ -36,7 +36,6 @@ import com.bbgo.module_home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.lang.NumberFormatException
 import javax.inject.Inject
 
 
@@ -47,7 +46,7 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.Home.PAGE_HOME)
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     companion object {
         private const val TAG = "HomeFragment"
@@ -57,9 +56,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-
     private lateinit var bannerBinding: ItemHomeBannerBinding
     private lateinit var loadingBinding: LayoutLoadingBinding
+    private val binding by viewBinding(FragmentHomeBinding::bind)
 
     @Inject
     lateinit var homeViewModel: HomeViewModel
@@ -132,8 +131,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
 
-        Logs.e(NumberFormatException())
-
         homeAdapter.run {
             addHeaderView(bannerBinding.root)
             setOnItemClickListener { adapter, view, position ->
@@ -172,12 +169,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
      * 初始化事件总线，和eventbus效果相同
      */
     private fun initBus() {
-        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
+        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(viewLifecycleOwner) {
             if (it.indexPage == Constants.FragmentIndex.HOME_INDEX) {
                 handleCollect(it)
             }
         }
-        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
+        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(viewLifecycleOwner) {
             if (it.index == 0) {
                 scrollToTop()
             }

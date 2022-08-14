@@ -1,6 +1,7 @@
 package com.bbgo.module_login.ui
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -13,6 +14,7 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.DialogUtil
 import com.bbgo.module_login.R
@@ -29,8 +31,9 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.LoginRegister.PAGE_LOGIN)
 @AndroidEntryPoint
-class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener {
+class LoginActivity : BaseActivity(R.layout.activity_login), View.OnClickListener {
 
+    private val binding by viewBinding(ActivityLoginBinding::bind)
 
     @Inject
     lateinit var registerLoginViewModel: RegisterLoginViewModel
@@ -41,7 +44,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
     @Autowired
     lateinit var routerPath: String
 
-    override fun initView() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        initView()
+        observe()
+    }
+
+    private fun initView() {
         binding.actionBar.apply {
             tvTitle.text = getString(R.string.login)
             setSupportActionBar(binding.actionBar.toolbar)
@@ -54,11 +64,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
         ARouter.getInstance().inject(this)
     }
 
-    override fun observe() {
+    private fun observe() {
         observe(registerLoginViewModel.registerLoginLiveData, ::handleRegister)
-    }
-
-    override fun initData() {
     }
 
     private fun handleRegister(resource: Resource<LoginData>) {

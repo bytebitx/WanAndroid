@@ -11,7 +11,9 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.Logs
+import com.bbgo.module_wechat.R
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.databinding.FragmentWechatBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel
@@ -27,8 +29,9 @@ import kotlinx.coroutines.launch
  */
 @Route(path = RouterPath.WeChat.PAGE_WECHAT)
 @AndroidEntryPoint
-class WeChatFragment : BaseFragment<FragmentWechatBinding>() {
+class WeChatFragment : BaseFragment(R.layout.fragment_wechat) {
 
+    private val binding by viewBinding(FragmentWechatBinding::bind)
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 

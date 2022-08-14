@@ -8,18 +8,21 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.base.BaseActivity
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.library_statusbar.NotchScreenManager
 import com.bbgo.wanandroid.databinding.ActivitySplashBinding
 import com.bbgo.wanandroid.main.MainActivity
 
-class SplashActivity : BaseActivity<ActivitySplashBinding>() {
+class SplashActivity : BaseActivity(R.layout.activity_splash) {
 
     private var textTypeface: Typeface?=null
 
     private var descTypeFace: Typeface?=null
 
     private var alphaAnimation: AlphaAnimation?=null
+
+    private val binding by viewBinding(ActivitySplashBinding::bind)
 
     init {
         textTypeface = Typeface.createFromAsset(BaseApplication.getContext().assets, "fonts/Lobster-1.4.otf")
@@ -28,8 +31,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         NotchScreenManager.getInstance().setDisplayInNotch(this)
-
+        initView()
         /*lifecycleScope.launch {
             val time = System.currentTimeMillis()
             val task1 = withContext(Dispatchers.IO) {
@@ -67,7 +71,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun initView() {
+    private fun initView() {
         binding.tvAppName.typeface = textTypeface
         binding.tvSplashDesc.typeface = descTypeFace
         binding.tvVersionName.text = "v${AppUtil.appVersionName}"
@@ -94,11 +98,4 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         startActivity(intent)
         finish()
     }
-
-    override fun observe() {
-    }
-
-    override fun initData() {
-    }
-
 }

@@ -17,6 +17,7 @@ import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_project.R
@@ -29,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by wangyb
  */
 @AndroidEntryPoint
-class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
+class ProjectListFragment : BaseFragment(R.layout.fragment_project_list) {
 
     companion object {
         fun getInstance(cid: Int): ProjectListFragment {
@@ -40,6 +41,8 @@ class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
             return fragment
         }
     }
+
+    private val binding by viewBinding(FragmentProjectListBinding::bind)
 
     @Autowired
     lateinit var collectService: CollectService

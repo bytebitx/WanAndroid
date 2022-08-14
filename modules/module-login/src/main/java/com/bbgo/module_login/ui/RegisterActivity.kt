@@ -1,6 +1,7 @@
 package com.bbgo.module_login.ui
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -12,6 +13,7 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.module_login.R
 import com.bbgo.module_login.bean.LoginData
@@ -27,12 +29,20 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.LoginRegister.PAGE_REGISTER)
 @AndroidEntryPoint
-class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickListener {
+class RegisterActivity : BaseActivity(R.layout.activity_register), View.OnClickListener {
+
+    private val binding by viewBinding(ActivityRegisterBinding::bind)
 
     @Inject
     lateinit var registerLoginViewModel: RegisterLoginViewModel
 
-    override fun initView() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initView()
+        observe()
+    }
+
+    private fun initView() {
         binding.actionBar.apply {
             tvTitle.text = getString(R.string.register)
             setSupportActionBar(binding.actionBar.toolbar)
@@ -43,11 +53,8 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickLi
         binding.tvSignIn.setOnClickListener(this)
     }
 
-    override fun observe() {
+    private fun observe() {
         observe(registerLoginViewModel.registerLoginLiveData, ::handleRegister)
-    }
-
-    override fun initData() {
     }
 
     private fun handleRegister(resource: Resource<LoginData>) {
