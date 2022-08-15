@@ -9,7 +9,7 @@ import com.bbgo.common_base.constants.Constants.CollectType.UNCOLLECT
 import com.bbgo.common_base.constants.Constants.CollectType.UNKNOWN
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.ext.USER_NOT_LOGIN
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.module_collect.repository.CollectRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest

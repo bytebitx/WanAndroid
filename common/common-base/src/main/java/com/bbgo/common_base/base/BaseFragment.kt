@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import java.lang.reflect.ParameterizedType
 
 /**

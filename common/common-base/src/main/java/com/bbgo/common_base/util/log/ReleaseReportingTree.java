@@ -1,6 +1,6 @@
-package com.bbgo.common_base.util;
+package com.bbgo.common_base.util.log;
 
-import static android.util.Log.VERBOSE;
+import static android.util.Log.INFO;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -8,6 +8,7 @@ import android.util.Log;
 import com.bbgo.common_base.BaseApplication;
 import com.bbgo.common_base.BuildConfig;
 import com.bbgo.common_base.pool.ThreadPoolUtils;
+import com.bbgo.common_base.util.FileUtil;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +35,7 @@ public final class ReleaseReportingTree extends Timber.Tree {
      */
     @Override
     protected boolean isLoggable(@Nullable String tag, int priority) {
-        return priority >= VERBOSE;
+        return priority >= INFO;
     }
 
     /**

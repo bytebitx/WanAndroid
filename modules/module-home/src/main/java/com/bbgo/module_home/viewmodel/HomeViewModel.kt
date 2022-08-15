@@ -3,7 +3,7 @@ package com.bbgo.module_home.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.module_home.bean.ArticleDetail
 import com.bbgo.module_home.bean.Banner
 import com.bbgo.module_home.repository.HomeRepository

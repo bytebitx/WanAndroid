@@ -11,7 +11,7 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.module_wechat.bean.WXArticle
 import com.bbgo.module_wechat.databinding.FragmentWechatBinding
 import com.bbgo.module_wechat.viewmodel.WeChatViewModel

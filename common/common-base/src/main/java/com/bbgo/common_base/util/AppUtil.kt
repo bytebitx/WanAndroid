@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.Prefs
+import com.bbgo.common_base.util.log.Logs
 import java.io.File
 import java.util.*
 

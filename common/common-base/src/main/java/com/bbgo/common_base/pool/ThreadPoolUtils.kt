@@ -1,6 +1,6 @@
 package com.bbgo.common_base.pool
 
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import java.util.concurrent.*
 
 /**

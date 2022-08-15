@@ -50,6 +50,14 @@ module-compose模块使用的是compose开发的界面，主要用来学习compo
 1. 使用Flow替代LiveData可以参考module-wechat模块
 2. 对于项目中是否有必要将LiveData替换为Flow，可以参考这篇[文章](https://juejin.cn/post/7007602776502960165) 和这个[视频](https://www.youtube.com/watch?v=7VDf-W82ZYE)
 
+### Log工具类
+基于[timber](https://github.com/JakeWharton/timber)封装了一个工具类Logs，方便用户开发阶段和release阶段收集日志。   
+查看线上业务逻辑的log，需要打印INFO及以上级别的日志，即Logs.i；异常仍然使用Logs.e   
+默认的日志Tag，可在Logs文件中的TAG变量中修改；如果需要不同文件有自己的tag，则可以如下设置：   
+```
+Logs.e(t, tag)
+```
+
 ## 一些知识点
 1. 使用Flow，不管是请求网络返回数据还是从DB中返回数据的时候，已经处于main线程了；网络请求和从DB中查询数据操作是在子线程。
 2. 开启混淆的时候，所有的实体bean都必须加上**@Keep**注解，让其不混淆

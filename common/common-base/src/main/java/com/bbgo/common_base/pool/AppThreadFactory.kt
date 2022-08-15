@@ -1,8 +1,7 @@
 package com.bbgo.common_base.pool
 
-import android.util.Log
 import androidx.annotation.NonNull
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import java.util.concurrent.ThreadFactory
 import java.util.concurrent.atomic.AtomicInteger
 

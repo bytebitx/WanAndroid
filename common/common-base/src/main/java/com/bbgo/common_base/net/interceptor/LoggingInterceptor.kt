@@ -1,6 +1,6 @@
 package com.bbgo.common_base.net.interceptor
 
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException

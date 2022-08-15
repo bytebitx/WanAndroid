@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.bbgo.common_base.R
 import com.bbgo.common_base.util.ActivityCollector
-import com.bbgo.common_base.util.Logs
 import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_base.util.StatusBarUtil
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.library_statusbar.NotchScreenManager
 import java.lang.ref.WeakReference
 import java.lang.reflect.ParameterizedType

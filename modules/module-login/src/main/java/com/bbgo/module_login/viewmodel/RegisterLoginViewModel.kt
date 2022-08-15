@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.*
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.repository.RegisterLoginRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped

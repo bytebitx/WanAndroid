@@ -2,7 +2,7 @@ package com.bbgo.common_base.net.download
 
 import com.bbgo.common_base.net.ServiceCreators
 import com.bbgo.common_base.net.download.api.DownloadApiService
-import com.bbgo.common_base.util.Logs
+import com.bbgo.common_base.util.log.Logs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
