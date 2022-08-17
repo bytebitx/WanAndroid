@@ -18,6 +18,7 @@ import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_square.R
@@ -34,7 +35,9 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.Square.PAGE_SQUARE)
 @AndroidEntryPoint
-class SquareFragment : BaseFragment<FragmentSquareBinding>() {
+class SquareFragment : BaseFragment(R.layout.fragment_square) {
+
+    private val binding by viewBinding(FragmentSquareBinding::bind)
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 

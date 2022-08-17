@@ -22,6 +22,7 @@ import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_service.collect.CollectService
@@ -35,7 +36,7 @@ import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 
 @Route(path = RouterPath.Content.PAGE_CONTENT)
-class ContentActivity : BaseActivity<ActivityContentBinding>(){
+class ContentActivity : BaseActivity(R.layout.activity_content){
 
     private var mAgentWeb: AgentWeb? = null
 
@@ -56,6 +57,8 @@ class ContentActivity : BaseActivity<ActivityContentBinding>(){
 
     private lateinit var menu: Menu
 
+    private val binding by viewBinding(ActivityContentBinding::bind)
+
     companion object {
 
         fun start(context: Context?, position: Int, id: Int, title: String, url: String, bundle: Bundle? = null) {
@@ -69,8 +72,13 @@ class ContentActivity : BaseActivity<ActivityContentBinding>(){
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        initView()
+    }
 
-    override fun initView() {
+    private fun initView() {
         ARouter.getInstance().inject(this)
         initBus()
         binding.actionBar.apply {
@@ -240,12 +248,6 @@ class ContentActivity : BaseActivity<ActivityContentBinding>(){
     override fun onDestroy() {
         mAgentWeb?.webLifeCycle?.onDestroy()
         super.onDestroy()
-    }
-
-    override fun observe() {
-    }
-
-    override fun initData() {
     }
 
 }

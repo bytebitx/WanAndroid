@@ -11,8 +11,11 @@ import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
+import com.bbgo.common_base.ext.viewBinding
+import com.bbgo.module_sys.R
 import com.bbgo.module_sys.bean.NaviData
 import com.bbgo.module_sys.databinding.FragmentNavigationBinding
+import com.bbgo.module_sys.databinding.FragmentRefreshLayoutBinding
 import com.bbgo.module_sys.viewmodel.SysViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,13 +24,15 @@ import javax.inject.Inject
  * Created by wangyb
  */
 @AndroidEntryPoint
-class NavigationFragment : BaseFragment<FragmentNavigationBinding>() {
+class NavigationFragment : BaseFragment(R.layout.fragment_navigation) {
 
     companion object {
         fun getInstance(): NavigationFragment {
             return NavigationFragment()
         }
     }
+
+    private val binding by viewBinding(FragmentNavigationBinding::bind)
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 

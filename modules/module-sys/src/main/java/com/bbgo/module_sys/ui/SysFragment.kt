@@ -3,7 +3,9 @@ package com.bbgo.module_sys.ui
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.RouterPath
+import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.module_sys.R
+import com.bbgo.module_sys.databinding.FragmentNavigationBinding
 import com.bbgo.module_sys.databinding.FragmentSysBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,9 +17,11 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @Route(path = RouterPath.Sys.PAGE_SYS)
 @AndroidEntryPoint
-class SysFragment : BaseFragment<FragmentSysBinding>() {
+class SysFragment : BaseFragment(R.layout.fragment_sys) {
 
     private val titleList = mutableListOf<String>()
+
+    private val binding by viewBinding(FragmentSysBinding::bind)
 
     /**
      * ViewPagerAdapter
@@ -27,6 +31,9 @@ class SysFragment : BaseFragment<FragmentSysBinding>() {
     }
 
     override fun lazyLoad() {
+    }
+
+    override fun observe() {
     }
 
     override fun initView() {

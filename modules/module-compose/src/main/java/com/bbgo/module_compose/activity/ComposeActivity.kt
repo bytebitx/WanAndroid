@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.constants.RouterPath
-import com.bbgo.common_base.ext.logD
+import com.bbgo.common_base.util.Logs
 import com.bbgo.module_compose.R
 import com.bbgo.module_compose.bean.ArticleDetail
 import com.bbgo.module_compose.theme.*
@@ -96,7 +96,6 @@ fun RenderTopAppBar(composeViewModel: ComposeViewModel) {
 fun Request(composeViewModel: ComposeViewModel) {
     val liveData by composeViewModel.articleLiveData.observeAsState()
     Logs.d("======================")
-    Logs.d(liveData?.data)
     liveData?.data?.let {
         RenderArticleList(it)
     }

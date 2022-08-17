@@ -9,6 +9,8 @@ import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.ext.viewBinding
+import com.bbgo.module_project.R
 import com.bbgo.module_project.bean.ProjectBean
 import com.bbgo.module_project.databinding.FragmentProjectBinding
 import com.bbgo.module_project.viewmodel.ProjectViewModel
@@ -22,7 +24,9 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @Route(path = RouterPath.Project.PAGE_PROJECT)
 @AndroidEntryPoint
-class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
+class ProjectFragment : BaseFragment(R.layout.fragment_project) {
+
+    private val binding by viewBinding(FragmentProjectBinding::bind)
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 
