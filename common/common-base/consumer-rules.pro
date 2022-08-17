@@ -52,11 +52,26 @@
 # 指定混淆是采用的算法，后面的参数是一个过滤器这个过滤器是谷歌推荐的算法，一般不做更改
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
 
+#添加支持的jar(引入libs下的所有jar包)
+-libraryjars libs(*.jar)
+
+#将文件来源重命名为“SourceFile”字符串
+-renamesourcefileattribute SourceFile
+
 # 保留Annotation不混淆
 -keepattributes *Annotation*
+-keep class * extends java.lang.annotation.Annotation {*;}
 
 # 避免混淆泛型
 -keepattributes Signature
+
+#保持反射不被混淆
+-keepattributes EnclosingMethod
+
+#保持异常不被混淆
+-keepattributes Exceptions
+#保持内部类不被混淆
+-keepattributes Exceptions,InnerClasses
 
 # 抛出异常时保留代码行号
 -keepattributes SourceFile,LineNumberTable
@@ -210,3 +225,6 @@
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
 
 ###########################第三方库end#########################################
+
+-keep class com.bbgo.common_base.bean.** {*;}
+-keep class com.bbgo.common_base.base.** {*;}
