@@ -53,7 +53,7 @@
 -optimizations !code/simplification/cast,!field/*,!class/merging/*
 
 #添加支持的jar(引入libs下的所有jar包)
--libraryjars libs(*.jar)
+#-libraryjars libs(*.jar)
 
 #将文件来源重命名为“SourceFile”字符串
 -renamesourcefileattribute SourceFile
@@ -95,6 +95,15 @@
 -keep public class * extends android.support.v4.**
 -keep public class * extends android.support.v7.**
 -keep public class * extends android.support.annotation.**
+-keep public class * extends androidx.appcompat.**
+-keep class com.google.android.material.** {*;}
+-keep class androidx.** {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+-dontwarn androidx.**
+
 
 # 保留本地native方法不被混淆
 -keepclasseswithmembernames class * {
@@ -222,6 +231,7 @@
 
 # Arouter
 -keep public class com.alibaba.android.arouter.routes.**{*;}
+-keep public class com.alibaba.android.arouter.facade.**{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
 
 ###########################第三方库end#########################################

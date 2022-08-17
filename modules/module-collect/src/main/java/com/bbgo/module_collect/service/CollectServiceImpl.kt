@@ -12,7 +12,7 @@ import com.bbgo.module_collect.viewmodel.CollectViewModel
  *  date: 2021/5/27 7:31 下午
  *  description: todo
  */
-@Route(path = RouterPath.Main.SERVICE_COLLECT)
+@Route(path = RouterPath.Collect.SERVICE_COLLECT)
 class CollectServiceImpl : CollectService{
 
     private val viewModel = CollectViewModel(CollectRepository.getInstance())

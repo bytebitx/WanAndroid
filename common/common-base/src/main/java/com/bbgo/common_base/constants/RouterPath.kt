@@ -23,9 +23,13 @@ class RouterPath {
      * 主页
      */
     object Main {
-        private const val MAIN = "main"
+        private const val MAIN = "app_main"
         const val PAGE_MAIN = "/$MAIN/main"
-        const val SERVICE_COLLECT = "/$MAIN/collect"
+    }
+
+    object Collect {
+        private const val COLLECT = "module_collect"
+        const val SERVICE_COLLECT = "/$COLLECT/collect"
     }
 
     /**
@@ -35,7 +39,6 @@ class RouterPath {
         private const val CONTENT = "module_content"
         const val PAGE_CONTENT = "/$CONTENT/content"
     }
-
 
     /**
      * 首页 组件
