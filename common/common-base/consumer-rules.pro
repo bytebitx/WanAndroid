@@ -237,4 +237,3 @@
 ###########################第三方库end#########################################
 
 -keep class com.bbgo.common_base.bean.** {*;}
--keep class com.bbgo.common_base.base.** {*;}
