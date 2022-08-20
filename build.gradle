@@ -7,23 +7,26 @@ buildscript {
         compose_version = '1.0.1'
     }
     repositories {
-        maven {//本地Maven仓库地址
-            url uri('Login-Plugin/repo')
-        }
+//        maven {//本地Maven仓库地址
+//            url uri('Login-Plugin/repo')
+//        }
         mavenCentral()
         google()
         maven { url 'https://maven.aliyun.com/repository/public' }
+        maven {url 'https://maven.aliyun.com/repository/google/'}
+        maven {url 'https://maven.aliyun.com/repository/gradle-plugin/'}
 
 
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.3"
+        classpath "com.android.tools.build:gradle:4.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.37'
 //        classpath 'com.bbgo.login_plugin:loginplugin:1.0.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath 'io.github.didi.dokit:dokitx-plugin:3.5.0'
+        classpath 'com.tencent.mm:AndResGuard-gradle-plugin:1.2.21'
     }
 }
 
@@ -32,6 +35,8 @@ allprojects {
         mavenCentral()
         google()
         maven { url 'https://maven.aliyun.com/repository/public' }
+        maven {url 'https://maven.aliyun.com/repository/google/'}
+        maven {url 'https://maven.aliyun.com/repository/gradle-plugin/'}
         maven { url 'https://jitpack.io' }
 
     }

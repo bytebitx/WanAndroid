@@ -1,0 +1,56 @@
+apply plugin: 'AndResGuard'
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+        jcenter()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven {url 'https://maven.aliyun.com/repository/google/'}
+        maven {url 'https://maven.aliyun.com/repository/gradle-plugin/'}
+    }
+    dependencies {
+        // The Fabric Gradle plugin uses an open ended version to react
+        // quickly to Android tooling updates
+        classpath("com.tencent.mm:AndResGuard-gradle-plugin:1.2.21") { changing = true }
+    }
+}
+
+andResGuard {
+//    mappingFile = file("./resource_mapping.txt")
+    use7zip = false
+    useSign = true
+    keepRoot = false
+    mergeDuplicatedRes = true
+    // add <yourpackagename>.R.drawable.icon into whitelist.
+    // because the launcher will get the icon with his name
+    whiteList = ["R.mipmap.ic_launcher",
+                 //https://docs.fabric.io/android/crashlytics/build-tools.html
+                 "R.string.com.crashlytics.*",
+                 "R.id.*"]
+    compressFilePattern = ["*.png",
+                           "*.jpg",
+                           "*.jpeg",
+                           "*.gif",
+                           "resources.arsc"]
+    sevenzip {
+        artifact = "com.tencent.mm:SevenZip:1.2.20"
+        path = "/usr/local/bin/7za"
+    }
+
+    /**
+     * Optional: if finalApkBackupPath is null, AndResGuard will overwrite final apk
+     * to the path which assemble[Task] write to*/
+    finalApkBackupPath = "${project.rootDir}/final.apk"
+    digestalg = "SHA-256"
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    maven {url 'https://maven.aliyun.com/repository/google/'}
+    maven {url 'https://maven.aliyun.com/repository/gradle-plugin/'}
+}

@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.didi.dokit'
+apply from: 'and_res_guard.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
