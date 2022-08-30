@@ -19,7 +19,7 @@ buildscript {
 
 andResGuard {
 //    mappingFile = file("./resource_mapping.txt")
-    use7zip = false
+    use7zip = true
     useSign = true
     keepRoot = false
     mergeDuplicatedRes = true
@@ -36,7 +36,7 @@ andResGuard {
                            "resources.arsc"]
     sevenzip {
         artifact = "com.tencent.mm:SevenZip:1.2.20"
-        path = "/usr/local/bin/7za"
+//        path = "/usr/local/bin/7za"
     }
 
     /**
