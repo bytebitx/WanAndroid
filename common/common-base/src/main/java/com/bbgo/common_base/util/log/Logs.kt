@@ -1,9 +1,13 @@
+
+@file:JvmName("Logs")
+
 package com.bbgo.common_base.util.log
 
 import com.bbgo.common_base.BuildConfig
 import timber.log.Timber
 
 object Logs {
+
 
     private const val TAG = "WanAndroid"
     
@@ -31,6 +35,7 @@ object Logs {
     }
 
     /** Log a debug message with optional format args. */
+    @JvmStatic
     fun d(message: String?, vararg args: Any?, tag: String = TAG) {
         Timber.tag(tag).d(message, *args)
     }

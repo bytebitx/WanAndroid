@@ -21,7 +21,7 @@ ext {
 
     dependVersion = [
             room_version    : "2.4.0-alpha03",
-            hilt_version    : "2.37",
+            hilt_version    : "2.43.2",
             glide_version   : "4.13.2"
     ]
 
