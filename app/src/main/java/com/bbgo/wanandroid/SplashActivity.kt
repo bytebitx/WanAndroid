@@ -8,21 +8,18 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.base.BaseActivity
-import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.library_statusbar.NotchScreenManager
 import com.bbgo.wanandroid.databinding.ActivitySplashBinding
 import com.bbgo.wanandroid.main.MainActivity
 
-class SplashActivity : BaseActivity(R.layout.activity_splash) {
+class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     private var textTypeface: Typeface?=null
 
     private var descTypeFace: Typeface?=null
 
     private var alphaAnimation: AlphaAnimation?=null
-
-    private val binding by viewBinding(ActivitySplashBinding::bind)
 
     init {
         textTypeface = Typeface.createFromAsset(BaseApplication.getContext().assets, "fonts/Lobster-1.4.otf")
@@ -98,4 +95,6 @@ class SplashActivity : BaseActivity(R.layout.activity_splash) {
         startActivity(intent)
         finish()
     }
+
+    override fun inflateViewBinding() = ActivitySplashBinding.inflate(layoutInflater)
 }

@@ -13,7 +13,6 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.module_login.R
 import com.bbgo.module_login.bean.LoginData
@@ -29,9 +28,7 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.LoginRegister.PAGE_REGISTER)
 @AndroidEntryPoint
-class RegisterActivity : BaseActivity(R.layout.activity_register), View.OnClickListener {
-
-    private val binding by viewBinding(ActivityRegisterBinding::bind)
+class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickListener {
 
     @Inject
     lateinit var registerLoginViewModel: RegisterLoginViewModel
@@ -109,4 +106,6 @@ class RegisterActivity : BaseActivity(R.layout.activity_register), View.OnClickL
             }
         }
     }
+
+    override fun inflateViewBinding() = ActivityRegisterBinding.inflate(layoutInflater)
 }

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
 import com.bbgo.common_base.util.ActivityCollector
 import com.bbgo.library_statusbar.NotchScreenManager
 import java.lang.ref.WeakReference
@@ -14,12 +15,14 @@ import java.lang.ref.WeakReference
  *  description: todo
  */
 
-open class BaseActivity(resId: Int) : AppCompatActivity(resId) {
+abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     /**
      * 日志输出标志
      */
     protected val TAG: String = this.javaClass.simpleName
+
+    protected lateinit var binding: VB
 
     /**
      * 当前Activity的实例。
@@ -31,11 +34,15 @@ open class BaseActivity(resId: Int) : AppCompatActivity(resId) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = inflateViewBinding()
+        setContentView(binding.root)
         NotchScreenManager.getInstance().setDisplayInNotch(this)
         activity = this
         activityWR = WeakReference(activity!!)
         ActivityCollector.pushTask(activityWR)
     }
+
+    abstract fun inflateViewBinding(): VB
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {

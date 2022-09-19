@@ -22,7 +22,6 @@ import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.SettingUtil
 import com.bbgo.common_service.collect.CollectService
@@ -36,7 +35,7 @@ import com.just.agentweb.NestedScrollAgentWebView
 import com.just.agentweb.WebChromeClient
 
 @Route(path = RouterPath.Content.PAGE_CONTENT)
-class ContentActivity : BaseActivity(R.layout.activity_content){
+class ContentActivity : BaseActivity<ActivityContentBinding>(){
 
     private var mAgentWeb: AgentWeb? = null
 
@@ -56,8 +55,6 @@ class ContentActivity : BaseActivity(R.layout.activity_content){
     lateinit var collectService: CollectService
 
     private lateinit var menu: Menu
-
-    private val binding by viewBinding(ActivityContentBinding::bind)
 
     companion object {
 
@@ -249,5 +246,7 @@ class ContentActivity : BaseActivity(R.layout.activity_content){
         mAgentWeb?.webLifeCycle?.onDestroy()
         super.onDestroy()
     }
+
+    override fun inflateViewBinding() = ActivityContentBinding.inflate(layoutInflater)
 
 }

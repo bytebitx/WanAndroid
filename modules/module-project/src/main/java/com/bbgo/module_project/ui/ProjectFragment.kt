@@ -1,6 +1,8 @@
 package com.bbgo.module_project.ui
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
@@ -9,8 +11,6 @@ import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.ext.viewBinding
-import com.bbgo.module_project.R
 import com.bbgo.module_project.bean.ProjectBean
 import com.bbgo.module_project.databinding.FragmentProjectBinding
 import com.bbgo.module_project.viewmodel.ProjectViewModel
@@ -24,9 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @Route(path = RouterPath.Project.PAGE_PROJECT)
 @AndroidEntryPoint
-class ProjectFragment : BaseFragment(R.layout.fragment_project) {
-
-    private val binding by viewBinding(FragmentProjectBinding::bind)
+class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 
@@ -83,4 +81,9 @@ class ProjectFragment : BaseFragment(R.layout.fragment_project) {
     companion object {
         private const val TAG = "WeChatFragment"
     }
+
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentProjectBinding.inflate(inflater, container, false)
 }

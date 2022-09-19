@@ -1,6 +1,8 @@
 package com.bbgo.module_home.ui
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +23,7 @@ import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
+import com.bbgo.common_base.ext.collectWithLifeCycle
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.ImageLoader
@@ -45,7 +48,7 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.Home.PAGE_HOME)
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(R.layout.fragment_home) {
+class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     companion object {
         private const val TAG = "HomeFragment"
@@ -57,7 +60,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private lateinit var bannerBinding: ItemHomeBannerBinding
     private lateinit var loadingBinding: LayoutLoadingBinding
-    private val binding by viewBinding(FragmentHomeBinding::bind)
 
     @Inject
     lateinit var homeViewModel: HomeViewModel
@@ -186,7 +188,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     override fun observe() {
-        lifecycleScope.launch {
+        collectWithLifeCycle(this) {
             /**
              * flow默认情况下是不管页面处于哪个生命周期都会订阅数据，不会像livedata一样，
              * 在生命周期处于DESTROYED时，移除观察者。因此需要在start生命周期启动协程达到
@@ -194,16 +196,14 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
              *
              * 收集多个stateflow，需要launch多次
              */
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    homeViewModel.articleUiState.collectLatest {
-                        handleInfo(it)
-                    }
+            launch {
+                homeViewModel.articleUiState.collectLatest {
+                    handleInfo(it)
                 }
-                launch {
-                    homeViewModel.bannerUiState.collectLatest {
-                        handleBanner(it)
-                    }
+            }
+            launch {
+                homeViewModel.bannerUiState.collectLatest {
+                    handleBanner(it)
                 }
             }
         }
@@ -292,4 +292,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
             }
         }
     }
+
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentHomeBinding.inflate(inflater, container, false)
 }

@@ -20,7 +20,10 @@ import com.bbgo.common_base.bus.LiveDataBus
 import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.event.ScrollEvent
-import com.bbgo.common_base.ext.*
+import com.bbgo.common_base.ext.Prefs
+import com.bbgo.common_base.ext.Resource
+import com.bbgo.common_base.ext.observe
+import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.DialogUtil
 import com.bbgo.common_service.login.LoginOutService
@@ -33,10 +36,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @Route(path = RouterPath.Main.PAGE_MAIN)
 @AndroidEntryPoint
-class MainActivity : BaseActivity(R.layout.activity_main), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var navHeaderBinding: NavHeaderMainBinding
-    private val binding by viewBinding(ActivityMainBinding::bind)
 
     @Autowired(name = RouterPath.LoginRegister.SERVICE_LOGOUT)
     lateinit var loginOutService: LoginOutService
@@ -364,5 +366,7 @@ class MainActivity : BaseActivity(R.layout.activity_main), NavigationView.OnNavi
         }
         return super.onKeyDown(keyCode, event)
     }
+
+    override fun inflateViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
 }

@@ -1,6 +1,8 @@
 package com.bbgo.module_project.ui
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Created by wangyb
  */
 @AndroidEntryPoint
-class ProjectListFragment : BaseFragment(R.layout.fragment_project_list) {
+class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
 
     companion object {
         fun getInstance(cid: Int): ProjectListFragment {
@@ -41,8 +43,6 @@ class ProjectListFragment : BaseFragment(R.layout.fragment_project_list) {
             return fragment
         }
     }
-
-    private val binding by viewBinding(FragmentProjectListBinding::bind)
 
     @Autowired
     lateinit var collectService: CollectService
@@ -230,4 +230,9 @@ class ProjectListFragment : BaseFragment(R.layout.fragment_project_list) {
             }
         }
     }
+
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentProjectListBinding.inflate(inflater, container, false)
 }

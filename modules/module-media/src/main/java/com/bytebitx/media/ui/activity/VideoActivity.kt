@@ -5,15 +5,11 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbgo.common_base.base.BaseActivity
 import com.bbgo.common_base.constants.RouterPath
-import com.bbgo.common_base.ext.viewBinding
-import com.bytebitx.media.R
 import com.bytebitx.media.databinding.ActivityVideoBinding
 import com.bytebitx.media.widget.AndroidMediaController
 
 @Route(path = RouterPath.Media.PAGE_VIDEO)
-class VideoActivity : BaseActivity(R.layout.activity_video) {
-
-    private val binding by viewBinding(ActivityVideoBinding::bind)
+class VideoActivity : BaseActivity<ActivityVideoBinding>() {
 
     private var mMediaController: AndroidMediaController? = null
 
@@ -32,4 +28,6 @@ class VideoActivity : BaseActivity(R.layout.activity_video) {
         binding.videoView.setVideoPath("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4")
         binding.videoView.start()
     }
+
+    override fun inflateViewBinding() = ActivityVideoBinding.inflate(layoutInflater)
 }

@@ -1,15 +1,15 @@
 package com.bbgo.module_sys.ui
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.databinding.LayoutLoadingBinding
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
-import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.widget.SpaceItemDecoration
-import com.bbgo.module_sys.R
 import com.bbgo.module_sys.bean.KnowledgeTree
 import com.bbgo.module_sys.databinding.FragmentRefreshLayoutBinding
 import com.bbgo.module_sys.viewmodel.SysViewModel
@@ -20,15 +20,13 @@ import javax.inject.Inject
  * Created by wangyb
  */
 @AndroidEntryPoint
-class KnowledgeTreeFragment : BaseFragment(R.layout.fragment_refresh_layout) {
+class KnowledgeTreeFragment : BaseFragment<FragmentRefreshLayoutBinding>() {
 
     companion object {
         fun getInstance(): KnowledgeTreeFragment {
             return KnowledgeTreeFragment()
         }
     }
-
-    private val binding by viewBinding(FragmentRefreshLayoutBinding::bind)
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 
@@ -106,4 +104,9 @@ class KnowledgeTreeFragment : BaseFragment(R.layout.fragment_refresh_layout) {
             }
         }
     }
+
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentRefreshLayoutBinding.inflate(inflater, container, false)
 }

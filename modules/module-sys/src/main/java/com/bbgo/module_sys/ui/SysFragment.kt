@@ -1,5 +1,7 @@
 package com.bbgo.module_sys.ui
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bbgo.common_base.base.BaseFragment
 import com.bbgo.common_base.constants.RouterPath
@@ -17,11 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @Route(path = RouterPath.Sys.PAGE_SYS)
 @AndroidEntryPoint
-class SysFragment : BaseFragment(R.layout.fragment_sys) {
+class SysFragment : BaseFragment<FragmentSysBinding>() {
 
     private val titleList = mutableListOf<String>()
-
-    private val binding by viewBinding(FragmentSysBinding::bind)
 
     /**
      * ViewPagerAdapter
@@ -48,4 +48,9 @@ class SysFragment : BaseFragment(R.layout.fragment_sys) {
     companion object {
         private const val TAG = "SysFragment"
     }
+
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentSysBinding.inflate(inflater, container, false)
 }

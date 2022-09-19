@@ -31,9 +31,7 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.LoginRegister.PAGE_LOGIN)
 @AndroidEntryPoint
-class LoginActivity : BaseActivity(R.layout.activity_login), View.OnClickListener {
-
-    private val binding by viewBinding(ActivityLoginBinding::bind)
+class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener {
 
     @Inject
     lateinit var registerLoginViewModel: RegisterLoginViewModel
@@ -116,5 +114,7 @@ class LoginActivity : BaseActivity(R.layout.activity_login), View.OnClickListene
             }
         }
     }
+
+    override fun inflateViewBinding() = ActivityLoginBinding.inflate(layoutInflater)
 
 }

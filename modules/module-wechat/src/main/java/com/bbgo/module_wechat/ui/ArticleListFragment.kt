@@ -3,6 +3,8 @@ package com.bbgo.module_wechat.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +20,6 @@ import com.bbgo.common_base.event.MessageEvent
 import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.log.Logs
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
@@ -34,7 +35,7 @@ import kotlinx.coroutines.launch
  * Created by wangyb
  */
 @AndroidEntryPoint
-class ArticleListFragment : BaseFragment(R.layout.fragment_article_list) {
+class ArticleListFragment : BaseFragment<FragmentArticleListBinding>() {
 
     companion object {
         fun getInstance(cid: Int): ArticleListFragment {
@@ -45,8 +46,6 @@ class ArticleListFragment : BaseFragment(R.layout.fragment_article_list) {
             return fragment
         }
     }
-
-    private val binding by viewBinding(FragmentArticleListBinding::bind)
 
     @Autowired
     lateinit var collectService: CollectService
@@ -247,4 +246,9 @@ class ArticleListFragment : BaseFragment(R.layout.fragment_article_list) {
             }
         }
     }
+
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentArticleListBinding.inflate(inflater, container, false)
 }

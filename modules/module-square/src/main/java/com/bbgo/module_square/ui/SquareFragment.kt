@@ -1,6 +1,8 @@
 package com.bbgo.module_square.ui
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -35,9 +37,7 @@ import javax.inject.Inject
  */
 @Route(path = RouterPath.Square.PAGE_SQUARE)
 @AndroidEntryPoint
-class SquareFragment : BaseFragment(R.layout.fragment_square) {
-
-    private val binding by viewBinding(FragmentSquareBinding::bind)
+class SquareFragment : BaseFragment<FragmentSquareBinding>() {
 
     private lateinit var loadingBinding: LayoutLoadingBinding
 
@@ -207,4 +207,9 @@ class SquareFragment : BaseFragment(R.layout.fragment_square) {
             }
         }
     }
+
+    override fun inflateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentSquareBinding.inflate(inflater, container, false)
 }
