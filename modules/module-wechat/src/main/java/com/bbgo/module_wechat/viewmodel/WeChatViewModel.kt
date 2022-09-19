@@ -36,7 +36,7 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
         repository.getWXChapters()
             .map {
                 if (it.errorCode == HTTP_REQUEST_ERROR) {
-                    Resource.DataError(it.errorCode, it.errorMsg)
+                    Resource.Error(Exception(it.errorMsg))
                 } else {
                     Resource.Success(it.data)
                 }
@@ -56,7 +56,7 @@ class WeChatViewModel @Inject constructor(private val repository: WxRepository) 
         repository.getWXArticles(id, page)
             .map {
                 if (it.errorCode == HTTP_REQUEST_ERROR) {
-                    Resource.DataError(it.errorCode, it.errorMsg)
+                    Resource.Error(Exception(it.errorMsg))
                 } else {
                     Resource.Success(it.data.datas)
                 }

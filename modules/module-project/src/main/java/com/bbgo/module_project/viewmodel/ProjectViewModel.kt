@@ -5,9 +5,9 @@ import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.util.FileUtil
-import com.bbgo.common_base.util.log.Logs
 import com.bbgo.common_base.util.MD5Utils
 import com.bbgo.common_base.util.NetWorkUtil
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.module_project.bean.ArticleDetail
 import com.bbgo.module_project.bean.ProjectBean
 import com.bbgo.module_project.repository.ProjectRepository
@@ -39,7 +39,7 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
             repository.getProjectTree()
                 .map {
                     if (it.errorCode == HTTP_REQUEST_ERROR) {
-                        Resource.DataError(it.errorCode, it.errorMsg)
+                        Resource.Error(Exception(it.errorMsg))
                     } else {
                         Resource.Success(it.data)
                     }
@@ -69,9 +69,14 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
      * 将从网络中获取的数据存入DB
      */
     private fun insertProjectTree() = viewModelScope.launch(Dispatchers.IO) {
-        projectTreeLiveData.value?.data?.let {
-            repository.insertProjectTree(it)
+        if (projectTreeLiveData.value is Resource.Success) {
+            val data = (projectTreeLiveData.value as Resource.Success<List<ProjectBean>>).data
+            repository.insertProjectTree(data)
+//            projectTreeLiveData.value?.data?.let {
+//                repository.insertProjectTree(it)
+//            }
         }
+
     }
 
     fun getProjectList(id: Int, page: Int) = viewModelScope.launch {
@@ -83,7 +88,7 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
             repository.getProjectList(id, page)
                 .map {
                     if (it.errorCode == HTTP_REQUEST_ERROR) {
-                        Resource.DataError(it.errorCode, it.errorMsg)
+                        Resource.Error(Exception(it.errorMsg))
                     } else {
                         Resource.Success(it.data.datas)
                     }
@@ -95,8 +100,6 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
                     articlesLiveData.value = it
 
                     insertProjectArticle()
-
-                    downloadImage()
                 }
             return@launch
         }
@@ -118,23 +121,21 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
             }
     }
 
-    private fun insertProjectArticle() = articlesLiveData.value?.data?.let {
+    private fun insertProjectArticle() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertProjectArticles(it)
-        }
-    }
+            if (articlesLiveData.value is Resource.Success) {
+                val data = (articlesLiveData.value as Resource.Success<MutableList<ArticleDetail>>).data
+                repository.insertProjectArticles(data)
 
-    private fun downloadImage() = articlesLiveData.value?.data?.let {
-        viewModelScope.launch {
-            it.forEach { articleDetail ->
-                repository.downloadFile(
-                    articleDetail.envelopePic,
-                    FileUtil.getExternalFilePath() + File.separator +
-                            MD5Utils.getMD5(articleDetail.envelopePic) + ".jpg"
-                )
+                data.forEach { articleDetail ->
+                    repository.downloadFile(
+                        articleDetail.envelopePic,
+                        FileUtil.getExternalFilePath() + File.separator +
+                                MD5Utils.getMD5(articleDetail.envelopePic) + ".jpg"
+                    )
+                }
             }
         }
     }
 
-    private val TAG = "ProjectViewModel"
 }

@@ -93,14 +93,12 @@ class KnowledgeTreeFragment : BaseFragment<FragmentRefreshLayoutBinding>() {
             is Resource.Loading -> {
                 loadingBinding.progressBar.visibility = View.VISIBLE
             }
-            else -> {
+            is Resource.Success -> {
                 loadingBinding.progressBar.visibility = View.GONE
                 binding.swipeRefreshLayout.isRefreshing = false
-                status.data?.let {
-                    knowledgeTreeList.clear()
-                    knowledgeTreeList.addAll(it)
-                    mAdapter.setList(knowledgeTreeList)
-                }
+                knowledgeTreeList.clear()
+                knowledgeTreeList.addAll(status.data)
+                mAdapter.setList(knowledgeTreeList)
             }
         }
     }

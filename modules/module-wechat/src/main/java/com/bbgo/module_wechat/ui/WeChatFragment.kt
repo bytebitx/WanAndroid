@@ -79,17 +79,15 @@ class WeChatFragment : BaseFragment<FragmentWechatBinding>() {
                 Logs.d("Resource.Loading")
                 loadingBinding.progressBar.visibility = View.VISIBLE
             }
-            is Resource.DataError -> {
+            is Resource.Error -> {
                 loadingBinding.progressBar.visibility = View.GONE
-                showToast(status.errorMsg!!)
+                showToast(status.exception.toString())
             }
-            else -> {
+            is Resource.Success -> {
                 loadingBinding.progressBar.visibility = View.GONE
-                status.data?.let {
-                    weChatDatas.addAll(it)
-                    viewPagerAdapter.setList(weChatDatas)
-                    binding.viewPager.offscreenPageLimit = weChatDatas.size
-                }
+                weChatDatas.addAll(status.data)
+                viewPagerAdapter.setList(weChatDatas)
+                binding.viewPager.offscreenPageLimit = weChatDatas.size
             }
         }
     }

@@ -218,21 +218,14 @@ class ArticleListFragment : BaseFragment<FragmentArticleListBinding>() {
     }
 
     private fun handleInfo(status: Resource<MutableList<ArticleDetail>>) {
-        when(status) {
-            is Resource.Loading -> {
-            }
-            else -> {
-                status.data?.let {
-                    articleList.clear()
-                    articleList.addAll(it)
-                    mAdapter.run {
-                        if (isRefresh) {
-                            setList(articleList)
-                        } else {
-                            addData(articleList)
-                        }
-                    }
-                }
+        if (status !is Resource.Success) return
+        articleList.clear()
+        articleList.addAll(status.data)
+        mAdapter.run {
+            if (isRefresh) {
+                setList(articleList)
+            } else {
+                addData(articleList)
             }
         }
     }

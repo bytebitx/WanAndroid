@@ -59,8 +59,8 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickLi
             is Resource.Loading -> {
 
             }
-            is Resource.DataError -> {
-                resource.errorMsg?.let { showToast(it) }
+            is Resource.Error -> {
+                showToast(resource.exception.toString())
             }
             is Resource.Success -> {
                 AppUtil.isLogin = true

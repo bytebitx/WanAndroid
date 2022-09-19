@@ -54,6 +54,7 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
             }
             .catch {
                 Logs.e("${it.message}")
+                bannerUiState.value = Resource.Error(it)
             }
             .collectLatest {
                 bannerUiState.value = Resource.Success(it.data)

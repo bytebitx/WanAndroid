@@ -104,15 +104,13 @@ class NavigationFragment : BaseFragment<FragmentNavigationBinding>() {
             is Resource.Loading -> {
                 loadingBinding.progressBar.visibility = View.VISIBLE
             }
-            else -> {
+            is Resource.Success -> {
                 loadingBinding.progressBar.visibility = View.GONE
-                status.data?.let {
-                    naviList.clear()
-                    naviList.addAll(it)
-                    naviList[0].isSelected = true // 默认第一个被选中
-                    contentAdapter.setList(naviList)
-                    mAdapter.setList(naviList)
-                }
+                naviList.clear()
+                naviList.addAll(status.data)
+                naviList[0].isSelected = true // 默认第一个被选中
+                contentAdapter.setList(naviList)
+                mAdapter.setList(naviList)
             }
         }
     }

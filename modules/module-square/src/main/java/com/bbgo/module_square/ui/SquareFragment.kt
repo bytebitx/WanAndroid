@@ -20,7 +20,6 @@ import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_square.R
@@ -183,15 +182,13 @@ class SquareFragment : BaseFragment<FragmentSquareBinding>() {
             is Resource.Loading -> {
                 loadingBinding.progressBar.visibility = View.VISIBLE
             }
-            else -> {
+            is Resource.Success -> {
                 loadingBinding.progressBar.visibility = View.GONE
-                articles.data?.let {
-                    articleList.addAll(it)
-                    if (isRefresh) {
-                        squareAdapter.setList(it)
-                    } else {
-                        squareAdapter.addData(it)
-                    }
+                articleList.addAll(articles.data)
+                if (isRefresh) {
+                    squareAdapter.setList(articles.data)
+                } else {
+                    squareAdapter.addData(articles.data)
                 }
                 binding.swipeRefreshLayout.isRefreshing = false
             }

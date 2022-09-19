@@ -30,7 +30,7 @@ import com.bbgo.common_service.login.LoginOutService
 import com.bbgo.wanandroid.R
 import com.bbgo.wanandroid.databinding.ActivityMainBinding
 import com.bbgo.wanandroid.databinding.NavHeaderMainBinding
-import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_LABELED
+import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,7 +77,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
         navHeaderBinding = NavHeaderMainBinding.inflate(layoutInflater)
         binding.navView.addHeaderView(navHeaderBinding.root)
         binding.bottomNavigation.selectedItemId = mIndex
-        binding.bottomNavigation.labelVisibilityMode = LABEL_VISIBILITY_LABELED
+        binding.bottomNavigation.labelVisibilityMode = NavigationBarView.LABEL_VISIBILITY_LABELED
         switchFragment(mIndex)
 
         binding.actionBar.run {
@@ -142,9 +142,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
             is Resource.Loading -> {
                 mDialog.show()
             }
-            is Resource.DataError -> {
+            is Resource.Error -> {
                 mDialog.dismiss()
-                status.errorMsg?.let { showToast(it) }
+                showToast(status.exception.stackTraceToString())
             }
             else -> {
                 mDialog.dismiss()

@@ -14,7 +14,6 @@ import com.bbgo.common_base.constants.RouterPath
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.AppUtil
 import com.bbgo.common_base.util.DialogUtil
 import com.bbgo.module_login.R
@@ -71,13 +70,12 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
             is Resource.Loading -> {
                 mDialog.show()
             }
-            is Resource.DataError -> {
+            is Resource.Error -> {
                 mDialog.dismiss()
-                resource.errorMsg?.let { showToast(it) }
+                showToast(resource.exception.toString())
             }
             is Resource.Success -> {
                 mDialog.dismiss()
-                if (resource.data == null) return
                 AppUtil.isLogin = true
                 ARouter.getInstance().build(routerPath).navigation()
                 LiveDataBus.get().with(BusKey.LOGIN_SUCCESS).value = Any()

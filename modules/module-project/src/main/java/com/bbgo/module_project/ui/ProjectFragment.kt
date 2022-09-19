@@ -63,17 +63,15 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
             is Resource.Loading -> {
                 loadingBinding.progressBar.visibility = View.VISIBLE
             }
-            is Resource.DataError -> {
+            is Resource.Error -> {
                 loadingBinding.progressBar.visibility = View.GONE
-                showToast(status.errorMsg!!)
+                showToast(status.exception.toString())
             }
-            else -> {
+            is Resource.Success -> {
                 loadingBinding.progressBar.visibility = View.GONE
-                status.data?.let {
-                    projectDatas.addAll(it)
-                    viewPagerAdapter.setList(projectDatas)
-                    binding.viewPager.offscreenPageLimit = projectDatas.size
-                }
+                projectDatas.addAll(status.data)
+                viewPagerAdapter.setList(projectDatas)
+                binding.viewPager.offscreenPageLimit = projectDatas.size
             }
         }
     }

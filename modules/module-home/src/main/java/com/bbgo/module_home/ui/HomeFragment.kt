@@ -27,6 +27,7 @@ import com.bbgo.common_base.ext.collectWithLifeCycle
 import com.bbgo.common_base.ext.showToast
 import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.util.ImageLoader
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_home.R
@@ -214,25 +215,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             is Resource.Loading -> {
 
             }
-            is Resource.DataError -> {
+            is Resource.Error -> {
+                Logs.e(status.exception)
             }
-            else -> {
-                status.data?.let {
+            is Resource.Success -> {
+                val bannerFeedList = ArrayList<String>()
+                val bannerTitleList = ArrayList<String>()
+                status.data.forEach { banner ->
+                    bannerFeedList.add(banner.imagePath)
+                    bannerTitleList.add(banner.title)
+                }
+                bannerBinding.banner.setDelegate { banner, imageView, model, position ->
 
-                    val bannerFeedList = ArrayList<String>()
-                    val bannerTitleList = ArrayList<String>()
-                    it.forEach { banner ->
-                        bannerFeedList.add(banner.imagePath)
-                        bannerTitleList.add(banner.title)
-                    }
-                    bannerBinding.banner.setDelegate { banner, imageView, model, position ->
-
-                    }
-                    bannerBinding.banner.run {
-                        setAutoPlayAble(bannerFeedList.size > 1)
-                        setData(bannerFeedList, bannerTitleList)
-                        setAdapter(bannerAdapter)
-                    }
+                }
+                bannerBinding.banner.run {
+                    setAutoPlayAble(bannerFeedList.size > 1)
+                    setData(bannerFeedList, bannerTitleList)
+                    setAdapter(bannerAdapter)
                 }
             }
         }
@@ -243,22 +242,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             is Resource.Loading -> {
                 loadingBinding.progressBar.visibility = View.VISIBLE
             }
-            is Resource.DataError -> {
+            is Resource.Error -> {
                 loadingBinding.progressBar.visibility = View.GONE
                 binding.swipeRefreshLayout.isRefreshing = false
             }
-            else -> {
+            is Resource.Success -> {
                 loadingBinding.progressBar.visibility = View.GONE
                 binding.swipeRefreshLayout.isRefreshing = false
-                articles.data?.let {
-                    if (isRefresh) {
-                        articleList.clear()
-                        articleList.addAll(it)
-                        homeAdapter.setList(articleList)
-                    } else {
-                        articleList.addAll(it)
-                        homeAdapter.addData(articleList)
-                    }
+                if (isRefresh) {
+                    articleList.clear()
+                    articleList.addAll(articles.data)
+                    homeAdapter.setList(articleList)
+                } else {
+                    articleList.addAll(articles.data)
+                    homeAdapter.addData(articleList)
                 }
             }
         }

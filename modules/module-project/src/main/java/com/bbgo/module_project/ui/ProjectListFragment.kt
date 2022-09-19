@@ -19,7 +19,6 @@ import com.bbgo.common_base.event.ScrollEvent
 import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.ext.observe
 import com.bbgo.common_base.ext.showToast
-import com.bbgo.common_base.ext.viewBinding
 import com.bbgo.common_base.widget.SpaceItemDecoration
 import com.bbgo.common_service.collect.CollectService
 import com.bbgo.module_project.R
@@ -179,22 +178,14 @@ class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
     }
 
     private fun handleInfo(status: Resource<MutableList<ArticleDetail>>) {
-        when(status) {
-            is Resource.Loading -> {
-
-            }
-            else -> {
-                status.data?.let {
-                    articleList.clear()
-                    articleList.addAll(it)
-                    mAdapter.run {
-                        if (isRefresh) {
-                            setList(articleList)
-                        } else {
-                            addData(articleList)
-                        }
-                    }
-                }
+        if (status !is Resource.Success) return
+        articleList.clear()
+        articleList.addAll(status.data)
+        mAdapter.run {
+            if (isRefresh) {
+                setList(articleList)
+            } else {
+                addData(articleList)
             }
         }
     }

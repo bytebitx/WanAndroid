@@ -38,7 +38,7 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
         repository.getKnowledgeTree()
             .map {
                 if (it.errorCode == HTTP_REQUEST_ERROR) {
-                    Resource.DataError(it.errorCode, it.errorMsg)
+                    Resource.Error(Exception(it.errorMsg))
                 } else {
                     Resource.Success(it.data)
                 }
@@ -59,7 +59,7 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
         repository.getNavigationList()
             .map {
                 if (it.errorCode == HTTP_REQUEST_ERROR) {
-                    Resource.DataError(it.errorCode, it.errorMsg)
+                    Resource.Error(Exception(it.errorMsg))
                 } else {
                     Resource.Success(it.data)
                 }

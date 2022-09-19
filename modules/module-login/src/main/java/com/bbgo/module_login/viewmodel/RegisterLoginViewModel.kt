@@ -3,7 +3,7 @@ package com.bbgo.module_login.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bbgo.common_base.ext.*
+import com.bbgo.common_base.ext.Resource
 import com.bbgo.common_base.util.log.Logs
 import com.bbgo.module_login.bean.LoginData
 import com.bbgo.module_login.repository.RegisterLoginRepository
@@ -33,10 +33,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
         repository.registerWanAndroid(username, password, repassword)
             .map {
                 if (it.errorCode == -1) {
-                    Resource.DataError(
-                        USER_REGISTERED_ERROR,
-                        it.errorMsg
-                    )
+                    Resource.Error(Exception(it.errorMsg))
                 } else {
                     repository.insertLoginData(it.data)
                     Resource.Success(it.data)
@@ -59,10 +56,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
         repository.loginWanAndroid(username, password)
             .map {
                 if (it.errorCode == -1) {
-                    Resource.DataError(
-                        USER_REGISTERED_ERROR,
-                        it.errorMsg
-                    )
+                    Resource.Error(Exception(it.errorMsg))
                 } else {
                     repository.insertLoginData(it.data)
                     Resource.Success(it.data)
@@ -71,7 +65,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
             .flowOn(Dispatchers.IO)
             .catch {
                 Logs.e(TAG, "catch ${it.stackTrace}", it)
-                registerLoginLiveData.value = Resource.DataError(NETWORK_ERROR, it.message)
+                registerLoginLiveData.value = Resource.Error(Exception(it.message))
             }
             .collectLatest {
                 registerLoginLiveData.value = it
@@ -95,7 +89,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
             }
             .collectLatest {
                 if (it.errorCode != 0) {
-                    logOutLiveData.value = Resource.DataError(it.errorCode, it.errorMsg)
+                    logOutLiveData.value = Resource.Error(Exception(it.errorMsg))
                     return@collectLatest
                 }
                 logOutLiveData.value = Resource.Success("")
