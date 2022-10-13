@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.bbgo.common_base.BaseApplication
 import com.bbgo.common_base.ext.HTTP_REQUEST_ERROR
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.util.FileUtil
+import com.bbgo.common_base.util.FileUtils
 import com.bbgo.common_base.util.MD5Utils
 import com.bbgo.common_base.util.NetWorkUtil
 import com.bbgo.common_base.util.log.Logs
@@ -130,7 +130,7 @@ class ProjectViewModel @Inject constructor(private val repository: ProjectReposi
                 data.forEach { articleDetail ->
                     repository.downloadFile(
                         articleDetail.envelopePic,
-                        FileUtil.getExternalFilePath() + File.separator +
+                        FileUtils.getExternalFilePath() + File.separator +
                                 MD5Utils.getMD5(articleDetail.envelopePic) + ".jpg"
                     )
                 }

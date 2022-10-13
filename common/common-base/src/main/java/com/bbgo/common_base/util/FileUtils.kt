@@ -7,7 +7,7 @@ import java.io.File
 import java.math.BigDecimal
 
 
-class FileUtil {
+class FileUtils {
 
     companion object {
 
@@ -126,6 +126,29 @@ class FileUtil {
             }
             val result4 = BigDecimal(teraBytes)
             return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB"
+        }
+
+        /**
+         * 获取文件名，不包含后缀
+         *
+         * @param file 文件
+         * @return 文件名
+         */
+        fun getFileNameNotSuffix(file: File?): String {
+            return if (file == null || !file.exists()) {
+                ""
+            } else getStringNotSuffix(file.name)
+        }
+
+        /**
+         * 获取字符串，不包含后缀
+         *
+         * @param str 字符串 适用于文件名
+         * @return 文件名
+         */
+        fun getStringNotSuffix(str: String): String {
+            val indexOf = str.lastIndexOf(".")
+            return str.substring(0, if (indexOf < 0) str.length - 1 else indexOf)
         }
     }
 }

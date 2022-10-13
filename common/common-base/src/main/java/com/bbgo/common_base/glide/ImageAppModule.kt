@@ -3,7 +3,7 @@ package com.bbgo.common_base.glide
 import android.content.Context
 import com.bbgo.common_base.glide.okhttp.OkHttpUrlLoader
 import com.bbgo.common_base.net.ServiceCreators
-import com.bbgo.common_base.util.FileUtil
+import com.bbgo.common_base.util.FileUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.GlideBuilder
 import com.bumptech.glide.Registry
@@ -33,7 +33,7 @@ class ImageAppModule : AppGlideModule() {
         builder.setMemoryCache(LruResourceCache(calculator.memoryCacheSize.toLong()))
         builder.setBitmapPool(LruBitmapPool(calculator.bitmapPoolSize.toLong()))
 
-        if (FileUtil.isExistExternalStore()) {
+        if (FileUtils.isExistExternalStore()) {
             builder.setDiskCache(
                 ExternalPreferredCacheDiskCacheFactory(context)
             )
