@@ -192,6 +192,8 @@ class SquareFragment : BaseFragment<FragmentSquareBinding>() {
                 }
                 binding.swipeRefreshLayout.isRefreshing = false
             }
+
+            else -> {}
         }
     }
 

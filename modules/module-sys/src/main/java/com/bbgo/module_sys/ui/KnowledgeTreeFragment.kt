@@ -100,6 +100,10 @@ class KnowledgeTreeFragment : BaseFragment<FragmentRefreshLayoutBinding>() {
                 knowledgeTreeList.addAll(status.data)
                 mAdapter.setList(knowledgeTreeList)
             }
+
+            else -> {
+
+            }
         }
     }
 

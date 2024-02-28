@@ -112,6 +112,8 @@ class NavigationFragment : BaseFragment<FragmentNavigationBinding>() {
                 contentAdapter.setList(naviList)
                 mAdapter.setList(naviList)
             }
+
+            else -> {}
         }
     }
 

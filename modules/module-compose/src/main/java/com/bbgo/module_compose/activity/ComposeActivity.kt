@@ -33,12 +33,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
+import com.bbgo.common_base.bus.BusKey
+import com.bbgo.common_base.bus.LiveDataBus
+import com.bbgo.common_base.constants.Constants
 import com.bbgo.common_base.constants.RouterPath
+import com.bbgo.common_base.ext.showToast
+import com.bbgo.common_base.util.AppUtil
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.module_compose.R
 import com.bbgo.module_compose.bean.ArticleDetail
 import com.bbgo.module_compose.theme.*
 import com.bbgo.module_compose.util.InjectorUtil
 import com.bbgo.module_compose.viewmodel.ComposeViewModel
+import com.bumptech.glide.load.engine.Resource
 
 @Route(path = RouterPath.Compose.PAGE_COMPOSE)
 class ComposeActivity : AppCompatActivity() {
@@ -95,8 +103,17 @@ fun RenderTopAppBar(composeViewModel: ComposeViewModel) {
 fun Request(composeViewModel: ComposeViewModel) {
     val liveData by composeViewModel.articleLiveData.observeAsState()
     Logs.d("======================")
-    liveData?.data?.let {
-        RenderArticleList(it)
+    liveData?.let {
+        when (it) {
+            is com.bbgo.common_base.ext.Resource.Loading -> {
+
+            }
+            is com.bbgo.common_base.ext.Resource.Error -> {
+            }
+            is com.bbgo.common_base.ext.Resource.Success -> {
+                RenderArticleList(articles = it.data)
+            }
+        }
     }
 }
 

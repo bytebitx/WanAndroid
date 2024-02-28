@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bbgo.common_base.ext.Resource
-import com.bbgo.common_base.ext.logE
+import com.bbgo.common_base.util.log.Logs
 import com.bbgo.module_compose.bean.ArticleDetail
 import com.bbgo.module_compose.repository.ComposeRepository
 import kotlinx.coroutines.flow.catch
