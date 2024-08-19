@@ -1,9 +1,11 @@
 package com.bbgo.module_project.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -46,7 +48,7 @@ class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
     @Autowired
     lateinit var collectService: CollectService
 
-    private lateinit var projectViewModel: ProjectViewModel
+    private val projectViewModel by viewModels<ProjectViewModel>()
 
     /**
      * cid
@@ -71,6 +73,8 @@ class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
             SpaceItemDecoration(it)
         }
     }
+
+    private val handler = Handler(Looper.getMainLooper())
 
     /**
      * LinearLayoutManager
@@ -105,8 +109,6 @@ class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
             itemAnimator = DefaultItemAnimator()
             recyclerViewItemDecoration?.let { addItemDecoration(it) }
         }
-
-        projectViewModel = ViewModelProvider(this).get(ProjectViewModel::class.java)
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val article = articleList[position]
