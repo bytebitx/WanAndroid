@@ -1,0 +1,76 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'com.google.dagger.hilt.android'
+}
+
+def isBuildModule = Boolean.valueOf(libs.versions.isBuildModule.get())
+
+android {
+    namespace "com.bytebitx.content"
+    compileSdk libs.versions.compileSdkVersion.get().toInteger()
+
+
+    defaultConfig {
+        minSdk libs.versions.minSdkVersion.get().toInteger()
+        targetSdk libs.versions.targetSdkVersion.get().toInteger()
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.schemaLocation":"$projectDir/schemas".toString(),
+                        "room.incremental":"true",
+                        "room.expandProjection":"true",
+                        AROUTER_MODULE_NAME: project.getName()
+                ]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+    generateStubs = true
+    useBuildCache = true
+    javacOptions {
+        option("-Xmaxerrs", 500)
+    }
+}
+
+dependencies {
+
+    implementation project(":common:base")
+    implementation project(":common:service")
+
+    kapt libs.arouter.compiler
+
+    if (isBuildModule) {
+        implementation project(":modules:collect")
+    }
+
+    compileOnly libs.hilt
+    kapt libs.hilt.compiler
+}

@@ -1,0 +1,242 @@
+[versions]
+agp = "8.1.2"
+org-jetbrains-kotlin-android = "1.9.20"
+
+compileSdkVersion = "34"
+minSdkVersion = "25"
+playServicesLocation = "21.3.0"
+targetSdkVersion = "33"
+applicationId = "com.bytebitx.wanandroid"
+versionCode = "1"
+versionName = "1.0"
+jvmVersion = "17"
+
+isBuildModule = "false"
+
+
+kotlin-stdlib = "1.9.20"
+core-ktx = "1.12.0"
+kotlinx-coroutines-core = "1.7.3"
+kotlin-bom = "1.8.22"
+
+lifecycle-viewmodel-ktx = "2.6.2"
+lifecycle-livedata-ktx = "2.6.2"
+lifecycle-runtime-ktx = "2.6.2"
+
+appcompat = "1.6.1"
+fragment-ktx = "1.6.1"
+activity-ktx = "1.8.2"
+navigation-fragment-ktx = "2.6.0"
+navigation-ui-ktx = "2.6.0"
+
+material = "1.10.0"
+constrainlayout = "2.1.4"
+recyclerview = "1.3.1"
+
+room-runtime = "2.6.1"
+room-ktx = "2.6.1"
+room-compiler = "2.6.1"
+
+hilt-version = "2.48"
+
+retrofit = "2.11.0"
+converter-gson = "2.9.0"
+okhttp = "4.12.0"
+logging-interceptor = "4.12.0"
+gson = "2.10.1"
+okdownload = "1.0.5"
+okdownload-okhttp = "1.0.5"
+
+glide = "4.16.0"
+glide-transformations = "4.3.0"
+
+map = "latest.integration"
+map-box = "11.5.0"
+
+mmkv-static = "1.3.1"
+multitype = "4.3.0"
+permissionx = "1.7.1"
+eventbus = "3.3.1"
+toastUtils = "10.5"
+xlog = "1.10.1"
+photoView = "2.3.0"
+circleprogressbar = "1.3.6"
+realtimeblurview = "1.2.1"
+rangeSeekBar = "3.0.0"
+android-pdf-viewer = "2.8.2"
+banner = "3.0.1"
+agent-web = "v5.1.1-androidx"
+flexbox = "2.0.1"
+cookie-jar = "v1.0.1"
+
+media3-exoplayer = "1.1.1"
+media3-exoplayer-dash = "1.1.1"
+
+multidex = "2.0.1"
+
+tinker = "1.9.14.26"
+
+douyin = "0.1.9.9"
+kwaisocial = "3.7.1"
+wechat = "6.8.0"
+
+rvhelper = "3.0.6"
+
+arouter = "1.5.0"
+arouter-compiler = "1.2.2"
+
+
+
+junit = "4.13.2"
+androidx-test-ext-junit = "1.1.5"
+espresso-core = "3.5.1"
+activity-compose = "1.7.0"
+compose-bom = "2023.03.00"
+swiperefreshlayout = "1.1.0"
+
+
+[libraries]
+# kotlin
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin-stdlib" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
+kotlin-bom = { group = "org.jetbrains.kotlin", name = "kotlin-bom", version.ref = "kotlin-bom" }
+
+# jetpack
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel-ktx" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle-livedata-ktx" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+
+# androidx
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment-ktx" }
+activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity-ktx" }
+navi-frag-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation-fragment-ktx" }
+navi-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation-ui-ktx" }
+
+# material
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+constrainlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constrainlayout" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+
+# room
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room-runtime" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room-ktx" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room-compiler" }
+
+# net
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "converter-gson" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-log = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
+
+# okdownload
+okdownload = { group = "com.liulishuo.okdownload", name = "okdownload", version.ref = "okdownload" }
+okdownload-okhttp = { group = "com.liulishuo.okdownload", name = "okhttp", version.ref = "okdownload-okhttp" }
+
+# hilt
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-version" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt-version" }
+
+# glide
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+glide-transformations = { group = "jp.wasabeef", name = "glide-transformations", version.ref = "glide-transformations" }
+
+
+# map
+gd-3dmap = { group = "com.amap.api", name = "3dmap", version.ref = "map" }
+map-box = { group = "com.mapbox.maps", name = "android", version.ref = "map-box" }
+
+
+# exoplayer
+media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3-exoplayer" }
+media3-exoplayer-dash = { group = "androidx.media3", name = "media3-exoplayer-dash", version.ref = "media3-exoplayer-dash" }
+
+
+
+# other
+mmkv-static = { group = "com.tencent", name = "mmkv-static", version.ref = "mmkv-static" }
+multitype = { group = "com.drakeet.multitype", name = "multitype", version.ref = "multitype" }
+permissionx = { group = "com.guolindev.permissionx", name = "permissionx", version.ref = "permissionx" }
+eventbus = { group = "org.greenrobot", name = "eventbus", version.ref = "eventbus" }
+toast-utils = { group = "com.github.getActivity", name = "ToastUtils", version.ref = "toastUtils" }
+xlog = { group = "com.elvishew", name = "xlog", version.ref = "xlog" }
+photoView = { group = "com.github.chrisbanes", name = "PhotoView", version.ref = "photoView" }
+circleprogressbar = { group = "com.dinuscxj", name = "circleprogressbar", version.ref = "circleprogressbar" }
+realtimeblurview = { group = "com.github.mmin18", name = "realtimeblurview", version.ref = "realtimeblurview" }
+rangebar = { group = "com.github.Jay-Goo", name = "RangeSeekBar", version.ref = "rangeSeekBar" }
+pdf-viewer = { group = "com.github.barteksc", name = "android-pdf-viewer", version.ref = "android-pdf-viewer" }
+
+multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
+
+# tinker
+tinker-android-anno = { group = "com.tencent.tinker", name = "tinker-android-anno", version.ref = "tinker" }
+tinker-android-lib = { group = "com.tencent.tinker", name = "tinker-android-lib", version.ref = "tinker" }
+tinker-android-loader = { group = "com.tencent.tinker", name = "tinker-android-loader", version.ref = "tinker" }
+tinker-patch-gradle-plugin = { group = "com.tencent.tinker", name = "tinker-patch-gradle-plugin", version.ref = "tinker" }
+
+# douyin
+opensdk-china-external = { group = "com.bytedance.ies.ugc.aweme", name = "opensdk-china-external", version.ref = "douyin" }
+opensdk-common = { group = "com.bytedance.ies.ugc.aweme", name = "opensdk-common", version.ref = "douyin" }
+
+# wechat
+wechat-sdk-android = { group = "com.tencent.mm.opensdk", name = "wechat-sdk-android", version.ref = "wechat" }
+
+# Kwaisocial
+kwai-opensdk-withauth = { group = "com.github.kwaisocial", name = "kwai-opensdk-withauth", version.ref = "kwaisocial" }
+
+rv-helper = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "rvhelper" }
+
+banner = { group = "com.github.bingoogolapple", name = "BGABanner-Android", version.ref = "banner" }
+
+agent-web = { group = "io.github.justson", name = "agentweb-core", version.ref = "agent-web" }
+
+flexbox = { group = "com.google.android", name = "flexbox", version.ref = "flexbox" }
+
+cookie-jar = { group = "com.github.franmontiel", name = "PersistentCookieJar", version.ref = "cookie-jar" }
+
+
+
+arouter = { group = "com.alibaba", name = "arouter-api", version.ref = "arouter" }
+arouter-compiler = { group = "com.alibaba", name = "arouter-compiler", version.ref = "arouter-compiler" }
+
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+ui = { group = "androidx.compose.ui", name = "ui" }
+ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+
+
+[bundles]
+kotlin-bundles = ["kotlin-stdlib", "core-ktx", "kotlinx-coroutines-core"]
+lifecycle-bundles = ["lifecycle-viewmodel-ktx", "lifecycle-livedata-ktx", "lifecycle-runtime-ktx"]
+androidx-bundles = ["appcompat", "fragment-ktx", "activity-ktx", "navi-frag-ktx", "navi-ui-ktx", "androidx-swiperefreshlayout"]
+material-bundles = ["material", "constrainlayout", "recyclerview"]
+room-bundles = ["room-runtime", "room-ktx"]
+net-bundles = ["retrofit", "okhttp", "okhttp-log", "gson", "converter-gson"]
+okdownload-bundles = ["okdownload", "okdownload-okhttp"]
+glide-bundles = ["glide", "glide-transformations"]
+map-bundles = ["gd-3dmap"]
+exoplayer-bundles = ["media3-exoplayer", "media3-exoplayer-dash"]
+other-bundles = [
+    "mmkv-static", "permissionx", "eventbus", "toast-utils", "xlog", "photoView",
+    "rv-helper", "cookie-jar", "banner", "agent-web", "flexbox"
+]
+tinker-bundles = ["tinker-android-lib", "tinker-android-loader"]
+
+
+[plugins]
+com-android-application = { id = "com.android.application", version.ref = "agp" }
+com-android-library = { id = "com.android.library", version.ref = "agp" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }

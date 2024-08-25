@@ -1,16 +1,34 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        google()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven {url 'https://maven.aliyun.com/repository/google/'}
+        maven {url 'https://maven.aliyun.com/repository/gradle-plugin/'}
+        maven {url 'https://jitpack.io' }
+    }
+}
+
 rootProject.name = "WanAndroid"
 
 include ':app'
-include ':common:common-base'
-include ':common:common-service'
-include ':modules:module-content'
-include ':modules:module-login'
-include ':modules:module-home'
-include ':modules:module-square'
-include ':modules:module-wechat'
-include ':modules:module-project'
-include ':modules:module-compose'
-include ':modules:module-sys'
-include ':common:library-statusbar'
-include ':modules:module-collect'
-include ':modules:module-media'
+include ':common:base'
+include ':common:service'
+include ':modules:content'
+include ':modules:login'
+include ':modules:home'
+include ':modules:square'
+include ':modules:wechat'
+include ':modules:project'
+include ':modules:compose'
+include ':modules:sys'
+include ':modules:collect'
+include ':modules:media'

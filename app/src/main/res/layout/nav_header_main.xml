@@ -23,7 +23,7 @@
         android:layout_gravity="end"
         android:src="@drawable/ic_rank_white_24dp" />
 
-    <com.bbgo.wanandroid.widget.CircleImageView
+    <com.bytebitx.wanandroid.widget.CircleImageView
         android:layout_width="@dimen/avatar_width"
         android:layout_height="@dimen/avatar_height"
         android:layout_gravity="center_horizontal"

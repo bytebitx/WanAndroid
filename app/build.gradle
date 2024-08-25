@@ -1,12 +1,14 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.google.dagger.hilt.android'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'com.google.dagger.hilt.android'
+}
 
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    namespace libs.versions.applicationId.get()
+    compileSdk libs.versions.compileSdkVersion.get().toInteger()
 
     signingConfigs {
         wanandroid {
@@ -18,11 +20,11 @@ android {
     }
 
     defaultConfig {
-        applicationId rootProject.ext.android.applicationId
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode rootProject.ext.android.versionCode
-        versionName rootProject.ext.android.versionName
+        applicationId libs.versions.applicationId.get()
+        minSdk libs.versions.minSdkVersion.get().toInteger()
+        targetSdk libs.versions.targetSdkVersion.get().toInteger()
+        versionCode libs.versions.versionCode.get().toInteger()
+        versionName libs.versions.versionName.get()
         multiDexEnabled true
 
         consumerProguardFiles "consumer-rules.pro"
@@ -89,34 +91,32 @@ kapt {
     }
 }
 
-def isBuildModule = rootProject.ext.module.isBuildModule
+def isBuildModule = Boolean.valueOf(libs.versions.isBuildModule.get())
 
 dependencies {
 
-    implementation project(":common:common-base")
-    implementation project(":common:common-service")
-    if (!Boolean.valueOf(isBuildModule)) {
-        implementation project(":modules:module-content")
-        implementation project(":modules:module-login")
-        implementation project(":modules:module-home")
-        implementation project(":modules:module-wechat")
-        implementation project(":modules:module-sys")
-        implementation project(":modules:module-square")
-        implementation project(":modules:module-project")
-        implementation project(":modules:module-compose")
-        implementation project(":modules:module-collect")
-        implementation project(":modules:module-media")
+    implementation project(':common:base')
+    implementation project(':common:service')
+    if (!isBuildModule) {
+        implementation project(":modules:content")
+        implementation project(":modules:login")
+        implementation project(":modules:home")
+        implementation project(":modules:wechat")
+        implementation project(":modules:sys")
+        implementation project(":modules:square")
+        implementation project(":modules:project")
+//        implementation project(":modules:compose")
+        implementation project(":modules:collect")
+        implementation project(":modules:media")
     }
 
-    implementation rootProject.ext.roomLibs
-    kapt rootProject.ext.compiler["roomCompiler"]
+    implementation libs.bundles.room.bundles
+    kapt libs.room.compiler
 
-    implementation rootProject.ext.other["rvHelper"]
+    implementation libs.bundles.other.bundles
 
-    kapt rootProject.ext.compiler["arouterCompiler"]
+    kapt libs.glide.compiler
 
-    compileOnly(rootProject.ext.jetpack["hilt"])
-    kapt rootProject.ext.compiler["hiltAndroidCompiler"]
-
-    debugImplementation "io.github.didi.dokit:dokitx:3.5.0"
+    compileOnly libs.hilt
+    kapt libs.hilt.compiler
 }

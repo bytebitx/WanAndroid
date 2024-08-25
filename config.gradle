@@ -10,7 +10,7 @@ ext {
     ]
 
     android = [
-            applicationId    : "com.bbgo.wanandroid",
+            applicationId    : "com.bytebitx.wanandroid",
             compileSdkVersion: 33,
             buildToolsVersion: "30.0.3",
             minSdkVersion    : 21,
