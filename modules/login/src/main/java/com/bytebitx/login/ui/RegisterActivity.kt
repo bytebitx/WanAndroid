@@ -1,13 +1,10 @@
 package com.bytebitx.login.ui
 
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bytebitx.base.base.BaseActivity
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants
 import com.bytebitx.base.constants.RouterPath
 import com.bytebitx.base.ext.Resource
@@ -33,13 +30,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickLi
     @Inject
     lateinit var registerLoginViewModel: RegisterLoginViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initView()
-        observe()
-    }
-
-    private fun initView() {
+    override fun initView() {
         binding.actionBar.apply {
             tvTitle.text = getString(R.string.register)
             setSupportActionBar(binding.actionBar.toolbar)
@@ -50,8 +41,11 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickLi
         binding.tvSignIn.setOnClickListener(this)
     }
 
-    private fun observe() {
+    override fun initObserver() {
         observe(registerLoginViewModel.registerLoginLiveData, ::handleRegister)
+    }
+
+    override fun initData() {
     }
 
     private fun handleRegister(resource: Resource<LoginData>) {
@@ -66,7 +60,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickLi
                 AppUtil.isLogin = true
                 ARouter.getInstance().build(intent.getStringExtra(Constants.ROUTER_PATH))
                     .navigation()
-                LiveDataBus.get().with(BusKey.LOGIN_SUCCESS).value = Any()
+//                LiveDataBus.get().with(BusKey.LOGIN_SUCCESS).value = Any()
                 finish()
             }
         }
@@ -106,6 +100,4 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>(), View.OnClickLi
             }
         }
     }
-
-    override fun inflateViewBinding() = ActivityRegisterBinding.inflate(layoutInflater)
 }

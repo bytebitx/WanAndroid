@@ -1,9 +1,7 @@
 package com.bytebitx.sys.ui
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bytebitx.base.base.BaseFragment
@@ -95,7 +93,7 @@ class NavigationFragment : BaseFragment<FragmentNavigationBinding>() {
         sysViewModel.getNavigationList()
     }
 
-    override fun observe() {
+    override fun initObserver() {
         observe(sysViewModel.naviLiveData, ::handleInfo)
     }
 
@@ -136,9 +134,4 @@ class NavigationFragment : BaseFragment<FragmentNavigationBinding>() {
             binding.rvNavi.smoothScrollBy(0, y)
         }
     }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentNavigationBinding.inflate(inflater, container, false)
 }

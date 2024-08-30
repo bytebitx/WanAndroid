@@ -1,8 +1,6 @@
 package com.bytebitx.sys.ui
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bytebitx.base.base.BaseFragment
@@ -84,7 +82,7 @@ class KnowledgeTreeFragment : BaseFragment<FragmentRefreshLayoutBinding>() {
         sysViewModel.getKnowledgeTree()
     }
 
-    override fun observe() {
+    override fun initObserver() {
         observe(sysViewModel.treeLiveData, ::handleInfo)
     }
 
@@ -106,9 +104,4 @@ class KnowledgeTreeFragment : BaseFragment<FragmentRefreshLayoutBinding>() {
             }
         }
     }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentRefreshLayoutBinding.inflate(inflater, container, false)
 }

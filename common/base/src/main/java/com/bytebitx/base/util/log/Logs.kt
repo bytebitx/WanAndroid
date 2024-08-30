@@ -1,9 +1,7 @@
 package com.bytebitx.base.util.log
 
 import com.bytebitx.base.util.FileUtils
-import com.elvishew.xlog.BuildConfig
 import com.elvishew.xlog.LogConfiguration
-import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
 import com.elvishew.xlog.printer.AndroidPrinter
 import com.elvishew.xlog.printer.file.FilePrinter
@@ -29,10 +27,10 @@ object Logs {
 
     private fun initConfig() {
         val config: LogConfiguration = LogConfiguration.Builder()
-            .logLevel(
-                if (BuildConfig.DEBUG) LogLevel.ALL // 指定日志级别，低于该级别的日志将不会被打印，默认为 LogLevel.ALL
-                else LogLevel.INFO
-            )
+//            .logLevel(
+//                if (BuildConfig.DEBUG) LogLevel.ALL // 指定日志级别，低于该级别的日志将不会被打印，默认为 LogLevel.ALL
+//                else LogLevel.INFO
+//            )
             .tag(LOG_TAG) // 指定 TAG，默认为 "X-LOG"
             .enableThreadInfo() // 允许打印线程信息，默认禁止
             .enableStackTrace(2) // 允许打印深度为 2 的调用栈信息，默认禁止
@@ -78,8 +76,28 @@ object Logs {
     }
 
     @JvmStatic
-    fun e(message: String, vararg args: Any?) {
-        XLog.e(message, args)
+    fun dTag(tag: String, any: Any) {
+        XLog.tag(tag).d(any)
+    }
+
+    @JvmStatic
+    fun i(message: String) {
+        XLog.i(message)
+    }
+
+    @JvmStatic
+    fun iTag(tag: String, message: String) {
+        XLog.tag(tag).i(message)
+    }
+
+    @JvmStatic
+    fun e(message: String) {
+        XLog.e(message)
+    }
+
+    @JvmStatic
+    fun eTag(tag: String, message: String) {
+        XLog.tag(tag).e(message)
     }
 
     @JvmStatic
@@ -88,18 +106,8 @@ object Logs {
     }
 
     @JvmStatic
-    fun i(message: String, vararg args: Any?) {
-        XLog.i(message, args)
-    }
-
-    @JvmStatic
-    fun v(message: String, vararg args: Any?) {
-        XLog.v(message, args)
-    }
-
-    @JvmStatic
-    fun w(message: String, vararg args: Any?) {
-        XLog.w(message, args)
+    fun eTag(tag: String, throwable: Throwable, message: String?) {
+        XLog.tag(tag).e(message, throwable)
     }
 
     @JvmStatic

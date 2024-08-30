@@ -2,8 +2,6 @@ package com.bytebitx.collect.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants.CollectType.COLLECT
 import com.bytebitx.base.constants.Constants.CollectType.UNCOLLECT
 import com.bytebitx.base.constants.Constants.CollectType.UNKNOWN
@@ -25,7 +23,7 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
     fun collectArticle(indexPage: Int, position: Int, id: Int) = viewModelScope.launch {
         repository.collectArticle(id)
             .catch {
-                Logs.e(TAG, it.message, it)
+                Logs.e(it, it.message)
             }
             .collectLatest {
                 val event = if (it.errorCode == USER_NOT_LOGIN) {
@@ -33,14 +31,13 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                 } else {
                     MessageEvent(indexPage, COLLECT, position, id)
                 }
-                LiveDataBus.get().with(BusKey.COLLECT).value = event
             }
     }
 
     fun unCollectArticle(indexPage: Int, position: Int, id: Int) = viewModelScope.launch {
         repository.unCollectArticle(id)
             .catch {
-                Logs.e(TAG, it.message, it)
+                Logs.e(it, it.message)
             }
             .collectLatest {
                 val event = if (it.errorCode == USER_NOT_LOGIN) {
@@ -48,7 +45,6 @@ class CollectViewModel(private val repository: CollectRepository) : ViewModel() 
                 } else {
                     MessageEvent(indexPage, UNCOLLECT, position, id)
                 }
-                LiveDataBus.get().with(BusKey.COLLECT).value = event
             }
     }
 

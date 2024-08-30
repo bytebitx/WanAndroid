@@ -1,9 +1,9 @@
 [versions]
 agp = "8.1.2"
-org-jetbrains-kotlin-android = "1.9.20"
+org-jetbrains-kotlin-android = "2.0.20"
 
 compileSdkVersion = "34"
-minSdkVersion = "25"
+minSdkVersion = "21"
 playServicesLocation = "21.3.0"
 targetSdkVersion = "33"
 applicationId = "com.bytebitx.wanandroid"
@@ -14,10 +14,12 @@ jvmVersion = "17"
 isBuildModule = "false"
 
 
-kotlin-stdlib = "1.9.20"
+kotlin-stdlib = "2.0.20"
 core-ktx = "1.12.0"
 kotlinx-coroutines-core = "1.7.3"
-kotlin-bom = "1.8.22"
+kotlin-bom = "1.9.20"
+
+ksp = "2.0.20-1.0.24"
 
 lifecycle-viewmodel-ktx = "2.6.2"
 lifecycle-livedata-ktx = "2.6.2"
@@ -37,7 +39,7 @@ room-runtime = "2.6.1"
 room-ktx = "2.6.1"
 room-compiler = "2.6.1"
 
-hilt-version = "2.48"
+hilt-version = "2.51.1"
 
 retrofit = "2.11.0"
 converter-gson = "2.9.0"
@@ -90,7 +92,7 @@ arouter-compiler = "1.2.2"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
-activity-compose = "1.7.0"
+activity-compose = "1.8.2"
 compose-bom = "2023.03.00"
 swiperefreshlayout = "1.1.0"
 
@@ -240,3 +242,6 @@ tinker-bundles = ["tinker-android-lib", "tinker-android-loader"]
 com-android-application = { id = "com.android.application", version.ref = "agp" }
 com-android-library = { id = "com.android.library", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-version"}
+

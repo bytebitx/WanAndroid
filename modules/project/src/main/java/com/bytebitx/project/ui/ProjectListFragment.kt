@@ -3,8 +3,6 @@ package com.bytebitx.project.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,21 +10,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bytebitx.base.base.BaseFragment
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants
 import com.bytebitx.base.constants.RouterPath
 import com.bytebitx.base.event.MessageEvent
-import com.bytebitx.base.event.ScrollEvent
 import com.bytebitx.base.ext.Resource
 import com.bytebitx.base.ext.observe
 import com.bytebitx.base.ext.showToast
 import com.bytebitx.base.widget.SpaceItemDecoration
-import com.bytebitx.service.collect.CollectService
 import com.bytebitx.project.R
 import com.bytebitx.project.bean.ArticleDetail
 import com.bytebitx.project.databinding.FragmentProjectListBinding
 import com.bytebitx.project.viewmodel.ProjectViewModel
+import com.bytebitx.service.collect.CollectService
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -159,23 +154,23 @@ class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
      * 初始化事件总线，和eventbus效果相同
      */
     private fun initBus() {
-        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
-            if (it.indexPage == Constants.FragmentIndex.PROJECT_INDEX) {
-                handleCollect(it)
-            }
-        }
-        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
-            if (it.index == 4) {
-                scrollToTop()
-            }
-        }
+//        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
+//            if (it.indexPage == Constants.FragmentIndex.PROJECT_INDEX) {
+//                handleCollect(it)
+//            }
+//        }
+//        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
+//            if (it.index == 4) {
+//                scrollToTop()
+//            }
+//        }
     }
 
     override fun lazyLoad() {
         projectViewModel.getProjectList(cid, 0)
     }
 
-    override fun observe() {
+    override fun initObserver() {
         observe(projectViewModel.articlesLiveData, ::handleInfo)
     }
 
@@ -223,9 +218,4 @@ class ProjectListFragment : BaseFragment<FragmentProjectListBinding>() {
             }
         }
     }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentProjectListBinding.inflate(inflater, container, false)
 }

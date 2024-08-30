@@ -64,7 +64,7 @@ class RegisterLoginViewModel @Inject constructor(private val repository: Registe
             }
             .flowOn(Dispatchers.IO)
             .catch {
-                Logs.e(TAG, "catch ${it.stackTrace}", it)
+                Logs.e(it, "catch ${it.stackTrace}")
                 registerLoginLiveData.value = Resource.Error(Exception(it.message))
             }
             .collectLatest {

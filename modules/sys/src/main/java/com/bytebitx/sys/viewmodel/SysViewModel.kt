@@ -44,7 +44,7 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
                 }
             }
             .catch {
-                Logs.e(TAG, it.message, it)
+                Logs.e(it, it.message)
             }
             .collectLatest {
                 treeLiveData.value = it
@@ -65,7 +65,7 @@ class SysViewModel @Inject constructor(private val repository: SysRepository) : 
                 }
             }
             .catch {
-                Logs.e(TAG, it.message, it)
+                Logs.e(it, it.message)
             }
             .collectLatest {
                 naviLiveData.value = it

@@ -1,8 +1,6 @@
 package com.bytebitx.home.ui
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,26 +10,23 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bytebitx.base.base.BaseFragment
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants
 import com.bytebitx.base.constants.RouterPath
 import com.bytebitx.base.databinding.LayoutLoadingBinding
 import com.bytebitx.base.event.MessageEvent
-import com.bytebitx.base.event.ScrollEvent
 import com.bytebitx.base.ext.Resource
 import com.bytebitx.base.ext.collectWithLifeCycle
 import com.bytebitx.base.ext.showToast
 import com.bytebitx.base.util.ImageLoader
 import com.bytebitx.base.util.log.Logs
 import com.bytebitx.base.widget.SpaceItemDecoration
-import com.bytebitx.service.collect.CollectService
 import com.bytebitx.home.R
 import com.bytebitx.home.bean.ArticleDetail
 import com.bytebitx.home.bean.Banner
 import com.bytebitx.home.databinding.FragmentHomeBinding
 import com.bytebitx.home.databinding.ItemHomeBannerBinding
 import com.bytebitx.home.viewmodel.HomeViewModel
+import com.bytebitx.service.collect.CollectService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -48,7 +43,6 @@ import javax.inject.Inject
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     companion object {
-        private const val TAG = "HomeFragment"
 
         fun getInstance(): HomeFragment {
             return HomeFragment()
@@ -167,16 +161,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
      * 初始化事件总线，和eventbus效果相同
      */
     private fun initBus() {
-        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(viewLifecycleOwner) {
-            if (it.indexPage == Constants.FragmentIndex.HOME_INDEX) {
-                handleCollect(it)
-            }
-        }
-        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(viewLifecycleOwner) {
-            if (it.index == 0) {
-                scrollToTop()
-            }
-        }
+//        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(viewLifecycleOwner) {
+//            if (it.indexPage == Constants.FragmentIndex.HOME_INDEX) {
+//                handleCollect(it)
+//            }
+//        }
+//        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(viewLifecycleOwner) {
+//            if (it.index == 0) {
+//                scrollToTop()
+//            }
+//        }
     }
 
     override fun lazyLoad() {
@@ -184,7 +178,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         homeViewModel.getBanner()
     }
 
-    override fun observe() {
+    override fun initObserver() {
         collectWithLifeCycle(this) {
             /**
              * flow默认情况下是不管页面处于哪个生命周期都会订阅数据，不会像livedata一样，
@@ -205,6 +199,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
+
 
     private fun handleBanner(status: Resource<List<Banner>>) {
         when(status) {
@@ -285,9 +280,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
     }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentHomeBinding.inflate(inflater, container, false)
 }

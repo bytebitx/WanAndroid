@@ -41,8 +41,8 @@ class ThreadPoolUtils private constructor(
             }
         }
         if (throwable != null) {
-            Logs.w(
-                throwable.toString(),
+            Logs.e(
+                throwable,
                 "Running task appeared exception! Thread [${Thread.currentThread().name}]"
             )
         }

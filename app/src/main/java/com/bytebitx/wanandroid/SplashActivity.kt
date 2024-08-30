@@ -3,7 +3,6 @@ package com.bytebitx.wanandroid
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Typeface
-import android.os.Bundle
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import com.bytebitx.base.BaseApplication
@@ -25,14 +24,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         descTypeFace = Typeface.createFromAsset(BaseApplication.getContext().assets, "fonts/FZLanTingHeiS-L-GB-Regular.TTF")
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        initView()
-    }
-
     @SuppressLint("SetTextI18n")
-    private fun initView() {
+    override fun initView() {
         binding.tvAppName.typeface = textTypeface
         binding.tvSplashDesc.typeface = descTypeFace
         binding.tvVersionName.text = "v${AppUtil.appVersionName}"
@@ -54,11 +47,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
         binding.ivLogo.startAnimation(alphaAnimation)
     }
 
+    override fun initObserver() {
+    }
+
+    override fun initData() {
+    }
+
     private fun redirectTo() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
-
-    override fun inflateViewBinding() = ActivitySplashBinding.inflate(layoutInflater)
 }

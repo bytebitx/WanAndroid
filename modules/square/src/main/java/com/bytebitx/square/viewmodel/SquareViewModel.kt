@@ -28,7 +28,7 @@ class SquareViewModel @Inject constructor(private val repository: SquareReposito
         articleLiveData.value = Resource.Loading()
         repository.getSquareList(pageNum)
             .catch {
-                Logs.e(TAG, it.message, it)
+                Logs.e(it, it.message)
             }
             .collectLatest {
                 articleLiveData.value = Resource.Success(it.data.datas)

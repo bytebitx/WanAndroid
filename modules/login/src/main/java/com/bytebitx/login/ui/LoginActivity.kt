@@ -7,8 +7,6 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bytebitx.base.base.BaseActivity
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants
 import com.bytebitx.base.constants.RouterPath
 import com.bytebitx.base.ext.Resource
@@ -44,11 +42,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        initView()
-        observe()
     }
 
-    private fun initView() {
+    override fun initView() {
         binding.actionBar.apply {
             tvTitle.text = getString(R.string.login)
             setSupportActionBar(binding.actionBar.toolbar)
@@ -61,8 +57,11 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
         ARouter.getInstance().inject(this)
     }
 
-    private fun observe() {
+    override fun initObserver() {
         observe(registerLoginViewModel.registerLoginLiveData, ::handleRegister)
+    }
+
+    override fun initData() {
     }
 
     private fun handleRegister(resource: Resource<LoginData>) {
@@ -78,7 +77,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
                 mDialog.dismiss()
                 AppUtil.isLogin = true
                 ARouter.getInstance().build(routerPath).navigation()
-                LiveDataBus.get().with(BusKey.LOGIN_SUCCESS).value = Any()
+//                LiveDataBus.get().with(BusKey.LOGIN_SUCCESS).value = Any()
                 finish()
             }
         }
@@ -112,7 +111,5 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
             }
         }
     }
-
-    override fun inflateViewBinding() = ActivityLoginBinding.inflate(layoutInflater)
 
 }

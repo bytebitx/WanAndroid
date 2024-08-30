@@ -16,19 +16,17 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bytebitx.base.base.BaseActivity
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants
 import com.bytebitx.base.constants.RouterPath
 import com.bytebitx.base.event.MessageEvent
 import com.bytebitx.base.ext.showToast
 import com.bytebitx.base.util.AppUtil
 import com.bytebitx.base.util.SettingUtil
-import com.bytebitx.service.collect.CollectService
 import com.bytebitx.content.R
 import com.bytebitx.content.databinding.ActivityContentBinding
 import com.bytebitx.content.ext.getAgentWeb
 import com.bytebitx.content.webclient.WebClientFactory
+import com.bytebitx.service.collect.CollectService
 import com.google.android.material.appbar.AppBarLayout
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.NestedScrollAgentWebView
@@ -75,7 +73,7 @@ class ContentActivity : BaseActivity<ActivityContentBinding>(){
         initView()
     }
 
-    private fun initView() {
+    override fun initView() {
         ARouter.getInstance().inject(this)
         initBus()
         binding.actionBar.apply {
@@ -91,6 +89,12 @@ class ContentActivity : BaseActivity<ActivityContentBinding>(){
             }, 2000)
         }
         initWebView()
+    }
+
+    override fun initObserver() {
+    }
+
+    override fun initData() {
     }
 
     /**
@@ -139,9 +143,9 @@ class ContentActivity : BaseActivity<ActivityContentBinding>(){
     }
 
     private fun initBus() {
-        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
-            handleCollect(it)
-        }
+//        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
+//            handleCollect(it)
+//        }
     }
 
     private fun handleCollect(event: MessageEvent) {
@@ -246,7 +250,4 @@ class ContentActivity : BaseActivity<ActivityContentBinding>(){
         mAgentWeb?.webLifeCycle?.onDestroy()
         super.onDestroy()
     }
-
-    override fun inflateViewBinding() = ActivityContentBinding.inflate(layoutInflater)
-
 }

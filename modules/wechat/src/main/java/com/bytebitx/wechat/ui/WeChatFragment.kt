@@ -1,8 +1,6 @@
 package com.bytebitx.wechat.ui
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -50,15 +48,7 @@ class WeChatFragment : BaseFragment<FragmentWechatBinding>() {
         weChatViewModel.getWXChapters()
     }
 
-    override fun initView() {
-        loadingBinding = LayoutLoadingBinding.bind(binding.root)
-        binding.viewPager.adapter = viewPagerAdapter
-        TabLayoutMediator(binding.tabLayout, binding.viewPager, true, true) { tab, position ->
-            tab.text = weChatDatas[position].name
-        }.attach()
-    }
-
-    override fun observe() {
+    override fun initObserver() {
         /**
          * 如果只收集一个stateFlow的数据，则可以使用flowWithLifecycle
          * 操作符决定生命周期
@@ -70,6 +60,14 @@ class WeChatFragment : BaseFragment<FragmentWechatBinding>() {
                     handleWxChapter(it)
                 }
         }
+    }
+
+    override fun initView() {
+        loadingBinding = LayoutLoadingBinding.bind(binding.root)
+        binding.viewPager.adapter = viewPagerAdapter
+        TabLayoutMediator(binding.tabLayout, binding.viewPager, true, true) { tab, position ->
+            tab.text = weChatDatas[position].name
+        }.attach()
     }
 
     private fun handleWxChapter(status: Resource<List<WXArticle>>) {
@@ -89,13 +87,4 @@ class WeChatFragment : BaseFragment<FragmentWechatBinding>() {
             }
         }
     }
-
-    companion object {
-        private const val TAG = "WeChatFragment"
-    }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentWechatBinding.inflate(inflater, container, false)
 }

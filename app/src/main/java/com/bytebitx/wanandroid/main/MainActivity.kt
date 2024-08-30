@@ -15,11 +15,8 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.facade.callback.NavigationCallback
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bytebitx.base.base.BaseActivity
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants
 import com.bytebitx.base.constants.RouterPath
-import com.bytebitx.base.event.ScrollEvent
 import com.bytebitx.base.ext.Prefs
 import com.bytebitx.base.ext.Resource
 import com.bytebitx.base.ext.observe
@@ -65,12 +62,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
             mIndex = savedInstanceState.getInt("currTabIndex")
         }
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        initView()
         observe()
     }
 
-    private fun initView() {
+    override fun initView() {
         ARouter.getInstance().inject(this)
         initBus()
 
@@ -121,20 +116,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
 
     }
 
+    override fun initObserver() {
+    }
+
+    override fun initData() {
+    }
+
     private fun observe() {
         observe(mainViewModel.logOutLiveData, ::handleLogOut)
     }
 
     private fun initBus() {
-        LiveDataBus.get().with(BusKey.LOGIN_SUCCESS, Any::class.java).observe(this) {
-            val userId = Prefs.getString(Constants.USER_ID)
-            val userName = Prefs.getString(Constants.USER_NAME)
-            if (userId.isEmpty()) return@observe
-            navHeaderBinding.userIdLayout.visibility = View.VISIBLE
-            navHeaderBinding.tvUserId.text = userId
-            navHeaderBinding.tvUsername.text = userName
-            binding.navView.menu.findItem(R.id.nav_logout).title = getString(R.string.nav_logout)
-        }
+//        LiveDataBus.get().with(BusKey.LOGIN_SUCCESS, Any::class.java).observe(this) {
+//            val userId = Prefs.getString(Constants.USER_ID)
+//            val userName = Prefs.getString(Constants.USER_NAME)
+//            if (userId.isEmpty()) return@observe
+//            navHeaderBinding.userIdLayout.visibility = View.VISIBLE
+//            navHeaderBinding.tvUserId.text = userId
+//            navHeaderBinding.tvUsername.text = userName
+//            binding.navView.menu.findItem(R.id.nav_logout).title = getString(R.string.nav_logout)
+//        }
     }
 
     private fun handleLogOut(status: Resource<String>) {
@@ -330,23 +331,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
      * FAB 监听
      */
     private val onFABClickListener = View.OnClickListener {
-        when (mIndex) {
-            Constants.FragmentIndex.HOME_INDEX -> {
-                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(0)
-            }
-            Constants.FragmentIndex.WECHAT_INDEX -> {
-                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(1)
-            }
-            Constants.FragmentIndex.SYS_INDEX -> {
-                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(2)
-            }
-            Constants.FragmentIndex.SQUARE_INDEX -> {
-                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(3)
-            }
-            Constants.FragmentIndex.PROJECT_INDEX -> {
-                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(4)
-            }
-        }
+//        when (mIndex) {
+//            Constants.FragmentIndex.HOME_INDEX -> {
+//                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(0)
+//            }
+//            Constants.FragmentIndex.WECHAT_INDEX -> {
+//                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(1)
+//            }
+//            Constants.FragmentIndex.SYS_INDEX -> {
+//                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(2)
+//            }
+//            Constants.FragmentIndex.SQUARE_INDEX -> {
+//                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(3)
+//            }
+//            Constants.FragmentIndex.PROJECT_INDEX -> {
+//                LiveDataBus.get().with(BusKey.SCROLL_TOP).value = ScrollEvent(4)
+//            }
+//        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -366,7 +367,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), NavigationView.OnNavig
         }
         return super.onKeyDown(keyCode, event)
     }
-
-    override fun inflateViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
 }

@@ -131,7 +131,7 @@ object AppUtil {
                 }
 
             }.onFailure {
-                Logs.e(TAG, "get android_id with error", it)
+                Logs.e(it, "get android_id with error")
             }
 
             var uuid = Prefs.getString("uuid", "")

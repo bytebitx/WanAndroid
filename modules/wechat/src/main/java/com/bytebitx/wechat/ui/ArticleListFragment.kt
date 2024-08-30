@@ -3,21 +3,19 @@ package com.bytebitx.wechat.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bytebitx.base.base.BaseFragment
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants
 import com.bytebitx.base.constants.RouterPath
 import com.bytebitx.base.event.MessageEvent
-import com.bytebitx.base.event.ScrollEvent
 import com.bytebitx.base.ext.Resource
 import com.bytebitx.base.ext.showToast
 import com.bytebitx.base.util.log.Logs
@@ -164,7 +162,7 @@ class ArticleListFragment : BaseFragment<FragmentArticleListBinding>() {
         weChatViewModel.getWXArticles(cid, 0)
     }
 
-    override fun observe() {
+    override fun initObserver() {
         lifecycleScope.launch {
             /**
              * 如果只收集一个stateFlow的数据，则可以使用flowWithLifecycle
@@ -183,16 +181,16 @@ class ArticleListFragment : BaseFragment<FragmentArticleListBinding>() {
      * 初始化事件总线，和eventbus效果相同
      */
     private fun initBus() {
-        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
-            if (it.indexPage == Constants.FragmentIndex.WECHAT_INDEX) {
-                handleCollect(it)
-            }
-        }
-        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
-            if (it.index == 1) {
-                scrollToTop()
-            }
-        }
+//        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
+//            if (it.indexPage == Constants.FragmentIndex.WECHAT_INDEX) {
+//                handleCollect(it)
+//            }
+//        }
+//        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
+//            if (it.index == 1) {
+//                scrollToTop()
+//            }
+//        }
     }
 
     private fun handleCollect(event: MessageEvent) {
@@ -239,9 +237,4 @@ class ArticleListFragment : BaseFragment<FragmentArticleListBinding>() {
             }
         }
     }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentArticleListBinding.inflate(inflater, container, false)
 }

@@ -1,8 +1,6 @@
 package com.bytebitx.project.ui
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bytebitx.base.base.BaseFragment
@@ -46,16 +44,16 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
         projectViewModel.getProjectTree()
     }
 
+    override fun initObserver() {
+        observe(projectViewModel.projectTreeLiveData, ::handleWxChapter)
+    }
+
     override fun initView() {
         loadingBinding = LayoutLoadingBinding.bind(binding.root)
         binding.viewPager.adapter = viewPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager, true, true) { tab, position ->
             tab.text = projectDatas[position].name
         }.attach()
-    }
-
-    override fun observe() {
-        observe(projectViewModel.projectTreeLiveData, ::handleWxChapter)
     }
 
     private fun handleWxChapter(status: Resource<List<ProjectBean>>) {
@@ -75,13 +73,4 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
             }
         }
     }
-
-    companion object {
-        private const val TAG = "WeChatFragment"
-    }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentProjectBinding.inflate(inflater, container, false)
 }

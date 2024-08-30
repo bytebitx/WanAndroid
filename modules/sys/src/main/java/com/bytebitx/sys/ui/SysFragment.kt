@@ -1,7 +1,5 @@
 package com.bytebitx.sys.ui
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bytebitx.base.base.BaseFragment
 import com.bytebitx.base.constants.RouterPath
@@ -31,7 +29,7 @@ class SysFragment : BaseFragment<FragmentSysBinding>() {
     override fun lazyLoad() {
     }
 
-    override fun observe() {
+    override fun initObserver() {
     }
 
     override fun initView() {
@@ -42,13 +40,4 @@ class SysFragment : BaseFragment<FragmentSysBinding>() {
             tab.text = titleList[position]
         }.attach()
     }
-
-    companion object {
-        private const val TAG = "SysFragment"
-    }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentSysBinding.inflate(inflater, container, false)
 }

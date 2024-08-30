@@ -6,5 +6,15 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SysMainActivity : BaseActivity<FragmentSysBinding>() {
-    override fun inflateViewBinding() = FragmentSysBinding.inflate(layoutInflater)
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initObserver() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initData() {
+        TODO("Not yet implemented")
+    }
 }

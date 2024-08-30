@@ -2,12 +2,15 @@ package com.bytebitx.base.base
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.bytebitx.base.util.ActivityCollector
+import com.bytebitx.base.util.log.Logs
 import com.bytebitx.base.util.statusbar.NotchScreenManager
 import java.lang.ref.WeakReference
+import java.lang.reflect.ParameterizedType
 
 /**
  *  author: wangyb
@@ -34,15 +37,35 @@ abstract class BaseActivity<VB: ViewBinding> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = inflateViewBinding()
-        setContentView(binding.root)
-        NotchScreenManager.getInstance().setDisplayInNotch(this)
-        activity = this
-        activityWR = WeakReference(activity!!)
-        ActivityCollector.pushTask(activityWR)
+        initVB()
+        if (this::binding.isInitialized) {
+            setContentView(binding.root)
+            NotchScreenManager.getInstance().setDisplayInNotch(this)
+            activity = this
+            activityWR = WeakReference(activity!!)
+            ActivityCollector.pushTask(activityWR)
+            initView()
+            initObserver()
+            initData()
+        }
     }
 
-    abstract fun inflateViewBinding(): VB
+    private fun initVB() {
+        runCatching {
+            val type = javaClass.genericSuperclass
+            @Suppress("UNCHECKED_CAST")
+            val clazz: Class<VB> = (type as ParameterizedType).actualTypeArguments[0] as Class<VB>
+            val method = clazz.getDeclaredMethod("inflate", LayoutInflater::class.java)
+            @Suppress("UNCHECKED_CAST")
+            binding = method.invoke(this, layoutInflater)!! as VB
+        }.onFailure {
+            Logs.e(it, "init view binding error")
+        }
+    }
+
+    abstract fun initView()
+    abstract fun initObserver()
+    abstract fun initData()
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {

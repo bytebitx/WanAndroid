@@ -6,6 +6,16 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProjectMainActivity : BaseActivity<FragmentProjectBinding>() {
+    override fun initView() {
+        TODO("Not yet implemented")
+    }
 
-    override fun inflateViewBinding() = FragmentProjectBinding.inflate(layoutInflater)
+    override fun initObserver() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initData() {
+        TODO("Not yet implemented")
+    }
+
 }

@@ -1,8 +1,6 @@
 package com.bytebitx.square.ui
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -10,13 +8,10 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bytebitx.base.base.BaseFragment
-import com.bytebitx.base.bus.BusKey
-import com.bytebitx.base.bus.LiveDataBus
 import com.bytebitx.base.constants.Constants
 import com.bytebitx.base.constants.RouterPath
 import com.bytebitx.base.databinding.LayoutLoadingBinding
 import com.bytebitx.base.event.MessageEvent
-import com.bytebitx.base.event.ScrollEvent
 import com.bytebitx.base.ext.Resource
 import com.bytebitx.base.ext.observe
 import com.bytebitx.base.ext.showToast
@@ -138,23 +133,23 @@ class SquareFragment : BaseFragment<FragmentSquareBinding>() {
      * 初始化事件总线，和eventbus效果相同
      */
     private fun initBus() {
-        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
-            if (it.indexPage == Constants.FragmentIndex.SQUARE_INDEX) {
-                handleCollect(it)
-            }
-        }
-        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
-            if (it.index == 3) {
-                scrollToTop()
-            }
-        }
+//        LiveDataBus.get().with(BusKey.COLLECT, MessageEvent::class.java).observe(this) {
+//            if (it.indexPage == Constants.FragmentIndex.SQUARE_INDEX) {
+//                handleCollect(it)
+//            }
+//        }
+//        LiveDataBus.get().with(BusKey.SCROLL_TOP, ScrollEvent::class.java).observe(this) {
+//            if (it.index == 3) {
+//                scrollToTop()
+//            }
+//        }
     }
 
     override fun lazyLoad() {
         squareViewModel.getSquareList(0)
     }
 
-    override fun observe() {
+    override fun initObserver() {
         observe(squareViewModel.articleLiveData, ::handleInfo)
     }
 
@@ -206,9 +201,4 @@ class SquareFragment : BaseFragment<FragmentSquareBinding>() {
             }
         }
     }
-
-    override fun inflateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentSquareBinding.inflate(inflater, container, false)
 }

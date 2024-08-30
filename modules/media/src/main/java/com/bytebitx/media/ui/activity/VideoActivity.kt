@@ -19,7 +19,7 @@ class VideoActivity : BaseActivity<ActivityVideoBinding>() {
         initView()
     }
 
-    private fun initView() {
+    override fun initView() {
         ARouter.getInstance().inject(this)
         mMediaController = AndroidMediaController(this, false)
         binding.videoView.setMediaController(mMediaController)
@@ -29,5 +29,10 @@ class VideoActivity : BaseActivity<ActivityVideoBinding>() {
         binding.videoView.start()
     }
 
-    override fun inflateViewBinding() = ActivityVideoBinding.inflate(layoutInflater)
+    override fun initObserver() {
+    }
+
+    override fun initData() {
+    }
+
 }
