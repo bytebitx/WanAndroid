@@ -14,9 +14,9 @@ class MyFlattener : Flattener2 {
 
     override fun flatten(timeMillis: Long, logLevel: Int, tag: String?, message: String?): CharSequence {
         return (getCurrDate(timeMillis)
-                + '|' + LogLevel.getLevelName(logLevel)
-                + '|' + tag
-                + '|' + message)
+                + "|" + LogLevel.getShortLevelName(logLevel)
+                + "|" + tag
+                + "\n" + message)
     }
 
     private fun getCurrDate(timeMillis: Long): String {

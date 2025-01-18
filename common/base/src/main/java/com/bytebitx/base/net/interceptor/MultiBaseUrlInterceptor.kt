@@ -8,6 +8,10 @@ import okhttp3.Response
 
 class MultiBaseUrlInterceptor : Interceptor {
 
+    companion object {
+        private const val TAG = "MultiBaseUrlInterceptor"
+    }
+
     override fun intercept(chain: Interceptor.Chain): Response {
         //获取原始的request
         val originalRequest = chain.request()
@@ -18,8 +22,8 @@ class MultiBaseUrlInterceptor : Interceptor {
         //获取原始的headers
         val headers = originalRequest.headers
         val baseUrl = headers["baseUrl"]//获取请求头里面设置的baseurl
-        Logs.d("originalUrl=$originalUrl")
-        Logs.d("baseUrl=$baseUrl")
+        Logs.dTag(TAG, "originalUrl=$originalUrl")
+        Logs.dTag(TAG, "baseUrl=$baseUrl")
         return if (!TextUtils.isEmpty(baseUrl)) {
             val baseHttpUrl = baseUrl?.toHttpUrlOrNull()//将其解析成httpurl
             //重建新的HttpUrl，需要重新设置的url部分

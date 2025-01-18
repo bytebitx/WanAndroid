@@ -32,8 +32,8 @@ object Logs {
 //                else LogLevel.INFO
 //            )
             .tag(LOG_TAG) // 指定 TAG，默认为 "X-LOG"
-            .enableThreadInfo() // 允许打印线程信息，默认禁止
-            .enableStackTrace(2) // 允许打印深度为 2 的调用栈信息，默认禁止
+//            .enableThreadInfo() // 允许打印线程信息，默认禁止
+//            .enableStackTrace(2) // 允许打印深度为 2 的调用栈信息，默认禁止
             .enableBorder() // 允许打印日志边框，默认禁止
 //            .jsonFormatter(MyJsonFormatter()) // 指定 JSON 格式化器，默认为 DefaultJsonFormatter
 //            .xmlFormatter(MyXmlFormatter()) // 指定 XML 格式化器，默认为 DefaultXmlFormatter

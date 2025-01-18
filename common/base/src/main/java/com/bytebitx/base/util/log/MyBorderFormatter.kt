@@ -9,23 +9,26 @@ import com.elvishew.xlog.internal.SystemCompat
  * @Description:
  */
 class MyBorderFormatter : BorderFormatter {
-    private val VERTICAL_BORDER_CHAR = '║'
+    private val VERTICAL_BORDER_CHAR = '│'
+
+    private val TOP_LEFT_CORNER = '┌'
+    private val DOUBLE_DIVIDER = "────────────────────────────────────────────────────────"
+
+    private val MIDDLE_CORNER = '├'
+    private val BOTTOM_LEFT_CORNER = '└';
 
     // Length: 100.
-    private val TOP_HORIZONTAL_BORDER = "╔═════════════════════════════════════════════════" +
-            "══════════════════════════════════════════════════"
+    private val TOP_HORIZONTAL_BORDER = TOP_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER
 
     // Length: 99.
-    private val DIVIDER_HORIZONTAL_BORDER = "╟─────────────────────────────────────────────────" +
-            "──────────────────────────────────────────────────"
+    private val DIVIDER_HORIZONTAL_BORDER = MIDDLE_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER
 
     // Length: 100.
-    private val BOTTOM_HORIZONTAL_BORDER = "╚═════════════════════════════════════════════════" +
-            "══════════════════════════════════════════════════"
+    private val BOTTOM_HORIZONTAL_BORDER = BOTTOM_LEFT_CORNER + DOUBLE_DIVIDER + DOUBLE_DIVIDER
 
 
-    override fun format(segments: Array<out String>?): String {
-        if (segments == null || segments.size == 0) {
+    override fun format(segments: Array<String?>): String {
+        if (segments.isEmpty()) {
             return ""
         }
 
@@ -41,23 +44,32 @@ class MyBorderFormatter : BorderFormatter {
         }
 
         val msgBuilder = StringBuilder()
-        msgBuilder.append("     ").append(SystemCompat.lineSeparator)
-        msgBuilder.append(TOP_HORIZONTAL_BORDER).append(SystemCompat.lineSeparator)
+        msgBuilder.append(TOP_HORIZONTAL_BORDER)
+            .append(SystemCompat.lineSeparator)
         for (i in 0 until nonNullCount) {
-            msgBuilder.append(nonNullSegments[i]?.let { appendVerticalBorder(it) })
+            msgBuilder.append(appendVerticalBorder(nonNullSegments[i]))
             if (i != nonNullCount - 1) {
-                msgBuilder.append(SystemCompat.lineSeparator).append(DIVIDER_HORIZONTAL_BORDER)
+                msgBuilder.append(SystemCompat.lineSeparator)
+                    .append(DIVIDER_HORIZONTAL_BORDER)
                     .append(SystemCompat.lineSeparator)
             } else {
-                msgBuilder.append(SystemCompat.lineSeparator).append(BOTTOM_HORIZONTAL_BORDER)
+                msgBuilder.append(SystemCompat.lineSeparator)
+                    .append(BOTTOM_HORIZONTAL_BORDER)
             }
         }
         return msgBuilder.toString()
     }
 
-    private fun appendVerticalBorder(msg: String): String? {
-        val borderedMsgBuilder = java.lang.StringBuilder(msg.length + 10)
-        val lines = msg.split(SystemCompat.lineSeparator.toRegex()).toTypedArray()
+    /**
+     * Add {@value #VERTICAL_BORDER_CHAR} to each line of msg.
+     *
+     * @param msg the message to add border
+     * @return the message with {@value #VERTICAL_BORDER_CHAR} in the start of each line
+     */
+    private fun appendVerticalBorder(msg: String?): String {
+        val borderedMsgBuilder = StringBuilder(msg!!.length + 10)
+        val lines = msg!!.split(SystemCompat.lineSeparator.toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray()
         var i = 0
         val N = lines.size
         while (i < N) {
