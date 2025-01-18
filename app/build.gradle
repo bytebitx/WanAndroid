@@ -51,8 +51,6 @@ android {
             signingConfig signingConfigs.wanandroid
         }
         debug {//开发自己的debug包
-            initWith release
-            debuggable true
             minifyEnabled false
             shrinkResources false // 移除无用的resource文件
             proguardFiles.clear() // 不混淆
@@ -70,13 +68,6 @@ android {
     }
     buildFeatures {
         viewBinding true
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
     }
 
 }
